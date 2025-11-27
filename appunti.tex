@@ -1,0 +1,270 @@
+\documentclass[a4paper,11pt]{report}
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{hyperref}
+
+\title{Dependable Distributed Systems}
+\author{Ida Francesca Benvenuto}
+\date{novembre 2025}
+
+\begin{document}
+
+\maketitle
+\chapter{Consensus}
+\section{Consensus Problem}
+The consensus problem in distributed systems involves a set of processes that must agree on a single value.
+\begin{figure}
+    \centering
+    \includegraphics[width=0.6\textwidth]{imm/Screenshot 2025-11-25 alle 20.22.09.png}
+    \caption{Consensus Problem}
+\end{figure}
+\section{consensus specification}
+The consensus problem is defined by the following properties:
+\begin{itemize}
+    \item \textbf{Termination:} Every correct process eventually decides on a value.
+    \item \textbf{Agreement:} No two correct processes decide on different values.
+    \item \textbf{Validity:} If all correct processes propose the same value $v$, then any correct process that decides must decide $v$.
+    \item \textbf{Integrity:} No correct process decides more than once.
+\end{itemize}
+\subsection*{Impossibility of Consensus in Asynchronous Systems with Failures}
+In an asynchronous distributed system where processes can fail by crashing, it is impossible to design a deterministic consensus algorithm that satisfies all the properties of termination, agreement, validity, and integrity.
+\newline
+This result is known as the FLP impossibility theorem, named after Fischer, Lynch, and Paterson.The key intuition behind the FLP impossibility result is that in an asynchronous system, there is no upper bound on message delivery times or process execution speeds.
+\section{Consensus Implementation in Synchronous Systems}
+\subsection*{Flooding-based Consensus Algorithm}
+In a synchronous system, we can implement a consensus algorithm using a flooding-based approach.All processes exchange their proposed values in rounds, and after a fixed number of rounds, they decide on a value based on the received proposals.
+the rounds are fundamental because they provide a structured way for processes to communicate and ensure that all correct processes have the opportunity to share their proposed values before making a decision.(in this way we are sure that there aren't lost values)
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{imm/Screenshot 2025-11-25 alle 20.43.55.png}
+    \caption{Flooding-based Consensus Algorithm}
+\end{figure}
+
+\section{Algorithm Description}
+
+\subsection{Initialization}
+When the system starts (upon event $\langle c, \text{Init} \rangle$):
+\begin{itemize}
+    \item $\textit{correct} := \Pi$ --- Initialize the set of correct processes (all processes)
+    \item $\textit{round} := 1$ --- Start from round 1
+    \item $\textit{decision} := \bot$ --- The decision is still empty ($\bot$ means ``not decided'')
+    \item $\textit{receivedFrom}[r] := [\emptyset]^N$ --- Array tracking from which processes we have received messages for each round
+    \item $\textit{proposals}[r] := [\emptyset]^N$ --- Array tracking the proposals received for each round
+\end{itemize}
+
+\subsection{Main Event Handlers}
+
+\subsubsection{Propose Event}
+When a process proposes a value:
+\begin{verbatim}
+upon event <c, Propose | v> do
+  proposals[1] := proposals[1] union {v};
+  trigger <beb, Broadcast | [PROPOSAL, 1, proposals[1]]>;
+\end{verbatim}
+The process adds its initial value to the proposals of round 1 and broadcasts it to all processes.
+
+\subsubsection{Crash Event}
+When the Failure Detector detects a crash:
+\begin{verbatim}
+upon event <P, Crash | p> do
+  correct := correct \ {p};
+\end{verbatim}
+Removes the process from the set of correct processes.
+
+\subsubsection{Deliver Event}
+When a PROPOSAL is received:
+\begin{verbatim}
+upon event <beb, Deliver | p, [PROPOSAL, r, ps]> do
+  receivedFrom[r] := receivedFrom[r] union {p};
+  proposals[r] := proposals[r] union ps;
+\end{verbatim}
+Updates the list of processes from which messages have been received and merges the received proposals.
+
+\subsection{Decision Logic}
+The crucial logic for deciding:
+\begin{verbatim}
+upon correct subseteq receivedFrom[round] AND decision = bottom do
+  if receivedFrom[round] = receivedFrom[round-1] then
+    decision := min(proposals[round]);
+    trigger <beb, Broadcast | [DECIDED, decision]>;
+    trigger <c, Decide | decision>;
+  else
+    round := round + 1;
+    trigger <beb, Broadcast | [PROPOSAL, round, proposals[round-1]]>;
+\end{verbatim}
+
+This is the most important part:
+\begin{itemize}
+    \item \textbf{Waiting condition:} The process waits until it has received messages from all correct processes ($\textit{correct} \subseteq \textit{receivedFrom}[\textit{round}]$)
+    \item \textbf{Stability:} If the set of processes from which messages were received in this round is the same as in the previous round (no new crashes), we can trust the data
+    \item \textbf{Decision:} Chooses the minimum value among the received proposals (deterministic function common to all processes, can be replaced with other functions)
+    \item \textbf{Decision broadcast:} Communicates the decided value to all other processes
+    \item \textbf{Else:} If the set changes (new crash detected), increment the round and continue
+\end{itemize}
+
+\subsection{Receiving DECIDED}
+\begin{verbatim}
+upon event <beb, Deliver | p, [DECIDED, v]> 
+  such that p in correct AND decision = bottom do
+  decision := v;
+  trigger <beb, Broadcast | [DECIDED, decision]>;
+  trigger <c, Decide | decision>;
+\end{verbatim}
+If a correct process communicates the decided value and the receiving process has not yet decided, it decides this value.
+
+\subsection{Practical Example}
+\begin{figure}
+    \centering
+    \includegraphics[width=1\textwidth]{imm/Screenshot 2025-11-25 alle 21.04.25.png}
+    \caption{Example of Consensus Algorithm Execution}
+\end{figure}
+\begin{figure}
+    \centering
+    \includegraphics[width=1\textwidth]{imm/Screenshot 2025-11-25 alle 21.10.31.png}
+    \caption{P3 decide the min value after the decision of p1}
+\end{figure}
+\begin{figure}
+    \centering
+    \includegraphics[width=1\textwidth]{imm/Screenshot 2025-11-25 alle 21.08.58.png}
+    \caption{p2 is the only one thet can decide but crash before the broadcast of the value, so P1 and P3 go to the next round and decide an other value}
+\end{figure}
+
+\section{Uniform Consensus Specification}
+The difference between uniform consensus and (non-uniform) consensus is that uniform consensus requires \textbf{Uniform Agreement}: no two processes (correct or faulty) can decide different values. In standard consensus, only correct processes are required to agree, meaning a faulty process may decide a different value before crashing.
+in the algorithm the decision is choseen at the round N, (at the end) and the set of proposals is the same for all processes, so also faulty processes decide the same value of correct processes.
+\begin{figure}
+    \centering
+    \includegraphics[width=0.6\textwidth]{imm/Screenshot 2025-11-25 alle 22.55.28.png}
+    \caption{Uniform Consensus properties}
+\end{figure}
+\subsubsection*{Example}
+\begin{figure}
+    \centering
+    \includegraphics[width=0.6\textwidth]{imm/Screenshot 2025-11-25 alle 22.59.09.png}
+    \caption{at the round 3 there is a decision, that is 5 becaus when start a new round the receivedFrom set is = 0}
+\end{figure}
+\chapter{Paxos}
+Paxos is a consensus algorithm designed for asynchronous distributed systems with crash failures.
+The safety is always guaranteed, while the liveness is guaranteed only under some conditions (like eventual message delivery and a majority of correct processes).
+
+\section{Assumptions}
+\begin{itemize}
+    \item \textbf{Agents:} Operate at arbitrary speed, may fail by stopping (and may restart).
+    \begin{itemize}
+        \item \textbf{Observation:} Since all agents may fail after a value is chosen and then restart, a solution is impossible unless some information can be remembered by an agent that has failed and restarted.
+    \end{itemize}
+    \item \textbf{Messages:} Can take arbitrarily long to be delivered, can be duplicated, and can be lost, but they are not corrupted.
+\end{itemize}
+
+\chapter{Total Order Broadcast}
+Total Order Broadcast (TOB) is a fundamental communication primitive in distributed systems that ensures all processes deliver messages in the same order.
+
+\section{System model}
+We consider a distributed system with the following assumptions.
+\begin{itemize}
+    \item \textbf{Processes:}
+    \begin{itemize}
+        \item There is a static set of processes $p_1, \dots, p_n$.
+        \item Processes can fail by \emph{crash}: a crashed process stops executing its algorithm forever, but they can't behave maliciously.(bizantine failures are not considered here)
+        \item A process that never crashes is called a \emph{correct} process.
+        \end{itemize}
+    \item \textbf{Communication:}Channels between correct processes are \emph{perfect}: messages are not lost, not duplicated, and no fake messages are created.
+    \item \textbf{Asynchronous:} there is no known upper bound on message transmission time or processing time.
+\end{itemize}
+
+\section{Total Order specification}
+TO (Total Order) is composed by 4 specifications:
+\begin{itemize}
+    \item \textbf{Validity:} If a correct process broadcasts a message $m$, then it eventually delivers $m$.
+    \item \textbf{Uniform Agreement:} If a process delivers a message $m$, then all correct processes eventually deliver $m$.
+    \item \textbf{Uniform Integrity:} For any message $m$, every process delivers $m$ at most once, and only if $m$ was previously broadcast by its sender.
+    \item \textbf{Uniform Total Order:} If two processes $p_i$ and $p_j$ deliver two messages $m$ and $m'$, then $p_i$ delivers $m$ before $m'$ if and only if $p_j$ delivers $m$ before $m'$.
+\end{itemize}
+Validity parla di consegna assicurata per messaggi validi.
+\newline
+Uniform Agreement parla di accordo sull'insieme dei messaggi consegnati.
+\newline
+Uniform Integrity parla di evitare duplicati e messaggi inventati.
+\newline
+Uniform Total Order parla di accordo sull'ordine esatto di consegna.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{imm/Screenshot 2025-11-25 alle 18.09.55.png}
+    \caption{Total Order Broadcast properties}
+\end{figure}
+A Uniform properties is stronger than a non-uniform one because it applies to all processes, not just correct ones.
+
+\section {Non-Uniform Validity-Uniform Integrity}
+Such that our system have perfect channel and chra failures, the properties satisfied are:
+\newline
+NUV (Non-Uniform Validity): If a correct process broadcasts a message $m$, then it eventually delivers $m$.
+\newline
+UI (Uniform Integrity): For any message $m$, every process delivers $m$ at most once, and only if $m$ was previously broadcast by its sender.
+\newline
+the properties that are not satisfied are: Agreement and Total Order.
+\subsubsection*{Agreement property}
+\begin{itemize}
+    \item \textbf{Non-Uniform Agreement:} If a CORRECT process delivers a message $m$, then all correct processes eventually deliver $m$.
+    \item \textbf{Uniform Agreement:} If a process delivers a message $m$, then all correct processes eventually deliver $m$.
+    \newline
+    \newline
+    The difference is that in Uniform Agreement, the process delivering $m$ can be faulty.The correct processes deliver the same set of messages, while faulty processes may deliver a different set of messages or none at all.
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.8\textwidth]{imm/Screenshot 2025-11-25 alle 18.41.44.png}
+        \caption{Non-Uniform Agreement vs Uniform Agreement}
+    \end{figure}
+    UA: If P3 (faulty process) delivers m2, then P1 and P2 (correct processes) must also deliver m2.
+    \newline
+    NUA: If P3 (faulty process) delivers m5, it does not imply that P1 and P2 (correct processes) must also deliver m5.
+\end{itemize}
+\subsubsection*{Total Order property}
+\begin{itemize}
+    \item \textbf{Strong Uniform Total Order:} if some process deliver message m before m', then a process deliver m' only after m.
+    \item \textbf{Weak Uniform Total Order:} If two processes $p_i$ and $p_j$ deliver two messages $m$ and $m'$, then $p_i$ delivers $m$ before $m'$ if and only if $p_j$ delivers $m$ before $m'$.
+\end{itemize}
+    The difference is that in SUTO, all processes must deliver the same set of messages in the same order, while in WUTO, processes may deliver different sets of messages, but the relative order of any two messages is consistent across processes that deliver both messages.
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.8\textwidth]{imm/Screenshot 2025-11-25 alle 18.48.48.png}
+        \caption{Strong Uniform Total Order vs Weak Uniform Total Order}
+    \end{figure}
+    SUTO: if process p3,delivers message m4 before m5, then process p4 must also deliver m4 before m5.
+    \newline
+    WUTO: Each process may deliver a different set of messages, but the relative order between any two messages is always the same for processes that deliver both messages.
+
+\begin{itemize}
+    \item \textbf{Strong non-Uniform Total Order:} if some CORRECT process deliver message m before m', then a CORRECT process deliver m' only after m.
+    \item \textbf{Weak non-Uniform Total Order:} If two CORRECT processes $p_i$ and $p_j$ deliver two messages $m$ and $m'$, then $p_i$ delivers $m$ before $m'$ if and only if $p_j$ delivers $m$ before $m'$.
+\end{itemize}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.8\textwidth]{imm/Screenshot 2025-11-25 alle 19.02.37.png}
+        \caption{}
+    \end{figure}
+    Strong assumptions is more restrictive than weak assumptions (SUTO=>WUTO- SNUTO=>WNUTO).
+\section{Examples of Total Order Broadcast Variants}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.42\textwidth]{imm/Screenshot 2025-11-25 alle 19.15.06.png}
+    \hfill
+    \includegraphics[width=0.42\textwidth]{imm/Screenshot 2025-11-25 alle 19.15.15.png}
+    \caption*{UA + SUTO: All processes deliver the same set of messages in the same order. \newline NUA + SUTO: Only correct processes deliver the same set/order; faulty process may miss messages ($m_4$, $m_5$ missing).}
+    \vspace{1em}
+    \includegraphics[width=0.42\textwidth]{imm/Screenshot 2025-11-25 alle 19.15.26.png}
+    \hfill
+    \includegraphics[width=0.42\textwidth]{imm/Screenshot 2025-11-25 alle 19.15.40.png}
+    \caption*{UA + WUTO: All processes deliver the same set with consistent relative order. \newline NUA + WUTO: Only correct processes deliver the same set with consistent relative order.\newline}
+    \vspace{1em}
+    \includegraphics[width=0.42\textwidth]{imm/Screenshot 2025-11-25 alle 19.15.48.png}
+    \hfill
+    \includegraphics[width=0.42\textwidth]{imm/Screenshot 2025-11-25 alle 19.15.56.png}
+    \caption*{UA + WNUTO: Correct processes deliver the same set with consistent relative order; faulty process behavior is undefined. \newline NUA + WNUTO: Correct processes deliver the same set with consistent relative order; $m_5$ missing from some processes.}
+\end{figure}
+\end{document}
