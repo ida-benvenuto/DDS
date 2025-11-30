@@ -16,7 +16,76 @@
 \begin{document}
 
 \maketitle
-\chapter{Consensus}
+\chapter{Failure Detection (7)}
+Failure Detectors (FD) are mechanisms used in distributed systems to provide information about the status of processes, specifically whether they are operational (correct) or have failed (crashed). They help to overcome the challenges posed by asynchrony and failures in distributed systems.
+\section{Timing assumptions}
+Failure Detectors can be classified based on the timing assumptions they make about the system:
+\begin{itemize}
+    \item \textbf{Synchronous FD:} Assume known upper bounds on message transmission times and processing times. They can provide accurate information about process failures.
+    \item \textbf{Asynchronous FD:} Do not assume any timing bounds. They may provide inaccurate information, leading to false suspicions of process failures.
+    \item \textbf{Partially Synchronous FD:} Assume that the system is asynchronous but eventually becomes synchronous. They can provide more reliable information over time.
+\end{itemize}
+manipulating the timing assumptions allows to design failure detectors that can provide different levels of accuracy and reliability in detecting process failures.
+the time managment can be :
+\begin{itemize}
+    \item \textbf{Explicit:} Using timeouts to detect failures. If a process does not respond within a specified timeout period, it is suspected to have failed.
+    \item \textbf{Implicit:} Relying on the absence of expected messages to infer failures. If a process does not send expected messages, it is suspected to have failed.
+\end{itemize}
+\section{Failure Detector Abstraction}
+A Failure Detector (FD) is an abstraction that provides processes with information about the status of other processes in the system. It can be modeled as a module that generates two types of events:
+\begin{itemize}
+    \item \textbf{Suspect Event:} Indicates that a process is suspected to have failed.
+    \item \textbf{Restore Event:} Indicates that a previously suspected process is now considered operational again.
+\end{itemize}
+it generally is defined by two properties:
+\begin{itemize}
+    \item \textbf{Completeness:} Ensures that all crashed processes are eventually suspected by all correct processes.
+    \item \textbf{Accuracy:} Ensures that no correct process is ever suspected.
+\end{itemize}
+Based on these properties, failure detectors can be classified into different types:
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{imm/Screenshot 2025-11-30 alle 17.55.08.png}
+    \caption{Failure Detector types based on Completeness and Accuracy}
+\end{figure}
+\textbf{Observations:}
+\begin{itemize}
+    \item Strong completeness means that eventually every crashed process is permanently suspected by every correct process.
+    \item Weak completeness means that eventually every crashed process is permanently suspected by at least one correct process.
+    \item Strong accuracy means that no correct process is ever suspected.
+    \item Weak accuracy means that there is at least one correct process that is never suspected.
+    \item Eventual strong accuracy means that after some time, no correct process is suspected.
+    \item Eventual weak accuracy means that after some time, there is at least one correct process that is never suspected.
+\end{itemize}
+weakness guarantees that there is at least one correct process that is never suspected, while strong guarantees that no correct process is ever suspected.
+Partially speacking, this could be difficult to achieve and thus it is worth to consider weaker forms of accuracy.In particular, eventual accuracy properties are often more practical in real-world distributed systems, where temporary network issues or delays can lead to false suspicions of process failures.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{imm/Screenshot 2025-11-30 alle 18.05.41.png}
+    \caption{Failure Detector properties}
+\end{figure}
+\section{Perfect Failure Detector (P)}
+\subsection*{System model}
+We consider a distributed system with the following assumptions.
+\begin{itemize}
+    \item \textbf{Synchronous System}
+    \item \textbf{Crash Failures:} Processes can fail by \emph{crash}: a crashed process stops executing its algorithm forever, but they can't behave maliciously.(bizantine failures are not considered here)
+\end{itemize}
+using its own clock and the bounds of synchronous model, a process can infer if another process is crashed or just slow.
+\subsection*{specification of Perfect Failure Detector}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{imm/Screenshot 2025-11-30 alle 18.25.47.png}
+    \caption{Perfect Failure Detector properties}
+\end{figure}
+\subsection*{implementation of Perfect Failure Detector}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{imm/Screenshot 2025-11-30 alle 18.29.07.png}
+    \caption{Perfect Failure Detector implementation}
+\end{figure}
+
+\chapter{Consensus(11)}
 \section{Consensus Problem}
 The consensus problem in distributed systems involves a set of processes that must agree on a single value.
 \begin{figure}
@@ -149,7 +218,7 @@ in the algorithm the decision is choseen at the round N, (at the end) and the se
     \includegraphics[width=0.6\textwidth]{imm/Screenshot 2025-11-25 alle 22.59.09.png}
     \caption{at the round 3 there is a decision, that is 5 becaus when start a new round the receivedFrom set is = 0}
 \end{figure}
-\chapter{Paxos}
+\chapter{Paxos (12)}
 Paxos is a consensus algorithm designed for asynchronous distributed systems with crash failures.
 The safety is always guaranteed, while the liveness is guaranteed only under some conditions (like eventual message delivery and a majority of correct processes).
 
