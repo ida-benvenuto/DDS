@@ -85,7 +85,280 @@ using its own clock and the bounds of synchronous model, a process can infer if 
     \caption{Perfect Failure Detector implementation}
 \end{figure}
 
-\chapter{Consensus(11)}
+\subsubsection*{Initialization}
+When the system starts (upon event $\langle p, \text{Init} \rangle$):
+\begin{itemize}
+    \item $\textit{alive} := \Pi$ --- Initialize the set of all processes
+    \item $\textit{detected} := \emptyset$ --- Initialize the set of detected crashed processes as empty
+    \item Set a periodic timer to trigger every $\Delta + \Phi$ time units
+\end{itemize}
+\subsubsection*{Main Event Handlers}
+\begin{itemize}
+    \item \textbf{Timer Event:} When the timer triggers (upon event $\langle p, \text{timeout} \rangle$):
+    \begin{verbatim}
+    for each process p in Pi do
+      if p not in alive and p not in detected then
+        detected := detected union {p};
+        trigger <fd, Suspect | p>;
+      send heartbeat message to p;
+    alive := empty set;
+    \end{verbatim}
+    The process checks for processes that did not respond with a heartbeat and suspects them if they are not already suspected. It then sends heartbeat messages to all processes and resets the alive set.
+    
+    \item \textbf{Heartbeat Message Event:} When a heartbeat message is received from process $q$ (upon event $\langle p, \text{Heartbeat} | q \rangle$):
+    \begin{verbatim}
+    alive := alive union {q};
+
+    \end{verbatim}
+    The process that replied, they adds $q$ to the alive set. 
+\end{itemize}
+es:
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{imm/Immagine JPEG-4A77-8056-27-0.jpeg}
+    \caption{Example of Perfect Failure Detector execution}
+\end{figure}
+\subsubsection*{correctness}
+\begin{itemize}
+    \item \textbf{Strong Completeness:} Eventually, every crashed process is permanently suspected by every correct process. This is ensured because crashed processes will not send heartbeat messages, leading to their suspicion.
+    \item \textbf{Strong Accuracy:} No correct process is ever suspected. This is ensured because correct processes will always respond with heartbeat messages within the expected time frame.
+\end{itemize}
+if the timeout is very short, correct processes may be suspected due to network delays or processing time variations.
+\newline
+if the timeout is very long, crashed processes may not be suspected promptly, leading to delays in failure detection.
+\newline
+Thus, the choice of timeout value is crucial for the effectiveness of the Perfect Failure Detector.
+\section{Eventually Perfect Failure Detector ($\Diamond P$)}
+\subsection*{System model}
+We consider a distributed system with the following assumptions.
+\begin{itemize}
+    \item \textbf{Partially Synchronous System:} The system is asynchronous but eventually becomes synchronous.
+    \item \textbf{Crash Failures:} Processes can fail by \emph{crash}: a crashed process stops executing its algorithm forever, but they can't behave maliciously. (Byzantine failures are not considered here)
+    \item \textbf{Perfect point to point links}
+\end{itemize}
+Crashed processes can be detected only after an unknown time $t$; before time $t$ there could be false suspicions (it behaves like an asynchronous system).
+
+\subsection*{Basic Construction Rules}
+An Eventually Perfect Failure Detector uses timeouts to suspect processes that did not send expected messages:
+\begin{itemize}
+    \item \textbf{Suspicion mechanism:} A suspect may be wrong. A process $p_i$ may suspect another one $p_j$ if the current timeout is too short.
+    \item \textbf{Ready to change judgment:} $\Diamond P$ is ready to change its judgment as soon as it receives a message from $p_j$. In this case, the timeout value is updated to accommodate for longer delays.
+    \item \textbf{Permanent suspicion:} If $p_j$ has actually crashed, $p_i$ does not change its judgment anymore.
+\end{itemize}
+
+The key difference from Perfect FD is that Eventually Perfect FD can make mistakes initially (false suspicions), but eventually stabilizes and behaves correctly once the system becomes synchronous and timeouts are adjusted appropriately.
+
+\subsection*{specification of Eventually Perfect Failure Detector}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{imm/Screenshot 2025-11-30 alle 20.14.26.png}
+    \caption{Eventually Perfect Failure Detector properties}
+\end{figure}
+\subsection*{implementation of Eventually Perfect Failure Detector}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{imm/Screenshot 2025-11-30 alle 20.20.51.png}
+    \caption{Eventually Perfect Failure Detector implementation}
+\end{figure}
+\subsubsection*{Main Event Handlers}
+\begin{itemize}
+    \item \textbf{Timer Event:} When the timer triggers (upon event $\langle p, \text{timeout} \rangle$):
+    \begin{verbatim}
+    If there exists a process q in alive and q in suspected then
+        delay= delay + d;
+    for each process p in Pi do
+      if p not in alive and p not in suspected then
+        suspected := suspected union {p};
+        trigger <fd, Suspect | p>;
+        send heartbeat message to p;
+      if p in alive and p in suspected then
+        suspected := suspected \ {p};
+        trigger <fd, Restore | p>;
+        send heartbeat message to p;
+    alive := empty set;
+    start timer with delay;
+    \end{verbatim}
+    The process checks for processes that did not respond with a heartbeat and suspects them if they are not already suspected. If a previously suspected process responds, it is restored. The timeout delay is adjusted based on the suspicion status.
+    \subsection*{example}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=1\textwidth]{imm/Immagine JPEG-4C4B-B34A-EA-0.jpeg}
+        \caption{Example of Eventually Perfect Failure Detector execution}
+    \end{figure}
+\end{itemize}
+\section{correctness}
+\begin{itemize}
+    \item \textbf{Strong Completeness:} If a process crashes, it will eventually be suspected by all correct processes. This is ensured because crashed processes will not send heartbeat messages, leading to their suspicion.
+    \item \textbf{Eventual Strong Accuracy:} After some unknown time, no correct process is suspected. This is ensured because once the system becomes synchronous and timeouts are adjusted, correct processes will always respond with heartbeat messages within the expected time frame.
+\end{itemize}
+
+\chapter{Leadership Election (7-b)}
+Leadership Election is a fundamental problem in distributed systems where processes need to agree on a single process to act as the leader or coordinator for certain tasks. The leader is responsible for making decisions, coordinating actions, and managing resources among the processes.
+in the asynchronous system with crash failures,the system stabilizes after some unknown time t, and after t there is a correct process that is never suspected.
+thus there are two opstions:
+\begin{itemize}
+    \item put the assumption on the system (Including links and processes)
+    \item create a separate abstraction that encapsulates the assumption 
+\end{itemize}
+incapsulating the assumption in a separate abstraction is better because it allows to separate concerns, making the system more modular and easier to understand. While do all in a unique algorithm can lead to complex and hard to proof.
+thus, we can use a single correct process that monitoring features of the system to elect a leader.
+we can use several oracle(called leader election module) that provide information about the processes.
+\section {Leader Election}
+\subsection*{specification of Leader Election}
+\begin{figure}
+    \centering
+    \includegraphics[width=1\textwidth]{imm/Screenshot 2025-12-01 alle 15.33.44.png}
+    \caption{Leader Election properties}
+\end{figure}
+\subsection*{implementation of Leader Election using Eventually Perfect Failure Detector}
+\begin{figure}
+    \centering
+    \includegraphics[width=1\textwidth]{imm/Screenshot 2025-12-01 alle 15.36.01.png}
+    \caption{Leader Election implementation using Eventually Perfect Failure Detector}
+\end{figure}
+\subsubsection*{Main Event Handlers}
+\begin{itemize}
+    \item \textbf{Initialization Event:} When the system starts (upon event $\langle p, \text{Init} \rangle$):
+    \begin{verbatim}
+        leader != maxrank(Pi / suspected) - the process tha have the highest rank among those not suspected;
+        leader := max(Pi/ suspected);
+        trigger <le, NewLeader | leader>;
+    \end{verbatim}
+    The process selects the process with the highest rank among those not suspected as the leader and triggers a NewLeader event.
+\end{itemize}
+\subsection*{example}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{imm/Screenshot 2025-12-01 alle 15.44.40.png}
+    \caption{Example of Leader Election execution}
+\end{figure}
+the correctness is guaranteed only if there is perfect failure detector. otherwise, there are two possibilities:
+\begin{itemize}
+    \item best scenario: suspect wrongly a crashed process, but the processes that continue to work are correct.
+    \item worst scenario: FALSE POSITIVE, 2 processes could belive to have 2 different leaders.
+\end{itemize}
+\section{Eventual Leader Election}
+\subsection*{specification of Eventual Leader Election}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{imm/Screenshot 2025-12-01 alle 15.49.56.png}
+    \caption{Eventual Leader Election properties}
+\end{figure}
+
+\subsubsection*{Key Properties and Behavior}
+At first, every process may believe in a different leader, but after some unknown time $t$, all correct processes agree on the same correct leader.
+
+\textbf{How it works:}
+\begin{itemize}
+    \item Every process decides a leader based on the information provided by the Eventually Perfect Failure Detector ($\Diamond P$).
+    \item After time $t$ (when the system stabilizes), all correct processes agree on the same correct leader.
+    \item We don't know when this time $t$ is, and during this initial period, crashed processes can be elected as leaders (false positives).
+    \item Once the system stabilizes and elects a leader, the leader is not changed until it crashes. This stable leader is called \textbf{STABILIZED}.
+\end{itemize}
+
+\textbf{Important assumption:} There always exists at least one correct process.
+\subsection*{implementation of Eventual Leader Election using Eventually Perfect Failure Detector}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{imm/Screenshot 2025-12-01 alle 16.08.24.png}
+    \caption{Eventual Leader Election implementation using Eventually Perfect Failure Detector}     
+\end{figure}
+Example:
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{imm/Screenshot 2025-12-01 alle 16.11.03.png}
+    \caption{Example of Eventual Leader Election execution}
+\end{figure}
+\section{ eventual leader election with Crash-Recovery}
+chrash-recovery model: processes can crash and later recover, resuming their operations from the state they had before crashing.
+in this system the correct processes are p that never crash or that crash, recover and never crash again.
+\subsection*{implementation of Eventual Leader Election in Crash-Recovery model}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{imm/Screenshot 2025-12-01 alle 16.16.03.png}
+    \caption{Eventual Leader Election implementation in Crash-Recovery model}
+\end{figure}   
+\subsubsection*{Initialization}
+When the system starts (upon event $\langle p, \text{Init} \rangle$):
+\begin{verbatim}
+    epoch := 0; -- Initialize epoch counter(how many times the process has crashed and recovered)
+    store(epoch); -- Store the epoch counter in stable storage
+    candidates := empty set; -- Initialize the set of candidate leaders as empty
+    trigger < \Omega , Recovery | >; -- Trigger a Recovery event
+\end{verbatim}
+\subsubsection*{trigger Recovery}
+When a process recovers (upon event $\langle p, \text{Recovery} \rangle$):
+\begin{verbatim}
+    leader := maxrank(Pi) -- Select the process with the highest rank as the leader
+    trigger <le, trust | leader>; -- Trigger a trust event with the selected leader
+    delay := deltha; -- Initialize the delay for heartbeat messages
+    retrieve(epoch); -- Retrieve the epoch counter from stable storage
+    epoch := epoch + 1; -- Increment the epoch counter
+    store(epoch); -- Store the updated epoch counter in stable storage
+    forall q in Pi do
+        send [HEARTBEAT, epoch] to q; -- Send heartbeat messages to all processes with the current epoch
+    candidates := empty set; -- Reset the set of candidate leaders
+    start timer with delay; -- Start the timer with the specified delay
+\end{verbatim}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{imm/Screenshot 2025-12-01 alle 16.22.32.png}
+    \caption{Eventual Leader Election implementation in Crash-Recovery model}
+\end{figure}  
+\subsubsection*{ Timeout Event}
+When the timer triggers (upon event $\langle p, \text{timeout} \rangle$):   
+\begin{verbatim}
+    elect new leader from candidates; 
+    if the new leader != leader then. -- If a new leader is elected
+        leader := new leader;
+        trigger <le, trust | leader>;
+    for all q in Pi do
+        send [HEARTBEAT, epoch] to q; -- Send heartbeat messages to all processes with the current epoch
+    candidates := empty set; -- Reset the set of candidate leaders
+    start timer with delay; -- Start the timer with the specified delay
+\end{verbatim}
+\subsubsection*{example}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{imm/Screenshot 2025-12-01 alle 16.34.26.png}
+    \caption{Example of Eventual Leader Election execution in Crash-Recovery model}
+\end{figure}
+the timer is incremented when a process receive a heartbeat from a process with higher epoch.(p1)
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{imm/Screenshot 2025-12-01 alle 16.37.03.png}
+    \caption{Example of Eventual Leader Election execution in Crash-Recovery model - part 2}    
+\end{figure}
+after the restore of p1, the epoch is incremented and p2 become the leader.
+\chapter{ Broadcast Communication(9)}
+Up to now, the comunication model used is between two processes (like clien-server enviroment).
+In distributed systems, it is often necessary to communicate with multiple processes simultaneously. Broadcast communication is a method that allows a process to send a message to all other processes in the system.
+\section{Best Effort Broadcast (BEB)}
+Best Effort Broadcast (BEB) is a communication primitive that allows a process to send a message to all other processes in a distributed system with the following properties:
+\begin{itemize}
+    \item \textbf{Validity:} If a correct process broadcasts a message, then all correct processes eventually deliver that message.
+    \item \textbf{No Duplication:} No message is delivered more than once to any process.
+    \item \textbf{No Creation:} No message is delivered unless it was previously broadcast by some process.
+\end{itemize}
+\subsection*{specification of Best Effort Broadcast}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{imm/Screenshot 2025-12-01 alle 16.45.59.png}
+    \caption{Best Effort Broadcast properties}
+\end{figure}
+\subsection*{implementation of Best Effort Broadcast}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{imm/Screenshot 2025-12-01 alle 16.47.13.png}
+    \caption{Best Effort Broadcast implementation}
+\end{figure}
+\subsubsection*{correctness}
+\begin{itemize}
+    \item \textbf{Validity:} If a correct process broadcasts a message, it sends the message to all processes. In our model there are perfect point-to-point links, so all correct processes will eventually receive and deliver the message.
+    \item \textbf{No Duplication:} Each process maintains a set of delivered messages. A message is only delivered if it has not been delivered before, ensuring no duplication.
+    \item \textbf{No Creation:} perfect point-to-point links ensure that messages are only delivered if they were sent by some process. Since processes only deliver messages they receive, no message can be created out of thin air.
+\end{itemize}
+\chapter{Consensus (11)}
 \section{Consensus Problem}
 The consensus problem in distributed systems involves a set of processes that must agree on a single value.
 \begin{figure}
