@@ -1,8 +1,8 @@
 # Fdb version 4
-["pdflatex"] 1764604372.39859 "/Users/idabenvenuto/Documents/università/magistrale/DDS/appunti.tex" "/Users/idabenvenuto/Documents/università/magistrale/DDS/appunti.pdf" "appunti" 1764604375.55461 0
-  "/Users/idabenvenuto/Documents/università/magistrale/DDS/appunti.aux" 1764604375.4506 10306 4e6857ddcb70884ca4b007c46a5ccd68 "pdflatex"
-  "/Users/idabenvenuto/Documents/università/magistrale/DDS/appunti.out" 1764604375.45159 5328 e35cf22c22c828fbc53f464bef910551 "pdflatex"
-  "/Users/idabenvenuto/Documents/università/magistrale/DDS/appunti.tex" 1764604368.82884 36246 52ca84a51d080dd25af83efc5c0dc683 ""
+["pdflatex"] 1764607867.10255 "/Users/idabenvenuto/Documents/università/magistrale/DDS/appunti.tex" "/Users/idabenvenuto/Documents/università/magistrale/DDS/appunti.pdf" "appunti" 1764607870.91855 0
+  "/Users/idabenvenuto/Documents/università/magistrale/DDS/appunti.aux" 1764607870.80742 11966 1bb365db591e143cef1dbb0cd5e78b21 "pdflatex"
+  "/Users/idabenvenuto/Documents/università/magistrale/DDS/appunti.out" 1764607870.80836 6113 36802f9b40d565221e6cc1a19a35ac1f "pdflatex"
+  "/Users/idabenvenuto/Documents/università/magistrale/DDS/appunti.tex" 1764607866.85112 40690 ea16ba816622dd34bf67d79b015b2146 ""
   "/Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Immagine JPEG-4A77-8056-27-0.jpeg" 1764525230.72793 547574 e4ff3aaec3d325084e56a5e922ab98bc ""
   "/Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Immagine JPEG-4C4B-B34A-EA-0.jpeg" 1764531085.70546 843171 3496cc7cbe6937215effa1a624b56863 ""
   "/Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-11-25 alle 18.09.55.png" 1764090599.09206 233101 fe5678d6c307c87336cc607579dee62e ""
@@ -40,6 +40,13 @@
   "/Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-12-01 alle 16.37.03.png" 1764603426.27239 282272 7660c901989f30f508177fcfe49ee4f8 ""
   "/Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-12-01 alle 16.45.59.png" 1764603963.40272 148075 bcf381df6e7003b2c867bfbcef87800c ""
   "/Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-12-01 alle 16.47.13.png" 1764604037.29901 158232 613e8bca29c3265aad8898e393526a6c ""
+  "/Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-12-01 alle 17.21.12.png" 1764606076.23278 181815 e84f2a02cd06fd0b643efa866e4551af ""
+  "/Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-12-01 alle 17.22.56.png" 1764606179.25421 306310 2bd8c00509379fc9d93885eb7fc3173f ""
+  "/Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-12-01 alle 17.34.59.png" 1764606901.57033 173701 df7efabbf0f99ac0141dfe9a699aa2cb ""
+  "/Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-12-01 alle 17.36.33.png" 1764606995.89635 161933 af9fddf5fe6694ed10f6dbef8b9a20a8 ""
+  "/Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-12-01 alle 17.43.15.png" 1764607397.38833 264713 1af1ae7ec8d6379e8261846a68f1c2f0 ""
+  "/Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-12-01 alle 17.49.36.png" 1764607778.72567 90069 ed54280a16ff56d199979af62f33e4c9 ""
+  "/Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-12-01 alle 17.50.30.png" 1764607832.46868 239414 6bb7052f353af2792939ce24dbf5430d ""
   "/usr/local/texlive/2025basic/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc" 1136849721 2971 def0b6c1f0b107b3b936def894055589 ""
   "/usr/local/texlive/2025basic/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1136849721 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "/usr/local/texlive/2025basic/texmf-dist/fonts/tfm/jknappen/ec/ecbx1095.tfm" 1136768653 3584 21b378cca2e40816b0e6d74a4dc98f04 ""

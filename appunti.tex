@@ -330,6 +330,7 @@ the timer is incremented when a process receive a heartbeat from a process with 
     \caption{Example of Eventual Leader Election execution in Crash-Recovery model - part 2}    
 \end{figure}
 after the restore of p1, the epoch is incremented and p2 become the leader.
+
 \chapter{ Broadcast Communication(9)}
 Up to now, the comunication model used is between two processes (like clien-server enviroment).
 In distributed systems, it is often necessary to communicate with multiple processes simultaneously. Broadcast communication is a method that allows a process to send a message to all other processes in the system.
@@ -358,6 +359,82 @@ Best Effort Broadcast (BEB) is a communication primitive that allows a process t
     \item \textbf{No Duplication:} Each process maintains a set of delivered messages. A message is only delivered if it has not been delivered before, ensuring no duplication.
     \item \textbf{No Creation:} perfect point-to-point links ensure that messages are only delivered if they were sent by some process. Since processes only deliver messages they receive, no message can be created out of thin air.
 \end{itemize}
+\section{ (Regular) Reliable Broadcast(RB)}
+Reliable Broadcast (RB) is a communication primitive that extends Best Effort Broadcast by providing stronger guarantees in the presence of process failures. It ensures that messages are delivered reliably even if some processes crash.
+the specification of RB are the same of BEB plus:
+\begin{itemize}
+    \item \textbf{Agreement:} If a correct process delivers a message, then all correct processes eventually deliver that message.
+\end{itemize}
+difference:
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{imm/Screenshot 2025-12-01 alle 17.21.12.png}
+    \caption{Difference between Best Effort Broadcast and Reliable Broadcast}
+\end{figure}
+\section*{implementation of Reliable Broadcast IN Synchronous System }
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{imm/Screenshot 2025-12-01 alle 17.22.56.png}
+    \caption{Reliable Broadcast implementation in Synchronous System}
+\end{figure}
+\subsubsection*{initialization}
+When the system starts (upon event $\langle p, \text{Init} \rangle$):
+\begin{verbatim}
+    correct := Pi; -- Initialize the set of correct processes (all processes)
+    from [p] := empty set[n]; -- Array to track messages received from each process
+\end{verbatim}
+\subsubsection*{deliver event}
+When a message is delivered (upon event $\langle beb, \text{Deliver} | q, [DATA, s, m]\rangle$):
+\begin{verbatim}
+    if m not in from[q] then -- If the message has not been received from process q before
+        from[q] := from[q] union {m}; -- Add the message to the set of messages received from process q
+        trigger <rb, Deliver | s, m>; -- Trigger the delivery event for the reliable broadcast
+        if s is not in correct then -- If the sender process s is not in the set of correct processes
+            trigger <beb, Broadcast | [DATA, s, m]>; -- Trigger the delivery event for the reliable broadcast
+\end{verbatim}
+\subsubsection*{example}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{imm/Screenshot 2025-12-01 alle 17.34.59.png}
+    \caption{Example of Reliable Broadcast execution in Asynchronous System}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{imm/Screenshot 2025-12-01 alle 17.36.33.png}
+    \caption{Example of Reliable Broadcast execution in Asynchronous System}
+\end{figure}
+\subsubsection*{Lazy Reliable Broadcast}
+in the best scenario, the RB implementation can generate 1 BEB message per RB message .
+\newline
+in the worst scenario, the RB implementation can generate N-1 BEB messages per RB message.
+\newline
+if the failure detector is not perfect, the algorithm is not correct, because it may trigger unnecessary retransmissions or fail to detect crashed processes accurately.
+\section{Reliable Broadcast (RB) in Asinchronous System}
+\subsection*{implementation of Reliable Broadcast IN Asynchronous System }
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{imm/Screenshot 2025-12-01 alle 17.43.15.png}
+    \caption{Reliable Broadcast implementation in Asynchronous System}
+\end{figure}
+in this case the best scenario is equal to worst scenario = N BEB messages per RB message, because every message is retransmitted by every process.
+\section{ Uniform Reliable Broadcast (URB)}
+Uniform Reliable Broadcast (URB) is a communication primitive that extends Reliable Broadcast by providing even stronger guarantees, particularly in the presence of process failures. It ensures that messages are delivered uniformly across all processes, meaning that if any process delivers a message, then all correct processes will eventually deliver that message.
+thus, the specification of URB are the same of RB plus:
+\begin{itemize}
+    \item \textbf{Uniform Agreement:} If any process (correct or faulty) delivers a message, then all correct processes eventually deliver that message.
+\end{itemize}
+difference:
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.1\textwidth]{imm/Screenshot 2025-12-01 alle 17.49.36.png}
+    \caption{Difference between Reliable Broadcast and Uniform Reliable Broadcast}
+\end{figure}
+\subsection*{implementation of Uniform Reliable Broadcast IN Asynchronous System }
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{imm/Screenshot 2025-12-01 alle 17.50.30.png}
+    \caption{Uniform Reliable Broadcast implementation in Asynchronous System}
+\end{figure}
 \chapter{Consensus (11)}
 \section{Consensus Problem}
 The consensus problem in distributed systems involves a set of processes that must agree on a single value.
