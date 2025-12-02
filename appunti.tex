@@ -429,11 +429,70 @@ difference:
     \includegraphics[width=1.1\textwidth]{imm/Screenshot 2025-12-01 alle 17.49.36.png}
     \caption{Difference between Reliable Broadcast and Uniform Reliable Broadcast}
 \end{figure}
-\subsection*{implementation of Uniform Reliable Broadcast IN Asynchronous System }
+\subsection*{implementation of Uniform Reliable Broadcast IN Synchronous System }
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{imm/Screenshot 2025-12-01 alle 17.50.30.png}
+    \caption{Uniform Reliable Broadcast implementation in Synchronous System}
+\end{figure}
+\begin{verbatim}
+    pending := empty set; -- Initialize the set of pending messages as empty
+\end{verbatim}
+when the message have to be broadcasted by URB, it is added to the pending set.
+
+\begin{verbatim}
+upon event <beb, Deliver | q, [DATA, s, m]> do
+    ack[m] := ack[m] union {q}; -- Add the process q to the set of acknowledgments for message m
+    if m not pending then -- If the message m is not in the pending set
+        pending := pending union {m}; -- Add the message m to the pending set
+        trigger <beb, broadcast | s, m>; 
+\end{verbatim}
+
+\subsection*{example}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{imm/Screenshot 2025-12-02 alle 13.14.23.png}
+    \caption{Example of Uniform Reliable Broadcast execution in Synchronous System}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{imm/Screenshot 2025-12-02 alle 13.27.02.png}
+    \caption{Example of Uniform Reliable Broadcast execution in Synchronous System - part 2}
+\end{figure}    
+\begin{figure}
+    \centering
+    \includegraphics[width=1\textwidth]{imm/Screenshot 2025-12-02 alle 13.27.19.png}
+    \caption{Example of Uniform Reliable Broadcast execution in Synchronous System - part 3}
+\end{figure}
+\section{Implementation of Uniform Reliable Broadcast in Asynchronous Systems}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{imm/Screenshot 2025-12-02 alle 13.31.39.png}
     \caption{Uniform Reliable Broadcast implementation in Asynchronous System}
+\end{figure}
+\section{Probabilistic Broadcast (PB)}
+Probabilistic Broadcast (PB) is a communication primitive that allows a process to send a message to all other processes in a distributed system with probabilistic guarantees. Unlike traditional broadcast methods that provide deterministic guarantees, PB relies on probabilistic techniques to ensure that messages are delivered to a large fraction of processes with high probability.
+the ack mechanism used in RB is not scalable because it requires maintaining an acknowledgment set for each message, which can become large in systems with many processes. 
+The probabilistic approach reduces the overhead associated with acknowledgments by allowing processes to make decisions based on probabilistic criteria rather than waiting for explicit acknowledgments from all processes.
+\subsection*{specification of Probabilistic Broadcast}
+the specification of PB includes the following properties:
+\begin{itemize}
+    \item \textbf{Probabilistic Validity:} If a correct process broadcasts a message, then with high probability, a large fraction of correct processes eventually deliver that message.
+    \item \textbf{No Duplication:} No message is delivered more than once to any process.
+    \item \textbf{No Creation:} No message is delivered unless it was previously broadcast by some process.
+\end{itemize}
+\subsubsection*{gossip Dissemination}
+Gossip dissemination is a technique used in probabilistic broadcast to spread messages throughout a distributed system. In this approach, each process randomly selects a subset of other processes to which it forwards the message, creating a "gossip" effect that helps disseminate the message efficiently.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{imm/Screenshot 2025-12-02 alle 14.38.18.png}
+    \caption{Gossip Dissemination in Probabilistic Broadcast}
+\end{figure}
+\section*{implementation of Eager Probabilistic Broadcast}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{imm/Screenshot 2025-12-02 alle 14.38.58.png}
+    \caption{Eager Probabilistic Broadcast implementation}
 \end{figure}
 \chapter{Consensus (11)}
 \section{Consensus Problem}
