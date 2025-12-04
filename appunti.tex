@@ -11,11 +11,391 @@
 
 \title{Dependable Distributed Systems}
 \author{Ida Francesca Benvenuto}
-\date{novembre 2025}
+\date{november-december 2025}
 
 \begin{document}
 
 \maketitle
+\chapter{Time in Distributed System(4)}
+
+\section{Introduction}
+
+In a distributed system, many processes run on different computers that are connected by a network. These processes need to work together to complete computations, and they can only communicate by sending messages to each other. 
+
+Many applications need to order events correctly and synchronize processes to work properly. Examples include air traffic control, network monitoring, and financial systems where we need to track when orders are made and executed. This is why \textbf{time is very important in distributed systems}.
+
+\section{Why is Time Important?}
+
+Time is a quantity that we want to measure and understand. Many algorithms depend on time to work correctly:
+
+\begin{itemize}
+\item \textbf{Data consistency}: When we have copies of data stored in multiple places, we need to make sure all copies show the same information at the same time.
+\item \textbf{Authentication}: We need to know when messages were sent to prevent security problems.
+\item \textbf{Double processing avoidance}: We must not process the same request twice by accident.
+\end{itemize}
+
+To solve these problems, we need to be able to put events in the correct order. This means we need to understand and order events that happen in different places at almost the same time.
+
+\section{Why is Using Time Difficult in Distributed Systems?}
+
+The main problem is that we need all processes to agree on what time it is. It is easy to order events that happen in the same process because they happen one after another. However, when events happen in different processes at about the same time, we cannot easily know which event happened first. 
+
+In a distributed system with network delays and processing delays, it is impossible to have one clock that all processes share. Each process has its own local clock, and these clocks will show different times.
+
+\section{System Model}
+
+A distributed system is made up of a set of processes \(P = \{p_1, p_2, \ldots, p_n\}\). Each process runs on a single computer with no shared memory. Each process \(p_i\) has a state \(s_i\) that changes as the process executes.
+
+Processes can only communicate by exchanging messages through the network. They cannot access other processes' memory directly.
+
+\section{Events and Computation}
+
+Each process creates a sequence of events during its execution:
+
+\begin{itemize}
+\item \textbf{Internal events}: Events that change the process state (for example, calculating something).
+\item \textbf{External events}: Events where the process sends or receives a message.
+\end{itemize}
+
+We use the notation \(e_i^k\) to mean the $k$-th event created by process \(p_i\). 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{imm/Screenshot 2025-12-04 alle 17.01.16.png}
+\end{figure}
+\subsection{Ordering Events}
+
+For events that happen in the same process, we can order them easily. We write \(e \rightarrow_i e'\) if event \(e\) happens before event \(e'\) in process \(p_i\).
+
+The \textbf{local history} of a process is the sequence of all events that it creates. For process \(p_1\), the local history might be:
+\[
+\text{history}(p_1) = h_1 = e_1^1, e_1^2, e_1^3, e_1^4, e_1^5, e_1^6
+\]
+the \textbf{partial local history} is the sequence of events that a process has created so far, which can be different for each process.
+
+When processes communicate, they send messages to each other. We write \(e \rightarrow e'\) if event \(e\) happens before event \(e'\) in the global history of the system.
+
+The \textbf{global history} is the collection of all local histories from all processes in the system.
+
+\section{Timestamping and Physical Clocks}
+
+One way to solve the ordering problem is to attach a label (called a \textbf{timestamp}) to each event. If we give each event a number that represents when it happened, we can order events from different processes.
+
+A simple idea is to have each process put a timestamp on its events using its local hardware clock. However, this does not always work well because:
+
+\begin{enumerate}
+\item Hardware clocks are not perfectly accurate.
+\item Different computers' clocks show different times.
+\item Clocks drift (they gradually move away from the correct time).
+\end{enumerate}
+
+\section{Physical Computer Clocks}
+
+Each computer has a \textbf{hardware clock} made of an oscillator (something that vibrates at a regular speed) and a counter that increases by one for each vibration. The operating system reads this hardware clock and creates a \textbf{software clock}.
+
+The software clock \(C_i(t)\) for process \(p_i\) at real time $t$ is:
+\[
+C_i(t) = H_i(t) + \text{offset}
+\]
+
+where \(H_i(t)\) is the hardware clock value and offset is a correction value.
+
+\subsection{Clock Accuracy}
+
+The software clock \(C_i(t)\) is an approximation of the real time $t$. However, it is not perfect:
+
+\begin{itemize}
+\item It can be different from the real time.
+\item Different processes may have different values because hardware is not identical.
+\end{itemize}
+
+In practice, a 64-bit software clock might show time in nanoseconds (very small units of time).
+
+\subsection{Clock Resolution}
+
+An important question is: How small must the time step be between updates so we can tell two events apart? The resolution must be smaller than the time between two important events.
+
+\section{Problems with Clock Synchronization}
+
+Two important measurements describe how well clocks stay synchronized:
+
+\begin{itemize}
+\item \textbf{Skew}: The difference between two clocks at the same time: \(|C_i(t) - C_j(t)|\). This is how much two clocks disagree with each other.
+\item \textbf{Drift rate}: How fast a clock moves away from the correct time. It is measured as change per second. For example, a drift rate of 2 microseconds per second means a clock increases by 1 second + 2 microseconds for each real second that passes.
+\end{itemize}
+
+Regular quartz clocks (the type in most computers) drift by about 1 second in 11 to 12 days, which is a drift rate of about \(10^{-6}\) seconds per second. Better quality quartz clocks have a drift rate of \(10^{-7}\) to \(10^{-8}\) seconds per second. Only atomic clocks (based on atomic oscillators) can achieve very small drift rates of \(10^{-13}\) seconds per second.
+
+\section{Universal Time Coordinated (UTC)}
+
+\textbf{UTC} (Universal Time Coordinated) is an international standard for measuring time. It is based on International Atomic Time, which is defined by how long it takes a cesium atom to complete a certain number of state transitions.
+
+When we say 1 second, we mean the time for a cesium atom to make 9,192,631,770 state transitions.
+
+UTC is the time standard used worldwide, and it is available from specialized time sources called UTC sources.
+
+\section{Internal and External Synchronization}
+
+We need to understand two types of clock synchronization:
+
+\subsection{External Synchronization}
+
+In external synchronization, all processes synchronize their clocks with an external time source \(S\) (a UTC source).
+
+We say that clocks \(C_i\) are \textbf{externally synchronized} with accuracy \(D > 0\) if, for all processes \(i = 1, 2, \ldots, N\) and for all real times $t$ in some time interval:
+\[
+|S(t) - C_i(t)| < D
+\]
+
+This means each local clock differs from the external time source by less than \(D\).
+
+\subsection{Internal Synchronization}
+
+In internal synchronization, all processes synchronize their clocks with each other, not necessarily with an external source.
+
+We say that clocks are \textbf{internally synchronized} with accuracy \(D > 0\) if, for all pairs of processes \(i, j = 1, 2, \ldots, N\) and for all real times $t$ in some time interval:
+\[
+|C_i(t) - C_j(t)| < D
+\]
+
+This means all local clocks agree with each other within accuracy \(D\).
+
+\subsection{Relationship Between Internal and External Synchronization}
+
+Important note: Clocks that are internally synchronized are not necessarily externally synchronized. Even if all clocks agree with each other, they might all be wrong compared to UTC!
+
+However, if a set of processes is externally synchronized with accuracy \(D\), then it is also internally synchronized with accuracy \(2D\).
+
+\section{Correct Clocks}
+
+A hardware clock \(H\) is called a \textbf{correct clock} if its drift rate stays within a limited bound. We write this as:
+\[
+1 - \rho \leq \frac{dC}{dt} \leq 1 + \rho
+\]
+
+where \(\rho > 0\) is a small number (for example, \(10^{-6}\) seconds per second).
+
+When we have a correct clock, we can measure a time interval \([t, t']\) (where \(t' > t\)) without large errors:
+\[
+(1 - \rho)(t' - t) \leq H(t') - H(t) \leq (1 + \rho)(t' - t)
+\]
+
+This means the hardware clock's measurement of the time interval is close to the real time interval.
+
+\subsection{Software Clock Monotonicity}
+
+Software clocks must be \textbf{monotonic}, which means they never go backward:
+\[
+t' > t \Rightarrow C(t') > C(t)
+\]
+
+If we choose the right parameters for how we calculate the software clock, we can guarantee this property.
+
+\subsection{Clock Resynchronization}
+
+To keep clocks synchronized, we need to update them regularly. The maximum time between updates should be at least:
+\[
+\frac{D}{2\rho} \text{ seconds}
+\]
+
+where \(D\) is the maximum allowed clock difference and \(\rho\) is the clock drift rate bound.
+
+\section{Clock Failures}
+
+Clocks can fail in different ways:
+
+\begin{itemize}
+\item \textbf{Crash failure}: The clock simply stops working.
+\item \textbf{Arbitrary failure}: The clock behaves in unexpected ways (for example, the Y2K bug where dates jumped from 1999 to 1900 instead of 2000).
+\end{itemize}
+
+Important: A clock being \textbf{correct} means it stays within the drift rate bounds. But this is not the same as being \textbf{accurate}. A correct clock still might show the wrong time.
+
+\section{Clock Synchronization Algorithms}
+
+There are several algorithms to synchronize clocks in a distributed system. We can organize them into different types:
+
+\begin{itemize}
+\item \textbf{Centralized time services} (request-driven or broadcast-based)
+\item \textbf{Distributed time services} (like the Network Time Protocol)
+\end{itemize}
+
+\subsection{Christian's Algorithm}
+
+Christian's Algorithm is used for external synchronization. It uses a time server \(S\) that receives the correct time from a UTC source.
+
+\subsubsection{How it Works}
+
+\begin{enumerate}
+\item A process \(p\) sends a message \(m_r\) to the time server asking for the current time.
+\item The time server receives this message and immediately sends back a message \(m_t\) with the current time \(t\).
+\item Process \(p\) receives the reply and measures the round-trip time (RTT) - the time from when it sent the message to when it received the reply.
+\item Process \(p\) sets its clock to \(t + \text{RTT}/2\).
+\end{enumerate}
+
+The idea behind this is that the server took half the round-trip time to send the reply, so we add RTT/2 to the received time.
+
+\subsubsection{Accuracy}
+
+The accuracy of Christian's algorithm depends on the actual network delays. The accuracy is:
+\[
+\pm \left(\frac{\text{RTT}}{2} - d_{\text{min}}\right)
+\]
+
+where \(d_{\text{min}}\) is the minimum transmission delay we can measure.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{imm/Screenshot 2025-12-04 alle 17.15.39.png}
+\end{figure}
+The bigger the round-trip time, the less accurate the algorithm. It works best in networks where messages travel quickly and reliably.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{imm/Screenshot 2025-12-04 alle 17.16.49.png}
+
+\end{figure}
+if the minimum transmission time is 30, the the accuracy is \(\pm (70/2 - 30) = \pm 5\).
+\subsubsection{Advantages and Disadvantages}
+
+\textbf{Advantages}:
+\begin{itemize}
+\item Simple to understand and implement
+\item Works probabilistically even in asynchronous systems
+\end{itemize}
+
+\textbf{Disadvantages}:
+\begin{itemize}
+\item The time server is a single point of failure (if it crashes, synchronization is impossible)
+\item The server might be attacked or give wrong information
+\end{itemize}
+
+To solve the problem of a single server, we can use multiple synchronized time servers and ask several servers at the same time.
+
+\section{Berkeley's Algorithm}
+
+Berkeley's Algorithm is used for internal synchronization. It uses a master-slave structure where one process (the master) coordinates synchronization with all other processes (the slaves).
+
+\subsection{How it Works}
+
+The algorithm has two steps:
+
+\textbf{Step 1: Measuring clock differences}
+
+\begin{enumerate}
+\item The master \(p_m\) sends a message to all processes (including itself) with its current time \(t_1\).
+\item When a process \(p_i\) receives this message, it records the time \(t_1\) from the master and sends back a reply with its own current time \(t_2\).
+\item When the master receives the reply, it reads its clock again to get time \(t_3\).
+\item The master calculates the difference: \(\Delta_i = \frac{t_1 + t_3}{2} - t_2\)
+\end{enumerate}
+
+This difference \(\Delta_i\) tells us how much process \(p_i\)'s clock is ahead or behind the master's clock.
+
+\textbf{Step 2: Synchronization}
+
+\begin{enumerate}
+\item The master calculates the average of all the differences, ignoring any processes with clocks that are very different (these might be faulty): \(\text{avg} = \text{average}(\Delta_i)\)
+\item For each process (including itself), the master calculates a correction: \(\text{Adj}_i = \text{avg} - \Delta_i\)
+\item The master sends this correction to each process.
+\item Each slave applies the correction to its clock by adding the correction value.
+\item If the correction is negative (the clock needs to go backward), the process does not jump backward. Instead, it slows down its clock by hiding system interrupts so that the clock value gradually catches up.
+\end{enumerate}
+
+Slowing down the clock instead of jumping backward is important because jumping the clock backward could violate the ordering of events - if event A happened before event B, but then we jump the clock backward, it might look like B happened before A!
+
+\subsubsection{Example}
+
+Imagine we have a master and three slave processes. Initially, their clocks show:
+\begin{itemize}
+\item Master: 3:05
+\item Slave 1: 2:55 (10 minutes slow)
+\item Slave 2: 3:00 (5 minutes slow)
+\item Slave 3: 3:25 (20 minutes fast)
+\end{itemize}
+
+First, we calculate the differences from the master:
+\begin{align*}
+\Delta_m &= 3:05 - 3:05 = 0 \\
+\Delta_1 &= 3:05 - 2:55 = +10 \text{ minutes} \\
+\Delta_2 &= 3:05 - 3:00 = +5 \text{ minutes} \\
+\Delta_3 &= 3:05 - 3:25 = -20 \text{ minutes}
+\end{align*}
+
+Then we calculate the average difference (ignoring slave 3 because 20 minutes seems too much):
+\[
+\text{avg} = \frac{0 + 10 + 5}{3} = 5 \text{ minutes}
+\]
+
+Now we calculate the correction for each process:
+\begin{align*}
+\text{Adj}_m &= 5 - 0 = +5 \text{ minutes} \\
+\text{Adj}_1 &= 5 - 10 = -5 \text{ minutes} \\
+\text{Adj}_2 &= 5 - 5 = 0 \text{ minutes} \\
+\text{Adj}_3 &= 5 - (-20) = +25 \text{ minutes}
+\end{align*}
+
+After applying these corrections:
+\begin{itemize}
+\item Master: 3:05 + 5 = 3:10
+\item Slave 1: 2:55 - 5 = 2:50 (slowed down instead)
+\item Slave 2: 3:00 + 0 = 3:00 (no change)
+\item Slave 3: 3:25 + 25 = 3:50
+\end{itemize}
+
+\subsubsection{Fault Tolerance}
+
+Berkeley's Algorithm can handle some problems:
+
+\begin{itemize}
+\item \textbf{Server crash}: If the master crashes, the system elects a new master (this takes some time).
+\item \textbf{Faulty slave clocks}: The master ignores any slave clocks that differ too much from the others.
+\item \textbf{Wrong values}: The master compares multiple clock values and filters out values that are very different from the others.
+\end{itemize}
+
+\section{Network Time Protocol (NTP)}
+
+The Network Time Protocol is the standard method for synchronizing clocks on the Internet. It provides external synchronization with UTC on a worldwide scale.
+
+\subsection{Structure}
+
+NTP uses a hierarchy of time servers:
+
+\begin{enumerate}
+\item \textbf{Primary servers}: Connected directly to UTC sources (atomic clocks). These are at the top of the hierarchy.
+\item \textbf{Secondary servers}: Synchronized to primary servers. They are in the middle of the hierarchy.
+\item \textbf{Client computers}: Get synchronized to secondary servers. These are at the bottom.
+\end{enumerate}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{imm/Screenshot 2025-12-04 alle 17.25.42.png}
+\end{figure}
+\subsection{Features}
+
+\begin{itemize}
+\item \textbf{Redundancy}: There are many servers, so if one fails, others can take over.
+\item \textbf{Scalability}: It works across the entire Internet, not just in one local network.
+\item \textbf{Reconfigurable}: If a primary server loses its UTC connection, it becomes a secondary. If a secondary loses its primary, it can find another primary.
+\item \textbf{Security}: NTP includes authentication mechanisms to make sure time sources are trustworthy.
+\end{itemize}
+
+\subsection{Synchronization Modes}
+
+NTP supports three different modes:
+
+\begin{enumerate}
+\item \textbf{Multicast mode}: The server periodically sends its time to all computers in the local network. Clients assume a fixed network delay. This is fast but not very accurate.
+\item \textbf{Procedure call mode}: Works like Christian's Algorithm. A client sends a request and the server sends back a timestamp. This is more accurate but requires more network communication.
+\item \textbf{Symmetric mode}: Used between pairs of time servers to synchronize with each other. This is only used at high levels of the NTP hierarchy.
+\end{enumerate}
+
+\section{Clock Synchronization in Asynchronous Systems}
+
+An important theoretical question: Can we always synchronize clocks perfectly?
+
+The answer is: \textbf{No, not in an asynchronous system}.
+
+In an asynchronous distributed system, we cannot know the upper and lower bounds on message delays. Messages might be very fast or very slow. Because of this, we can only synchronize clocks with some probability - we cannot guarantee perfect accuracy.
+
+We can only achieve a certain level of accuracy when we know the bounds on communication delays. If we do not know these bounds, perfect synchronization is impossible.
+
+
 \chapter{Failure Detection (7)}
 Failure Detectors (FD) are mechanisms used in distributed systems to provide information about the status of processes, specifically whether they are operational (correct) or have failed (crashed). They help to overcome the challenges posed by asynchrony and failures in distributed systems.
 \section{Timing assumptions}
