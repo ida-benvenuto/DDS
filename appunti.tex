@@ -331,7 +331,7 @@ the timer is incremented when a process receive a heartbeat from a process with 
 \end{figure}
 after the restore of p1, the epoch is incremented and p2 become the leader.
 
-\chapter{ Broadcast Communication(9)}
+\chapter{ Broadcast Communication(9-10)}
 Up to now, the comunication model used is between two processes (like clien-server enviroment).
 In distributed systems, it is often necessary to communicate with multiple processes simultaneously. Broadcast communication is a method that allows a process to send a message to all other processes in the system.
 \section{Best Effort Broadcast (BEB)}
@@ -470,6 +470,7 @@ upon event <beb, Deliver | q, [DATA, s, m]> do
     \includegraphics[width=1\textwidth]{imm/Screenshot 2025-12-02 alle 13.31.39.png}
     \caption{Uniform Reliable Broadcast implementation in Asynchronous System}
 \end{figure}
+MANCA
 \section{Probabilistic Broadcast (PB)}
 Probabilistic Broadcast (PB) is a communication primitive that allows a process to send a message to all other processes in a distributed system with probabilistic guarantees. Unlike traditional broadcast methods that provide deterministic guarantees, PB relies on probabilistic techniques to ensure that messages are delivered to a large fraction of processes with high probability.
 the ack mechanism used in RB is not scalable because it requires maintaining an acknowledgment set for each message, which can become large in systems with many processes. 
@@ -639,7 +640,17 @@ The safety is always guaranteed, while the liveness is guaranteed only under som
     \end{itemize}
     \item \textbf{Messages:} Can take arbitrarily long to be delivered, can be duplicated, and can be lost, but they are not corrupted.
 \end{itemize}
+\section{Actors}
+Paxos involves three types of actors:
+\begin{itemize}
+    \item \textbf{Proposers:} Propose values to be agreed upon.
+    \item \textbf{Acceptors:} Act as the voting body that decides which value to accept.
+    \item \textbf{Learners:} Learn the chosen value once consensus is reached.
+\end{itemize}
 
+\subsection*{first problem}
+if there isa asingle acceptor, and it crash after accepting a value, the system cannot make progress.
+§§§
 \chapter{Total Order Broadcast}
 Total Order Broadcast (TOB) is a fundamental communication primitive in distributed systems that ensures all processes deliver messages in the same order.
 
