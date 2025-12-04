@@ -395,6 +395,361 @@ In an asynchronous distributed system, we cannot know the upper and lower bounds
 
 We can only achieve a certain level of accuracy when we know the bounds on communication delays. If we do not know these bounds, perfect synchronization is impossible.
 
+\chapter{Logical Clock (5)}
+Logical clocks help us order events in a distributed system without relying on physical time. They provide a way to capture the causal relationships between events.
+\section{The Happened-Before Relation}
+
+\subsection{Basic Observations}
+
+Let us think about how events happen in a distributed system:
+
+\begin{itemize}
+\item When a process (a computer or program) performs actions, these actions happen in the order that the process sees them.
+\item When process $p_i$ sends a message to process $p_j$, the sending of the message must happen before the receiving of that message.
+\end{itemize}
+
+Based on these ideas, \textbf{Lamport} introduced the \textit{happened-before relation}. This relation captures the idea of \textbf{cause and effect} between events.
+
+\subsection{Definition}
+
+Two events $e$ and $e'$ are connected by the \textbf{happened-before relation} (written as $e \rightarrow e'$) if one of the following conditions is true:
+
+\begin{enumerate}
+\item Both events happen in the same process $p_i$, and $e$ happens before $e'$ according to the process's local order.
+\item Event $e$ is the sending of a message $m$, and event $e'$ is the receiving of that same message $m$.
+\item The relation is \textbf{transitive}: if $e \rightarrow e''$ and $e'' \rightarrow e'$, then $e \rightarrow e'$.
+\end{enumerate}
+
+\subsection{Properties}
+
+The happened-before relation creates a \textbf{partial order} over all events in the system. This means that:
+
+\begin{itemize}
+\item Some events are ordered: we know that $e \rightarrow e'$ or $e' \rightarrow e$.
+\item Some events are not ordered: there may be pairs of events $(e_i, e_j)$ where neither $e_i \rightarrow e_j$ nor $e_j \rightarrow e_i$. We say these events are \textbf{concurrent}, written as $e_i \parallel e_j$.
+\end{itemize}
+
+For any two events $e_i$ and $e_j$ in a distributed system, exactly one of the following must be true:
+
+\begin{itemize}
+\item $e_i \rightarrow e_j$ (event $i$ happened before event $j$)
+\item $e_j \rightarrow e_i$ (event $j$ happened before event $i$)
+\item $e_i \parallel e_j$ (events $i$ and $j$ are concurrent)
+\end{itemize}
+
+\section{Logical Clocks}
+
+\subsection{Basic Idea}
+
+A \textbf{logical clock} is a simple software counter. It is not a real clock that measures real time. Instead, it is a number that increases to help us order events.
+
+Each process $p_i$ has its own logical clock, which we write as $L_i$. We use this clock to assign a \textbf{timestamp} to each event. If an event $e$ happens in process $p_i$, we give it a timestamp $ts_e = L_i(e)$.
+
+\subsection{Important Property}
+
+The main property of logical clocks is:
+
+\[
+\text{If } e \rightarrow e' \text{ then } ts_e < ts_{e'}
+\]
+
+This means that if event $e$ happens before event $e'$ in the happened-before relation, then the timestamp of $e$ must be smaller than the timestamp of $e'$.
+
+\subsection{Limitation}
+
+However, logical clocks have a problem. The property works only in one direction. We cannot say:
+
+\[
+\text{If } ts_e < ts_{e'} \text{ then } e \rightarrow e'
+\]
+
+In other words, just because one event has a smaller timestamp does not always mean it happened before the other event. The events might be concurrent.
+
+\section{Scalar Logical Clock}
+
+\subsection{How It Works}
+
+Scalar logical clock is the simplest type of logical clock. Here is how each process implements it:
+
+\begin{enumerate}
+\item \textbf{Initialization}: Each process $p_i$ starts with $L_i = 0$.
+\item \textbf{When an event is created}: If $p_i$ performs an action (either sending or receiving a message), it increases its clock by 1: $L_i := L_i + 1$.
+\item \textbf{When sending a message $m$}: 
+   \begin{itemize}
+   \item The process increases its clock: $L_i := L_i + 1$.
+   \item The message is given a timestamp $ts = L_i$.
+   \item The message and its timestamp are sent to other processes.
+   \end{itemize}
+\item \textbf{When receiving a message $m$ with timestamp $ts$}:
+   \begin{itemize}
+   \item The process updates its clock: $L_i := \max(ts, L_i)$.
+   \item Then it increases the clock by 1: $L_i := L_i + 1$.
+   \end{itemize}
+\end{enumerate}
+
+The idea is that a process never goes backward in time. If it receives a message from the future (larger timestamp), it jumps to that time and then continues forward.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{imm/Screenshot 2025-12-04 alle 17.40.03.png}
+\end{figure}
+\subsection{Limitations}
+
+Scalar logical clocks have an important limitation. They cannot tell us whether two events are concurrent or ordered:
+
+\begin{itemize}
+\item If event $e_1$ has timestamp 1 and event $e_2$ has timestamp 1, we cannot be sure whether they happened in order or if they are concurrent.
+\item Even if timestamps are different, the events might still be concurrent (not related by happened-before).
+\end{itemize}
+
+This limitation is serious because in many applications, we need to know exactly whether two events are ordered or concurrent.
+
+\section{Vector Logical Clock}
+
+A \textbf{vector clock} for $N$ processes is an array of $N$ integers. Each process $p_i$ maintains its own vector clock, which we write as $V_i$. This vector has $N$ positions, one for each process in the system.
+
+When a process assigns a timestamp to an event, it uses the entire vector, not just a single number.
+
+\subsection{How It Works}
+
+Here is how vector clocks work:
+
+\begin{enumerate}
+\item \textbf{Initialization}: Each process $p_i$ starts with $V_i[j] = 0$ for all $j = 1, 2, \ldots, N$.
+\item \textbf{When an event is created}: Process $p_i$ increases only its own position: $V_i[i] := V_i[i] + 1$.
+\item \textbf{When sending a message $m$}:
+   \begin{itemize}
+   \item The process increases its clock: $V_i[i] := V_i[i] + 1$.
+   \item The entire vector $V_i$ is attached to the message as a timestamp.
+   \end{itemize}
+\item \textbf{When receiving a message $m$ with timestamp vector $ts$}:
+   \begin{itemize}
+   \item For each position $j$, the process updates: $V_i[j] := \max(ts[j], V_i[j])$ for all $j = 1, 2, \ldots, N$.
+   \item Then it increases its own position: $V_i[i] := V_i[i] + 1$.
+   \end{itemize}
+\end{enumerate}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{imm/Screenshot 2025-12-04 alle 17.44.28.png}
+\end{figure}
+
+\subsection{Properties of Vector Clocks}
+
+Vector clocks have special properties that make them very useful:
+
+\begin{itemize}
+\item $V_i[i]$ tells us how many events process $p_i$ has created.
+\item $V_i[j]$ (where $i \neq j$) tells us how many events from process $p_j$ have affected process $p_i$.
+\end{itemize}
+
+To compare two vectors $V$ and $V'$:
+
+\begin{itemize}
+\item $V = V'$ if and only if $V[j] = V'[j]$ for all $j = 1, 2, \ldots, N$.
+\item $V \leq V'$ if and only if $V[j] \leq V'[j]$ for all $j = 1, 2, \ldots, N$.
+\item $V < V'$ (meaning the event with timestamp $V$ happened before the event with timestamp $V'$) if and only if $V \leq V'$ and $V \neq V'$ (and there is at least one position where $V$ is strictly smaller).
+\end{itemize}
+\subsection{The Power of Vector Clocks}
+
+The most important advantage of vector clocks is that they can tell us exactly which events are ordered and which are concurrent:
+
+\[
+\text{Events } e \text{ and } e' \text{ are related by happened-before if and only if } V(e) < V(e')
+\]
+
+If $V(e)$ and $V(e')$ are not comparable (one is not smaller than or equal to the other), then the events are concurrent.
+
+\subsection{Practical Example}
+
+Imagine three processes with the following vector timestamps:
+
+\begin{itemize}
+\item Event $A$ on $p_1$: $V(A) = [1, 0, 0]$
+\item Event $B$ on $p_2$: $V(B) = [1, 1, 0]$
+\end{itemize}
+
+Comparing: $[1, 0, 0] < [1, 1, 0]$ because $V(A)[1] \leq V(B)[1]$, $V(A)[2] \leq V(B)[2]$, $V(A)[3] \leq V(B)[3]$, and they are not equal. So event $A$ happened before event $B$.
+
+Now consider:
+
+\begin{itemize}
+\item Event $C$: $V(C) = [1, 0, 0]$
+\item Event $D$: $V(D) = [0, 0, 1]$
+\end{itemize}
+
+Comparing: $[1, 0, 0]$ is not comparable with $[0, 0, 1]$ because position 1 has $1 > 0$ (so $C > D$ in position 1) but position 3 has $0 < 1$ (so $C < D$ in position 3). This means events $C$ and $D$ are concurrent.
+
+\section{Distributed Mutual Exclusion}
+
+\subsection{The Problem}
+
+In many systems, we have multiple processes that want to use the same resource. For example, they might want to write to the same file or use the same database. We cannot allow two processes to use the resource at the same time because they might interfere with each other.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{imm/Screenshot 2025-12-04 alle 21.33.30.png}
+    
+\end{figure}
+The \textbf{mutual exclusion problem} is to design a system where:
+
+\begin{enumerate}
+\item \textbf{Mutual Exclusion}: At any time, at most one process is using the resource.
+\item \textbf{No Deadlock}: There is always some process that can eventually use the resource.
+\item \textbf{No Starvation}: Every process that asks to use the resource will eventually get it.
+\end{enumerate}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{imm/Screenshot 2025-12-04 alle 21.34.57.png}
+\end{figure}
+\section{Lamport's Algorithm}
+
+Lamport developed an algorithm that uses scalar logical clocks to solve the mutual exclusion problem.
+
+\subsubsection{Main Idea}
+
+When a process wants to use the resource, it:
+\begin{enumerate}
+\item Sends a request message to all other processes with a timestamp.
+\item Waits for acknowledgments from all other processes.
+\item Uses the resource when its request has the smallest timestamp among all pending requests.
+\item Sends a release message when it is done, so other processes can use the resource.
+\end{enumerate}
+
+\subsubsection{Algorithm Details}
+
+Each process $p_i$ maintains:
+
+\begin{itemize}
+\item A counter $ck$ (for "clock"): this is the scalar logical clock.
+\item A queue $Q$: this stores pending requests to use the resource.
+\end{itemize}
+
+When $p_i$ wants to use the resource:
+
+\begin{enumerate}
+\item It increases its counter: $ck := ck + 1$.
+\item It sends a REQUEST message with timestamp $ck$ to all other processes.
+\item It adds its own request to its queue $Q$.
+\end{enumerate}
+
+When $p_i$ receives a REQUEST from $p_j$ with timestamp $t$:
+
+\begin{enumerate}
+\item It adds the request (with timestamp $t$ and sender $j$) to its queue.
+\item It sends back an acknowledgment.
+\end{enumerate}
+
+When $p_i$ receives an acknowledgment from any process with timestamp $t' > t$ (where $t$ is the timestamp of $p_i$'s own request):
+
+\begin{enumerate}
+\item It increments the counter and checks if it can use the resource.
+\end{enumerate}
+
+$p_i$ can enter and use the resource (the critical section) if:
+
+\begin{enumerate}
+\item Its request is in the queue $Q$.
+\item Its request has the smallest timestamp in the queue.
+\item It has received an acknowledgment from every other process, and all acknowledgments have timestamps larger than its request.
+\end{enumerate}
+
+When $p_i$ is done using the resource:
+
+\begin{enumerate}
+\item It sends a RELEASE message to all other processes.
+\item It removes its request from the queue.
+\end{enumerate}
+
+When $p_i$ receives a RELEASE message from $p_j$:
+
+\begin{enumerate}
+\item It removes $p_j$'s request from its queue.
+\end{enumerate}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{imm/Screenshot 2025-12-04 alle 21.44.58.png}
+\end{figure}
+first, p3 requests the resorce, but during the waiting time, also p1 do another request. Thus the queque is popolated with both requests. When p3 receives all the ack (5- from p2), it can enter the critical section because its request has the smallest timestamp. After p3 releases the resource, p1 can enter.
+\subsubsection{Why It Works}
+
+The algorithm guarantees mutual exclusion because of the timestamps. If two processes both want the resource, they will have different timestamps (with a tiebreaker using their process ID). The process with the smaller timestamp gets to use the resource first. All other processes know about the order because they maintain the same queue, so they all agree on who should go first.
+
+\subsubsection{Performance}
+
+Lamport's algorithm requires sending many messages:
+
+\begin{itemize}
+\item To use the resource, a process must send $(N-1)$ request messages.
+\item It must receive $(N-1)$ acknowledgments.
+\item When done, it sends $(N-1)$ release messages.
+\item Total: $3(N-1)$ messages for each resource use.
+\end{itemize}
+
+If only one process asks for the resource, the delay (time from request to using the resource) is 2 message delays.
+
+\section{Ricart-Agrawala's Algorithm}
+
+Another algorithm, developed by \textbf{Ricart} and \textbf{Agrawala}, improves on Lamport's approach. Instead of waiting for explicit release messages, processes can start granting access as soon as they no longer need the resource.
+
+\subsubsection{Main Improvements}
+
+\begin{itemize}
+\item Uses a smaller timestamp comparison to decide priority.
+\item Reduces the number of messages needed.
+\item Processes can immediately reply to requests (instead of queuing them).
+\end{itemize}
+
+\subsubsection{Local Variables}
+
+Each process $p_i$ maintains:
+
+\begin{itemize}
+\item \texttt{replies}: a counter of how many processes have replied.
+\item \texttt{State}: can be NCS (not in critical section), Requesting (asking for access), or CS (in critical section).
+\item \texttt{Q}: a queue of pending requests.
+\item \texttt{Last\_Req}: the timestamp of the most recent request.
+\item \texttt{Num}: a counter.
+\end{itemize}
+
+\subsubsection{Algorithm Flow}
+
+When $p_i$ wants the resource:
+
+\begin{enumerate}
+\item Sets \texttt{State} to "Requesting".
+\item Increases \texttt{Num}: \texttt{Num} := \texttt{Num} + 1.
+\item Sets \texttt{Last\_Req} := \texttt{Num}.
+\item Sends REQUEST(\texttt{Num}) to all other processes.
+\item Waits until it has received replies from all $(N-1)$ other processes.
+\item Sets \texttt{State} to "CS" and uses the resource.
+\end{enumerate}
+
+When $p_i$ receives REQUEST$(t)$ from $p_j$:
+
+\begin{enumerate}
+\item If $p_i$ is in CS or if $p_i$ is Requesting and its own timestamp is smaller:
+   \begin{itemize}
+   \item Add $p_j$'s request to queue $Q$.
+   \end{itemize}
+\item Otherwise:
+   \begin{itemize}
+   \item Send REPLY to $p_j$ immediately.
+   \end{itemize}
+\item Update: \texttt{Num} := $\max(t, \texttt{Num})$.
+\end{enumerate}
+
+When $p_i$ finishes using the resource:
+
+\begin{enumerate}
+\item For each request in the queue $Q$, send REPLY.
+\item Clear the queue and set \texttt{State} to "NCS".
+\item Reset reply counter.
+\end{enumerate}
+
+When $p_i$ receives REPLY from $p_j$:
+
+\begin{enumerate}
+\item Increment the reply counter.
+\end{enumerate}
+
 
 \chapter{Failure Detection (7)}
 Failure Detectors (FD) are mechanisms used in distributed systems to provide information about the status of processes, specifically whether they are operational (correct) or have failed (crashed). They help to overcome the challenges posed by asynchrony and failures in distributed systems.

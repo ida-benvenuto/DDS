@@ -42,102 +42,132 @@
 \@writefile{toc}{\contentsline {subsection}{\numberline {1.15.2}Features}{11}{subsection.1.15.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {1.15.3}Synchronization Modes}{11}{subsection.1.15.3}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {1.16}Clock Synchronization in Asynchronous Systems}{12}{section.1.16}\protected@file@percent }
-\@writefile{toc}{\contentsline {chapter}{\numberline {2}Failure Detection (7)}{13}{chapter.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {2}Logical Clock (5)}{13}{chapter.2}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {2.1}Timing assumptions}{13}{section.2.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {2.2}Failure Detector Abstraction}{14}{section.2.2}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {2.1}{\ignorespaces Failure Detector types based on Completeness and Accuracy}}{14}{figure.2.1}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {2.2}{\ignorespaces Failure Detector properties}}{15}{figure.2.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {2.3}Perfect Failure Detector (P)}{15}{section.2.3}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {2.3}{\ignorespaces Perfect Failure Detector properties}}{16}{figure.2.3}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {2.4}{\ignorespaces Perfect Failure Detector implementation}}{16}{figure.2.4}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {2.5}{\ignorespaces Example of Perfect Failure Detector execution}}{17}{figure.2.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {2.4}Eventually Perfect Failure Detector ($\Diamond P$)}{18}{section.2.4}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {2.6}{\ignorespaces Eventually Perfect Failure Detector properties}}{19}{figure.2.6}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {2.7}{\ignorespaces Eventually Perfect Failure Detector implementation}}{19}{figure.2.7}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {2.8}{\ignorespaces Example of Eventually Perfect Failure Detector execution}}{20}{figure.2.8}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {2.5}correctness}{20}{section.2.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {chapter}{\numberline {3}Leadership Election (7-b)}{21}{chapter.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2.1}The Happened-Before Relation}{13}{section.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1.1}Basic Observations}{13}{subsection.2.1.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1.2}Definition}{13}{subsection.2.1.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1.3}Properties}{14}{subsection.2.1.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2.2}Logical Clocks}{14}{section.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.1}Basic Idea}{14}{subsection.2.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.2}Important Property}{14}{subsection.2.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.3}Limitation}{14}{subsection.2.2.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2.3}Scalar Logical Clock}{15}{section.2.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3.1}How It Works}{15}{subsection.2.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3.2}Limitations}{15}{subsection.2.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2.4}Vector Logical Clock}{16}{section.2.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.4.1}How It Works}{16}{subsection.2.4.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.4.2}Properties of Vector Clocks}{17}{subsection.2.4.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.4.3}The Power of Vector Clocks}{17}{subsection.2.4.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.4.4}Practical Example}{18}{subsection.2.4.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2.5}Distributed Mutual Exclusion}{18}{section.2.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.5.1}The Problem}{18}{subsection.2.5.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2.6}Lamport's Algorithm}{19}{section.2.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Main Idea}{19}{section*.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Algorithm Details}{19}{section*.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Why It Works}{21}{section*.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Performance}{21}{section*.9}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2.7}Ricart-Agrawala's Algorithm}{22}{section.2.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Main Improvements}{22}{section*.10}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Local Variables}{22}{section*.11}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Algorithm Flow}{22}{section*.12}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {3}Failure Detection (7)}{24}{chapter.3}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {3.1}Leader Election}{21}{section.3.1}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3.1}{\ignorespaces Leader Election properties}}{22}{figure.3.1}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3.2}{\ignorespaces Leader Election implementation using Eventually Perfect Failure Detector}}{22}{figure.3.2}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3.3}{\ignorespaces Example of Leader Election execution}}{23}{figure.3.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {3.2}Eventual Leader Election}{24}{section.3.2}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3.4}{\ignorespaces Eventual Leader Election properties}}{24}{figure.3.4}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3.5}{\ignorespaces Eventual Leader Election implementation using Eventually Perfect Failure Detector}}{25}{figure.3.5}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3.6}{\ignorespaces Example of Eventual Leader Election execution}}{25}{figure.3.6}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {3.3} eventual leader election with Crash-Recovery}{25}{section.3.3}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3.7}{\ignorespaces Eventual Leader Election implementation in Crash-Recovery model}}{26}{figure.3.7}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3.8}{\ignorespaces Eventual Leader Election implementation in Crash-Recovery model}}{27}{figure.3.8}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3.9}{\ignorespaces Example of Eventual Leader Election execution in Crash-Recovery model}}{28}{figure.3.9}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3.10}{\ignorespaces Example of Eventual Leader Election execution in Crash-Recovery model - part 2}}{28}{figure.3.10}\protected@file@percent }
-\@writefile{toc}{\contentsline {chapter}{\numberline {4} Broadcast Communication(9-10)}{29}{chapter.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3.1}Timing assumptions}{24}{section.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3.2}Failure Detector Abstraction}{25}{section.3.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3.1}{\ignorespaces Failure Detector types based on Completeness and Accuracy}}{25}{figure.3.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3.2}{\ignorespaces Failure Detector properties}}{26}{figure.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3.3}Perfect Failure Detector (P)}{26}{section.3.3}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3.3}{\ignorespaces Perfect Failure Detector properties}}{27}{figure.3.3}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3.4}{\ignorespaces Perfect Failure Detector implementation}}{27}{figure.3.4}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3.5}{\ignorespaces Example of Perfect Failure Detector execution}}{28}{figure.3.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3.4}Eventually Perfect Failure Detector ($\Diamond P$)}{29}{section.3.4}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3.6}{\ignorespaces Eventually Perfect Failure Detector properties}}{30}{figure.3.6}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3.7}{\ignorespaces Eventually Perfect Failure Detector implementation}}{30}{figure.3.7}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3.8}{\ignorespaces Example of Eventually Perfect Failure Detector execution}}{31}{figure.3.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3.5}correctness}{31}{section.3.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {4}Leadership Election (7-b)}{32}{chapter.4}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {4.1}Best Effort Broadcast (BEB)}{29}{section.4.1}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {4.1}{\ignorespaces Best Effort Broadcast properties}}{30}{figure.4.1}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {4.2}{\ignorespaces Best Effort Broadcast implementation}}{30}{figure.4.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {4.2} (Regular) Reliable Broadcast(RB)}{31}{section.4.2}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {4.3}{\ignorespaces Difference between Best Effort Broadcast and Reliable Broadcast}}{31}{figure.4.3}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {4.4}{\ignorespaces Reliable Broadcast implementation in Synchronous System}}{32}{figure.4.4}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {4.5}{\ignorespaces Example of Reliable Broadcast execution in Asynchronous System}}{33}{figure.4.5}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {4.6}{\ignorespaces Example of Reliable Broadcast execution in Asynchronous System}}{33}{figure.4.6}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {4.3}Reliable Broadcast (RB) in Asinchronous System}{34}{section.4.3}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {4.7}{\ignorespaces Reliable Broadcast implementation in Asynchronous System}}{34}{figure.4.7}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {4.4} Uniform Reliable Broadcast (URB)}{34}{section.4.4}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {4.8}{\ignorespaces Difference between Reliable Broadcast and Uniform Reliable Broadcast}}{35}{figure.4.8}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {4.9}{\ignorespaces Uniform Reliable Broadcast implementation in Synchronous System}}{35}{figure.4.9}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {4.10}{\ignorespaces Example of Uniform Reliable Broadcast execution in Synchronous System}}{36}{figure.4.10}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {4.11}{\ignorespaces Example of Uniform Reliable Broadcast execution in Synchronous System - part 2}}{36}{figure.4.11}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {4.12}{\ignorespaces Example of Uniform Reliable Broadcast execution in Synchronous System - part 3}}{37}{figure.4.12}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {4.5}Implementation of Uniform Reliable Broadcast in Asynchronous Systems}{37}{section.4.5}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {4.13}{\ignorespaces Uniform Reliable Broadcast implementation in Asynchronous System}}{37}{figure.4.13}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {4.6}Probabilistic Broadcast (PB)}{38}{section.4.6}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {4.14}{\ignorespaces Gossip Dissemination in Probabilistic Broadcast}}{38}{figure.4.14}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {4.15}{\ignorespaces Eager Probabilistic Broadcast implementation}}{39}{figure.4.15}\protected@file@percent }
-\@writefile{toc}{\contentsline {chapter}{\numberline {5}Consensus (11)}{40}{chapter.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4.1}Leader Election}{32}{section.4.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4.1}{\ignorespaces Leader Election properties}}{33}{figure.4.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4.2}{\ignorespaces Leader Election implementation using Eventually Perfect Failure Detector}}{33}{figure.4.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4.3}{\ignorespaces Example of Leader Election execution}}{34}{figure.4.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4.2}Eventual Leader Election}{35}{section.4.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4.4}{\ignorespaces Eventual Leader Election properties}}{35}{figure.4.4}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4.5}{\ignorespaces Eventual Leader Election implementation using Eventually Perfect Failure Detector}}{36}{figure.4.5}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4.6}{\ignorespaces Example of Eventual Leader Election execution}}{36}{figure.4.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4.3} eventual leader election with Crash-Recovery}{36}{section.4.3}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4.7}{\ignorespaces Eventual Leader Election implementation in Crash-Recovery model}}{37}{figure.4.7}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4.8}{\ignorespaces Eventual Leader Election implementation in Crash-Recovery model}}{38}{figure.4.8}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4.9}{\ignorespaces Example of Eventual Leader Election execution in Crash-Recovery model}}{39}{figure.4.9}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4.10}{\ignorespaces Example of Eventual Leader Election execution in Crash-Recovery model - part 2}}{39}{figure.4.10}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {5} Broadcast Communication(9-10)}{40}{chapter.5}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {5.1}Consensus Problem}{40}{section.5.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {5.2}consensus specification}{40}{section.5.2}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {5.1}{\ignorespaces Consensus Problem}}{40}{figure.5.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {5.3}Consensus Implementation in Synchronous Systems}{41}{section.5.3}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {5.2}{\ignorespaces Flooding-based Consensus Algorithm}}{41}{figure.5.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {5.4}Algorithm Description}{42}{section.5.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.4.1}Initialization}{42}{subsection.5.4.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.4.2}Main Event Handlers}{42}{subsection.5.4.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{Propose Event}{42}{section*.46}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{Crash Event}{42}{section*.47}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{Deliver Event}{42}{section*.48}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.4.3}Decision Logic}{43}{subsection.5.4.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.4.4}Receiving DECIDED}{43}{subsection.5.4.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.4.5}Practical Example}{43}{subsection.5.4.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {5.5}Uniform Consensus Specification}{43}{section.5.5}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {5.3}{\ignorespaces Example of Consensus Algorithm Execution}}{44}{figure.5.3}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {5.4}{\ignorespaces P3 decide the min value after the decision of p1}}{44}{figure.5.4}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {5.5}{\ignorespaces p2 is the only one thet can decide but crash before the broadcast of the value, so P1 and P3 go to the next round and decide an other value}}{45}{figure.5.5}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {5.6}{\ignorespaces Uniform Consensus properties}}{46}{figure.5.6}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {5.7}{\ignorespaces at the round 3 there is a decision, that is 5 becaus when start a new round the receivedFrom set is = 0}}{46}{figure.5.7}\protected@file@percent }
-\@writefile{toc}{\contentsline {chapter}{\numberline {6}Paxos (12)}{47}{chapter.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5.1}Best Effort Broadcast (BEB)}{40}{section.5.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {5.1}{\ignorespaces Best Effort Broadcast properties}}{41}{figure.5.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {5.2}{\ignorespaces Best Effort Broadcast implementation}}{41}{figure.5.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5.2} (Regular) Reliable Broadcast(RB)}{42}{section.5.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {5.3}{\ignorespaces Difference between Best Effort Broadcast and Reliable Broadcast}}{42}{figure.5.3}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {5.4}{\ignorespaces Reliable Broadcast implementation in Synchronous System}}{43}{figure.5.4}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {5.5}{\ignorespaces Example of Reliable Broadcast execution in Asynchronous System}}{44}{figure.5.5}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {5.6}{\ignorespaces Example of Reliable Broadcast execution in Asynchronous System}}{44}{figure.5.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5.3}Reliable Broadcast (RB) in Asinchronous System}{45}{section.5.3}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {5.7}{\ignorespaces Reliable Broadcast implementation in Asynchronous System}}{45}{figure.5.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5.4} Uniform Reliable Broadcast (URB)}{45}{section.5.4}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {5.8}{\ignorespaces Difference between Reliable Broadcast and Uniform Reliable Broadcast}}{46}{figure.5.8}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {5.9}{\ignorespaces Uniform Reliable Broadcast implementation in Synchronous System}}{46}{figure.5.9}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {5.10}{\ignorespaces Example of Uniform Reliable Broadcast execution in Synchronous System}}{47}{figure.5.10}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {5.11}{\ignorespaces Example of Uniform Reliable Broadcast execution in Synchronous System - part 2}}{47}{figure.5.11}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {5.12}{\ignorespaces Example of Uniform Reliable Broadcast execution in Synchronous System - part 3}}{48}{figure.5.12}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5.5}Implementation of Uniform Reliable Broadcast in Asynchronous Systems}{48}{section.5.5}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {5.13}{\ignorespaces Uniform Reliable Broadcast implementation in Asynchronous System}}{48}{figure.5.13}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5.6}Probabilistic Broadcast (PB)}{49}{section.5.6}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {5.14}{\ignorespaces Gossip Dissemination in Probabilistic Broadcast}}{49}{figure.5.14}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {5.15}{\ignorespaces Eager Probabilistic Broadcast implementation}}{50}{figure.5.15}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {6}Consensus (11)}{51}{chapter.6}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {6.1}Assumptions}{47}{section.6.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {6.2}Actors}{47}{section.6.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {chapter}{\numberline {7}Total Order Broadcast}{48}{chapter.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {6.1}Consensus Problem}{51}{section.6.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {6.2}consensus specification}{51}{section.6.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {6.1}{\ignorespaces Consensus Problem}}{51}{figure.6.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {6.3}Consensus Implementation in Synchronous Systems}{52}{section.6.3}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {6.2}{\ignorespaces Flooding-based Consensus Algorithm}}{52}{figure.6.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {6.4}Algorithm Description}{53}{section.6.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.4.1}Initialization}{53}{subsection.6.4.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.4.2}Main Event Handlers}{53}{subsection.6.4.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Propose Event}{53}{section*.53}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Crash Event}{53}{section*.54}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Deliver Event}{53}{section*.55}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.4.3}Decision Logic}{54}{subsection.6.4.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.4.4}Receiving DECIDED}{54}{subsection.6.4.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.4.5}Practical Example}{54}{subsection.6.4.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {6.5}Uniform Consensus Specification}{54}{section.6.5}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {6.3}{\ignorespaces Example of Consensus Algorithm Execution}}{55}{figure.6.3}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {6.4}{\ignorespaces P3 decide the min value after the decision of p1}}{55}{figure.6.4}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {6.5}{\ignorespaces p2 is the only one thet can decide but crash before the broadcast of the value, so P1 and P3 go to the next round and decide an other value}}{56}{figure.6.5}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {6.6}{\ignorespaces Uniform Consensus properties}}{57}{figure.6.6}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {6.7}{\ignorespaces at the round 3 there is a decision, that is 5 becaus when start a new round the receivedFrom set is = 0}}{57}{figure.6.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {7}Paxos (12)}{58}{chapter.7}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {7.1}System model}{48}{section.7.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {7.2}Total Order specification}{48}{section.7.2}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {7.1}{\ignorespaces Total Order Broadcast properties}}{49}{figure.7.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {7.3}Non-Uniform Validity-Uniform Integrity}{49}{section.7.3}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {7.2}{\ignorespaces Non-Uniform Agreement vs Uniform Agreement}}{50}{figure.7.2}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {7.3}{\ignorespaces Strong Uniform Total Order vs Weak Uniform Total Order}}{50}{figure.7.3}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {7.4}{\ignorespaces }}{51}{figure.7.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {7.4}Examples of Total Order Broadcast Variants}{52}{section.7.4}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {7.5}{\ignorespaces *}}{52}{figure.7.5}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {7.6}{\ignorespaces *}}{52}{figure.7.6}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {7.7}{\ignorespaces *}}{52}{figure.7.7}\protected@file@percent }
-\gdef \@abspage@last{53}
+\@writefile{toc}{\contentsline {section}{\numberline {7.1}Assumptions}{58}{section.7.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {7.2}Actors}{58}{section.7.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {8}Total Order Broadcast}{59}{chapter.8}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\@writefile{toc}{\contentsline {section}{\numberline {8.1}System model}{59}{section.8.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {8.2}Total Order specification}{59}{section.8.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {8.1}{\ignorespaces Total Order Broadcast properties}}{60}{figure.8.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {8.3}Non-Uniform Validity-Uniform Integrity}{60}{section.8.3}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {8.2}{\ignorespaces Non-Uniform Agreement vs Uniform Agreement}}{61}{figure.8.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {8.3}{\ignorespaces Strong Uniform Total Order vs Weak Uniform Total Order}}{61}{figure.8.3}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {8.4}{\ignorespaces }}{62}{figure.8.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {8.4}Examples of Total Order Broadcast Variants}{63}{section.8.4}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {8.5}{\ignorespaces *}}{63}{figure.8.5}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {8.6}{\ignorespaces *}}{63}{figure.8.6}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {8.7}{\ignorespaces *}}{63}{figure.8.7}\protected@file@percent }
+\gdef \@abspage@last{64}
