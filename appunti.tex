@@ -1027,6 +1027,7 @@ To fix this, additional deadlock prevention mechanisms are needed (like timeouts
     \centering
     \includegraphics[width=1\textwidth]{imm/Screenshot 2025-12-16 alle 13.15.06.png}
 \end{figure}
+
 \chapter{Failure Detection (7)}
 Failure Detectors (FD) are mechanisms used in distributed systems to provide information about the status of processes, specifically whether they are operational (correct) or have failed (crashed). They help to overcome the challenges posed by asynchrony and failures in distributed systems.
 \section{Timing assumptions}
@@ -1506,6 +1507,7 @@ Gossip dissemination is a technique used in probabilistic broadcast to spread me
     \includegraphics[width=1\textwidth]{imm/Screenshot 2025-12-02 alle 14.38.58.png}
     \caption{Eager Probabilistic Broadcast implementation}
 \end{figure}
+
 \chapter{Consensus (11)}
 \section{Consensus Problem}
 The consensus problem in distributed systems involves a set of processes that must agree on a single value.
@@ -1639,30 +1641,631 @@ in the algorithm the decision is choseen at the round N, (at the end) and the se
     \includegraphics[width=0.6\textwidth]{imm/Screenshot 2025-11-25 alle 22.59.09.png}
     \caption{at the round 3 there is a decision, that is 5 becaus when start a new round the receivedFrom set is = 0}
 \end{figure}
+
 \chapter{Paxos (12)}
-Paxos is a consensus algorithm designed for asynchronous distributed systems with crash failures.
-The safety is always guaranteed, while the liveness is guaranteed only under some conditions (like eventual message delivery and a majority of correct processes).
 
-\section{Assumptions}
+The Paxos family of algorithms was introduced by Leslie Lamport in 1999 to provide a practical solution to the consensus problem. While it cannot overcome the FLP impossibility result completely, Paxos works by making a reasonable assumption: \textbf{partial synchrony}.
+
+The algorithm guarantees the following properties:
+
 \begin{itemize}
-    \item \textbf{Agents:} Operate at arbitrary speed, may fail by stopping (and may restart).
-    \begin{itemize}
-        \item \textbf{Observation:} Since all agents may fail after a value is chosen and then restart, a solution is impossible unless some information can be remembered by an agent that has failed and restarted.
-    \end{itemize}
-    \item \textbf{Messages:} Can take arbitrarily long to be delivered, can be duplicated, and can be lost, but they are not corrupted.
-\end{itemize}
-\section{Actors}
-Paxos involves three types of actors:
-\begin{itemize}
-    \item \textbf{Proposers:} Propose values to be agreed upon.
-    \item \textbf{Acceptors:} Act as the voting body that decides which value to accept.
-    \item \textbf{Learners:} Learn the chosen value once consensus is reached.
+\item \textbf{Safety:} Safety is always guaranteed. This means the algorithm will never violate its safety properties, regardless of timing assumptions.
+\item \textbf{Liveness:} The algorithm makes progress (reaches a decision) only when the network behaves ``well'' for long enough periods of time.
 \end{itemize}
 
-\subsection*{first problem}
-if there isa asingle acceptor, and it crash after accepting a value, the system cannot make progress.
-§§§
-\chapter{Total Order Broadcast}
+This compromise allows Paxos to work in real-world distributed systems, even though it cannot provide perfect guarantees under all conditions.
+
+\subsection{Core Properties of Paxos}
+
+Paxos satisfies three essential properties:
+
+\begin{enumerate}
+\item \textbf{Only Proposed Values Can Be Chosen:} No value that nobody proposed can become the consensus decision.
+
+\item \textbf{Only One Value Is Chosen:} Different processes cannot decide on different values. Once a value is chosen, it remains the consensus value.
+
+\item \textbf{Processes Learn Only About Chosen Values:} A process can only learn that a value has been chosen if that value was actually chosen by the system.
+\end{enumerate}
+
+These properties ensure that the consensus protocol is meaningful and consistent across the entire system.
+
+
+\subsection{Process Behavior}
+\begin{itemize}
+\item \textbf{Arbitrary Speed:} Processes can operate at any speed. Some processes may be very fast, while others may be very slow.
+
+\item \textbf{Crash Failures:} Processes may fail by stopping (crashing). Importantly, a crashed process may restart and continue operating.
+
+\item \textbf{Persistent Memory:} After a crash and restart, a process must remember information that it stored before the crash. This is critical because if all information is lost when a process crashes, consensus becomes impossible.
+\end{itemize}
+
+\subsection{Message Behavior}
+\begin{itemize}
+\item \textbf{Arbitrary Delays:} Messages can take any amount of time to reach their destination.
+
+\item \textbf{Possible Duplication:} The same message may be delivered multiple times.
+
+\item \textbf{Possible Loss:} Messages may be lost and never delivered.
+
+\item \textbf{No Corruption:} Messages are never corrupted. What is sent is what is received (if it arrives at all).
+\end{itemize}
+
+\section{The Three Roles in Paxos}
+
+Paxos uses three different roles for processes. A single process can play one, two, or all three roles at the same time.
+
+\subsection{Proposers}
+
+\textbf{Proposers} are processes that want to get a value chosen in the system. They initiate the protocol by proposing a value. Multiple proposers can propose different values at the same time.
+
+\subsection{Acceptors}
+
+\textbf{Acceptors} are the processes that actually decide what value will be chosen. They receive proposals from proposers and send responses. The acceptors must remember what they have accepted, even if they crash and restart, because this information is crucial for the algorithm to work correctly.
+
+\subsection{Learners}
+
+\textbf{Learners} are processes that find out what value has been chosen. They do not actively participate in choosing the value but passively receive information about which value was chosen. Learners help communicate the final decision to other processes.
+
+\section{The Basic Idea: Choosing a Value}
+
+\subsection{Single Acceptor Approach}
+
+The simplest way to ensure that only one value is chosen is to have only one acceptor:
+
+\begin{enumerate}
+\item A proposer sends its proposed value to the acceptor.
+\item The acceptor chooses the first value it receives.
+\item The acceptor informs everyone about its decision.
+\end{enumerate}
+
+This approach works fine as long as the acceptor never fails. However, this is not realistic. If the only acceptor crashes and all processes depend on its decision, then the system cannot make progress.
+
+\subsection{Multiple Acceptors}
+
+To make the system more reliable, we use multiple acceptors. Now the process works like this:
+
+\begin{enumerate}
+\item Each proposer sends its proposal to all (or a subset of) acceptors.
+\item Each acceptor can receive proposals from different proposers.
+\item We need a rule to decide which value becomes the consensus value.
+\end{enumerate}
+
+Here is the problem: different acceptors may receive different sets of proposals. For example:
+\begin{itemize}
+\item Acceptor $a_1$ receives proposals $v_1, v_2, v_3$
+\item Acceptor $a_2$ receives proposals $v_1, v_2$
+\item Acceptor $a_3$ receives proposals $v_3$
+\end{itemize}
+
+How can we ensure that all acceptors do not choose different values? This is the central challenge that Paxos must solve.
+
+\subsection{The Majority Rule}
+
+Paxos solves this by using a \textbf{majority rule}:
+
+\begin{itemize}
+\item An acceptor can accept at most one value.
+\item A value is chosen only when a majority of acceptors have accepted it.
+\end{itemize}
+
+This majority rule is crucial because of a mathematical property: any two sets of majority size must overlap by at least one element. If we have 5 acceptors, we need 3 acceptors to accept a value for it to be chosen. Any other group of 3 acceptors will share at least one acceptor with the first group.
+
+% ====================
+\section{The Protocol Rules}
+
+\subsection{The Problem with Simple Rules}
+
+If we simply apply the rule ``each acceptor accepts only the first proposal it receives,'' we get a problem. Imagine that several proposers send proposals at the same time:
+
+\begin{itemize}
+\item Acceptor $a_1$ receives $v_1$ first and accepts it.
+\item Acceptor $a_2$ receives $v_2$ first and accepts it.
+\item Acceptor $a_3$ receives $v_3$ first and accepts it.
+\end{itemize}
+
+Now no value has been accepted by a majority! All three values were accepted by different acceptors, but none of them was accepted by enough acceptors. The system is stuck in a deadlock.
+
+To fix this problem, we need a different approach. Instead of each acceptor accepting only one value, we allow acceptors to accept multiple proposals. However, we add a rule to ensure that all accepted proposals have the same value.
+
+\subsection{Proposal Numbers}
+
+Paxos uses \textbf{proposal numbers} to organize proposals. Each proposal has a unique number, which creates a total ordering of all proposals. 
+
+The key insight is this: all accepted proposals must have the same value.
+
+\begin{quote}
+\textbf{Consistency Rule P2:} If a proposal with value \(v\) is chosen, then every higher-numbered proposal that is chosen has value \(v\).
+\end{quote}
+
+This rule ensures consistency. Once a value is chosen, all future chosen proposals must have the same value.
+Rule P2 talks about chosen proposals, but we need to guarantee something stronger. We need to ensure that no higher-numbered proposal can have a different value from the moment we know that a value might be chosen.
+
+\textbf{P2a} states:
+
+\begin{quote}
+If a proposal with value \(v\) is accepted by some acceptor, then every higher-numbered proposal accepted by any acceptor has value \(v\).
+\end{quote}
+
+However, P2a is not enough. Imagine that acceptor $a_1$ accepts a proposal with value $v$. Now a new proposer starts and sends a proposal to acceptor $a_2$, which never saw the original proposal with value $v$. Without additional safeguards, $a_2$ might accept a different value.
+
+That is why we need \textbf{P2b}:
+
+\begin{quote}
+If a proposal with value \(v\) is chosen, then every higher-numbered proposal issued by any proposer has value \(v\).
+\end{quote}
+
+P2b is stronger: it applies to all proposals issued, not just to proposals that have been accepted. This ensures that new proposers do not propose values that contradict what might have been chosen.
+
+\subsection{P2c: The Key Invariant}
+
+To guarantee P2b, we need to maintain an invariant. This invariant, called \textbf{P2c}, is the heart of the Paxos algorithm:
+
+\begin{quote}
+For any value \(v\) and number \(n\), if a proposal with value \(v\) and number \(n\) is issued, then there exists a set \(S\) of a majority of acceptors such that one of the following is true:
+
+\begin{enumerate}
+\item No acceptor in \(S\) has accepted any proposal numbered less than \(n\), or
+\item \(v\) is the value of the highest-numbered proposal among all proposals numbered less than \(n\) that have been accepted by acceptors in \(S\).
+\end{enumerate}
+\end{quote}
+
+In simpler words: before issuing a proposal with number \(n\), the proposer must learn what value was accepted (if any) by a majority of acceptors in all lower-numbered proposals. If a majority has accepted some value in the past, the proposer must propose that same value. If no majority has accepted anything yet, the proposer can propose any value.
+
+% ====================
+\section{The Paxos Algorithm: Two Phases}
+
+\subsection{Overview}
+
+The Paxos algorithm has two main phases:
+
+\begin{enumerate}
+\item \textbf{Phase 1:} The proposer learns what value (if any) might have been chosen already. This is called the \textbf{prepare phase}.
+\item \textbf{Phase 2:} The proposer sends the value to the acceptors for them to accept. This is called the \textbf{accept phase}.
+\end{enumerate}
+
+\subsection{Phase 1: The Prepare Phase}
+
+\subsubsection{Step 1: Proposer Sends Prepare Request}
+
+When a proposer wants to propose a value, it first chooses a new proposal number \(n\) that is higher than any number it has used before. Then, it sends a \textbf{prepare request} to a majority of acceptors:
+
+\begin{center}
+\texttt{PREPARE(n)}
+\end{center}
+
+The prepare request asks two questions:
+\begin{enumerate}
+\item Can I make a proposal with number \(n\)?
+\item If you have accepted any proposals before, tell me what value the highest-numbered proposal has.
+\end{enumerate}
+
+\subsubsection{Step 2: Acceptor Responds to Prepare Request}
+
+When an acceptor receives a prepare request with number \(n\), it must decide:
+
+\begin{itemize}
+\item If \(n\) is higher than any prepare request number the acceptor has already responded to, then the acceptor responds positively. It \textbf{promises} not to accept any proposal numbered less than \(n\) in the future. It also tells the proposer about the highest-numbered proposal it has already accepted (if any).
+
+\item If \(n\) is lower than some prepare request the acceptor has already responded to, then the acceptor rejects the prepare request. It tells the proposer the higher number.
+\end{itemize}
+
+The response format is:
+\begin{itemize}
+\item \texttt{ACK(n, n', v')} if the acceptor has accepted a proposal with number \(n'\) and value \(v'\) before.
+\item \texttt{ACK(n, $\perp$, $\perp$)} if the acceptor has not accepted anything yet.
+\item \texttt{NACK(n')} if \(n\) is too old and the acceptor has already responded to a higher-numbered prepare request with number \(n'\).
+\end{itemize}
+
+\subsubsection{Important Point}
+
+The key feature of Phase 1 is that the acceptor makes a \textbf{promise}. By promising not to accept lower-numbered proposals, the acceptor prevents other proposers from getting a majority to accept a different value. This is how Paxos ensures that all higher-numbered proposals will respect what lower-numbered proposals have established.
+
+\subsection{Phase 2: The Accept Phase}
+
+\subsubsection{Step 3: Proposer Sends Accept Request}
+
+Once the proposer has received positive responses from a majority of acceptors, it can send an \textbf{accept request}:
+
+\begin{center}
+\texttt{ACCEPT(n, v)}
+\end{center}
+
+Here:
+\begin{itemize}
+\item \(n\) is the proposal number from Phase 1.
+\item \(v\) is chosen as follows:
+  \begin{itemize}
+  \item If any of the responding acceptors have already accepted a proposal, \(v\) is the value of the highest-numbered proposal among those responses.
+  \item If none of the responding acceptors have accepted anything, \(v\) is the value the proposer originally wanted to propose.
+  \end{itemize}
+\end{itemize}
+
+This rule ensures that P2c is maintained. If a majority has already accepted a value, the proposer must propose that same value, not something new.
+
+\subsubsection{Step 4: Acceptor Accepts}
+
+When an acceptor receives an accept request \texttt{ACCEPT(n, v)}, it accepts the proposal if and only if:
+
+\begin{quote}
+The acceptor has not already responded to a prepare request with a number higher than \(n\).
+\end{quote}
+
+If this condition is met, the acceptor accepts the proposal and remembers that it has accepted the proposal with number \(n\) and value \(v\). This information must be stored persistently (so it survives a crash).
+
+\subsection{Learning the Decision}
+
+\subsubsection{Acceptors Inform Learners}
+
+Whenever an acceptor accepts a proposal, it sends a message to all learners:
+
+\begin{center}
+\texttt{ACCEPT(n, v)}
+\end{center}
+
+This tells the learners that the acceptor has accepted this proposal.
+
+\subsubsection{Learners Decide}
+
+When a learner receives \texttt{ACCEPT(n, v)} messages from a majority of acceptors (all with the same \(n\) and \(v\)), the learner knows that the value \(v\) has been chosen. The learner can then:
+
+\begin{enumerate}
+\item Decide that \(v\) is the consensus value.
+\item Send \texttt{DECIDE(v)} to all other learners.
+\end{enumerate}
+
+When other learners receive \texttt{DECIDE(v)}, they also decide that \(v\) is the consensus value.
+
+% ====================
+\section{A Practical Problem: Liveness}
+
+\subsection{The Issue of Competing Proposers}
+
+While Paxos guarantees safety (the right value will be chosen), there is a liveness problem. Imagine two proposers that are trying to propose at the same time:
+
+\begin{enumerate}
+\item Proposer 1 sends \texttt{PREPARE(1)}.
+\item Proposer 2 sends \texttt{PREPARE(2)}.
+\item Acceptors respond to Proposer 2 with \texttt{NACK(2)} for Proposer 1's request (because 2 is higher than 1).
+\item Proposer 1 now sends \texttt{PREPARE(3)}.
+\item Acceptors respond to Proposer 1 with \texttt{NACK(3)} for Proposer 2's request (because 3 is higher than 2).
+\item This continues forever...
+\end{enumerate}
+
+The proposers keep trying to ``outdo'' each other, and the system never reaches a decision. Both proposers can keep proposing higher numbers indefinitely.
+
+\subsection{The Solution: Leader Election}
+
+To solve the liveness problem, Paxos uses a \textbf{leader election mechanism}. The idea is simple:
+
+\begin{itemize}
+\item Processes run a separate leader election protocol.
+\item Once a leader is elected, only the leader can propose new values.
+\item If the leader fails, the system elects a new leader, and the protocol continues.
+\end{itemize}
+
+With a leader, the competing proposers problem goes away. Only one proposer (the leader) is trying to propose, so there is no ``proposal number war.''
+
+When a leader is working correctly and the network is partially synchronous, Paxos can make progress and reach a decision quickly. If the leader fails, the system will eventually elect a new leader and continue.
+
+% ====================
+\section{Paxos in Practice}
+
+\subsection{Not Just Theory}
+
+Paxos might sound like a theoretical exercise, but it is actually used in real systems:
+
+\begin{itemize}
+\item \textbf{Google:} Uses Paxos in Chubby, its lock service that coordinates many machines.
+\item \textbf{Yahoo:} Uses Paxos in ZooKeeper, a system for distributed configuration and coordination.
+\item Other companies also use Paxos-like algorithms in their infrastructure.
+\end{itemize}
+
+\subsection{Why Not Always Use Paxos?}
+
+Despite its importance, Paxos is not used in every distributed system. There are several reasons:
+
+\begin{enumerate}
+\item \textbf{Complexity:} Paxos is difficult to understand and implement correctly. The algorithm requires careful handling of message ordering, timeouts, and failure scenarios.
+
+\item \textbf{Reconfiguration:} If you need to change the set of nodes running Paxos (for example, to add more machines), the algorithm becomes even more complex.
+
+\item \textbf{Scalability:} Paxos requires that every acceptor communicate with every proposer. As the system grows larger, this communication overhead can become a bottleneck.
+
+\item \textbf{Other Alternatives:} Researchers have developed other consensus algorithms that may be simpler or more scalable in certain scenarios. For example, Raft is often seen as an easier-to-understand alternative.
+\end{enumerate}
+
+\chapter{ Ordered Communication (13)}
+In distributed systems, many processes send and receive messages.
+\textbf{Ordered communication} defines rules about the order in which
+processes deliver these messages.
+
+Typical ordering properties are:
+\begin{itemize}
+  \item \textbf{FIFO Order}
+  \item \textbf{Causal Order}
+  \item \textbf{Total Order} (also called \emph{atomic} order)
+\end{itemize}
+
+These properties are \textbf{orthogonal} to reliability.
+A \emph{reliable} broadcast only says that messages are not lost or
+duplicated. It does not say \emph{in which order} the messages are
+delivered.
+
+If there is no ordered communication, strange situations can happen.
+For example, a client first sends ``reserve a seat'' and then
+``cancel my reservation''. If the server delivers the cancel message
+before the reserve message, the server cancels a reservation that
+never existed.
+
+To avoid such anomalies, we combine:
+\begin{itemize}
+  \item \textbf{reliable broadcast} + one or more \textbf{ordering} properties.
+\end{itemize}
+
+\section*{FIFO Broadcast}
+FIFO broadcast guarantees the following idea:
+
+If one process \(p\) sends two messages \(m_1\) and then \(m_2\),
+\emph{every} correct process delivers \(m_1\) before \(m_2\).
+
+So, for each sender, the order of deliveries respects the order of sends.
+
+\subsection*{Specification}
+
+The FIFO broadcast abstraction exports two operations:
+\begin{itemize}
+  \item \textbf{FIFO\_Broadcast(\(m\))}: a process sends a message \(m\) to all.
+  \item \textbf{FIFO\_Deliver(\(m\))}: a process delivers a message \(m\).
+\end{itemize}
+
+It satisfies:
+\begin{itemize}
+  \item All properties of reliable broadcast (no loss, no duplication,
+        agreement between correct processes).
+  \item \textbf{FIFO Order}: for any process \(p\) and any processes
+        \(q_1, q_2\), if \(p\) broadcasts \(m_1\) before \(m_2\),
+        then every correct receiver delivers \(m_1\) before \(m_2\).
+\end{itemize}
+
+There are two variants:
+\begin{itemize}
+  \item \textbf{Uniform FIFO broadcast}: the FIFO property also holds
+        for faulty processes that deliver messages.
+  \item \textbf{Non-uniform FIFO broadcast}: the FIFO property is
+        required only for correct processes.
+\end{itemize}
+
+\subsection*{Implementation}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{imm/Screenshot 2025-12-16 alle 14.48.27.png}
+    \caption{Implementation of FIFO Broadcast using Reliable Broadcast}
+\end{figure}
+
+This mechanism guarantees that, for each sender, messages are delivered
+in the order of their sequence numbers, so FIFO order holds.
+\subsection*{Example}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{imm/Screenshot 2025-12-16 alle 15.08.02.png}
+    \caption{p2 receives m2 before m1, so it puts m2 in the buffer until m1 is delivered}
+\end{figure}
+\section{ Causal Order Broadcast}
+Causal order broadcast respects \textbf{cause--effect} relationships
+between messages.
+
+The causal order is a generalization of the \emph{happened-before}
+relation \(\rightarrow\) in distributed systems.
+
+A message \(m_1\) \emph{may have caused} another message \(m_2\)
+(written \(m_1 \rightarrow m_2\)) if:
+\begin{enumerate}
+  \item Some process \(p\) broadcasts \(m_1\) and later broadcasts
+        \(m_2\).
+  \item Some process \(p\) delivers \(m_1\) and later broadcasts
+        \(m_2\).
+  \item There is a message \(m'\) such that
+        \(m_1 \rightarrow m'\) and \(m' \rightarrow m_2\)
+        (transitivity).
+\end{enumerate}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{imm/Screenshot 2025-12-16 alle 15.11.09.png}
+\end{figure}
+A causal broadcast guarantees:
+if \(m_1 \rightarrow m_2\), then every correct process delivers
+\(m_1\) before \(m_2\).
+
+\subsection{Specification }
+
+The causal broadcast abstraction exports:
+\begin{itemize}
+  \item \textbf{CO\_Broadcast(\(m\))}: send \(m\) to all.
+  \item \textbf{CO\_Deliver(\(m\))}: deliver \(m\).
+\end{itemize}
+
+Properties:
+\begin{itemize}
+  \item All properties of reliable broadcast.
+  \item \textbf{Causal Order}: if \(\text{broadcast}(m_1)\)
+        causally precedes \(\text{broadcast}(m_2)\), then each
+        correct process delivers \(m_1\) before \(m_2\).
+\end{itemize}
+
+As before, we can define uniform and non-uniform variants.
+Important facts:
+\begin{itemize}
+  \item Causal broadcast is \textbf{reliable broadcast + causal order}.
+  \item \textbf{Causal order implies FIFO order}. If a process sends
+        \(m_1\) and then \(m_2\), we have \(m_1 \rightarrow m_2\),
+        so any causal implementation must deliver \(m_1\) before \(m_2\).
+  \item The opposite is not true:
+        \textbf{FIFO order does not imply causal order}.
+  \item Causal order can be seen as:
+        \[
+          \text{Causal Order} = \text{FIFO Order} + \text{Local Order}
+        \]
+\end{itemize}
+
+\textbf{Local Order} means:
+if a process delivers message \(m_a\) and then sends message \(m_b\),
+then no correct process can deliver \(m_b\) before it has delivered
+\(m_a\).
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{imm/Screenshot 2025-12-16 alle 15.17.05.png}
+\end{figure}
+
+\subsection{Implementation with Vector Clocks-WAITING}
+A common implementation uses \textbf{vector clocks}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{imm/Screenshot 2025-12-16 alle 15.23.38.png}
+\end{figure}
+Each process \(p_i\) keeps:
+\begin{itemize}
+  \item A vector clock \(V_i[1..n]\), where \(n\) is the number of
+        processes.
+\end{itemize}
+
+\paragraph{Receiving}
+When a process \(p_j\) receives a message \(m\) with vector clock
+\(m.VC\), it:
+\begin{enumerate}
+  \item Puts \(m\) in a waiting set if the causal condition is not yet
+        satisfied.
+  \item The condition to CO\_Deliver(\(m\)) is:
+        \[
+          \forall x \in \{1,\dots,n\}:
+          \quad m.VC[x] \leq V_j[x]
+        \]
+        except possibly for the sender component, which is handled
+        carefully depending on the exact algorithm.
+  \item When the condition is true, it:
+    \begin{enumerate}
+      \item CO\_Delivers \(m\).
+      \item Updates its own vector clock as:
+            \[
+              V_j[x] := \max(V_j[x], m.VC[x])
+            \]
+            for all \(x\).
+    \end{enumerate}
+\end{enumerate}
+
+The idea is that a process delays the delivery of a message until it
+has seen (delivered) all messages that causally precede it.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{imm/Screenshot 2025-12-16 alle 15.26.25.png}
+\end{figure}
+\subsection*{ Safety }
+\textbf{Safety Property:}
+Let two broadcast messages $m$ and $m'$ such that $\text{broadcast}(m) \rightarrow \text{broadcast}(m')$. Then each process must deliver $m$ before $m'$.
+
+\textbf{Key Observation:}
+If $m$ is the $k$-th message sent by process $p_i$, then its vector clock at index $i$ is:
+\[ m.VC[i] = k - 1 \]
+(assuming 0-based indexing for past messages).
+
+\subsubsection*{Proof Strategy}
+The proof proceeds by \textbf{induction} on the \textbf{causal distance}.
+
+\textbf{Definition (Causal Distance $k$):}
+Two broadcast events $b$ and $b'$ ($b \rightarrow b'$) have distance $k$ if there is a sequence of $k$ intermediate broadcast events $b_1 \dots b_k$ such that:
+\[ b \rightarrow b_1 \rightarrow \dots \rightarrow b_k \rightarrow b' \]
+and no other message exists "between" any adjacent pair in the chain (direct dependency).
+
+\subsubsection*{Base Case ($k=0$)}
+We assume $\text{broadcast}(m) \rightarrow \text{broadcast}(m')$ and there is \textbf{no} intermediate message $m''$. This implies a direct causal link. We distinguish two cases.
+
+\subsubsection*{Case 1: Same Sender (FIFO)}
+Both $m$ and $m'$ are sent by the same process $p_i$.
+\begin{itemize}
+    \item Since $m$ is sent before $m'$, if $m$ is the $h$-th message, then $m'$ is the $(h+1)$-th message.
+    \item Timestamps: $m.VC[i] = h-1$ and $m'.VC[i] = h$.
+    \item Delivery Condition for receiver $p_j$: To deliver $m'$, we need $m'.VC[i] \le V_j[i]$.
+    \item This means we need $h \le V_j[i]$.
+    \item But $V_j[i]$ becomes $h$ \textbf{only after} $p_j$ delivers the $h$-th message from $p_i$, which is $m$.
+    \item \textbf{Conclusion:} $m'$ can only be delivered after $m$.
+\end{itemize}
+
+\subsubsection*{Case 2: Different Senders (Local Order)}
+$m$ is sent by $p_i$ and $m'$ is sent by $p_j$.
+\begin{itemize}
+    \item Since $\text{broadcast}(m) \rightarrow \text{broadcast}(m')$ directly, it means $p_j$ must have \textbf{delivered} $m$ before sending $m'$.
+    \item Let $m.VC[i] = h-1$.\item When $p_j$ sends $m'$, it includes its current vector clock. Since $p_j$ already delivered $m$, its vector clock $V_j$ must reflect that: $V_j[i] \ge h$.
+    \item Therefore, the timestamp on $m'$ will have $m'.VC[i] \ge h$.
+    \item Delivery Condition for a third receiver $p_k$: To deliver $m'$, $p_k$ checks if $m'.VC[i] \le V_k[i]$.
+    \item This implies $p_k$ must satisfy $V_k[i] \ge h$.
+    \item $V_k[i] \ge h$ is only true if $p_k$ has already delivered the $h$-th message from $p_i$, which is $m$.
+    \item \textbf{Conclusion:} $p_k$ must deliver $m$ before it can deliver $m'$.
+\end{itemize}
+\subsection{Inductive Step ($k > 0$)}
+\textbf{Hypothesis:} The property holds for causal distance $< k$.
+\textbf{Goal:} Prove it holds for distance $k$.
+
+Consider a chain $b \rightarrow b_1 \rightarrow \dots \rightarrow b_k \rightarrow b'$.
+\begin{itemize}
+    \item By the chain structure, the distance between $b$ and $b_k$ is less than $k$ (specifically $k-1$ steps to $b_k$, or consider the direct link $b_k \rightarrow b'$).
+    \item By inductive hypothesis, $m$ (associated with $b$) is delivered before $m_k$ (associated with $b_k$).
+    \item By the base case (distance 0), $m_k$ is delivered before $m'$.
+    \item By transitivity of delivery order: $m$ is delivered before $m'$.
+\end{itemize}
+\subsection{Liveness}
+\textbf{Liveness:} Eventually, every message is delivered (assuming reliable channels).
+
+\subsection{Implementation with Vector Clocks- NO-WAITING}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{imm/Screenshot 2025-12-16 alle 15.48.43.png}
+\end{figure}
+the difference with the previous implementation is that there is a store of all messages. When a message arrives, if is in order it is delivered, otherwise all messages necessary for the delivery of the new message are delivered from its history.
+\subsection*{ Example }
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{imm/Screenshot 2025-12-16 alle 15.56.34.png}    
+\end{figure}
+\section*{4. Total Order (Atomic) Broadcast}
+Total order broadcast is stronger than FIFO and causal order.
+
+It guarantees that:
+\begin{itemize}
+  \item All correct processes deliver the \textbf{same set} of messages.
+  \item They deliver them in the \textbf{same sequence}.
+\end{itemize}
+
+This abstraction is often called \textbf{atomic broadcast} because
+each message appears as one atomic action: either \emph{all} correct
+processes deliver it, or none deliver it, and all messages are totally
+ordered with respect to each other.
+
+\subsection*{4.3 Relation with FIFO and Causal Order}
+
+Total order is \textbf{orthogonal} to FIFO and causal order.
+
+For example:
+\begin{itemize}
+  \item It is possible to have total order, but no FIFO order.
+        A process \(p\) can send messages \(m_1, m_2, \dots, m_n\),
+        and all correct processes deliver them in reverse order
+        \(m_n, \dots, m_1\).
+        The system still satisfies total order, but not FIFO.
+  \item It is also possible to have total order without causal order,
+        because the agreed global order may violate some causal
+        relationships.
+\end{itemize}
+
+Sometimes we combine properties:
+\begin{itemize}
+  \item \textbf{FIFO atomic broadcast}:
+        reliable broadcast + FIFO order + total order.
+  \item \textbf{Causal atomic broadcast}:
+        reliable broadcast + causal order + total order.
+\end{itemize}
+
+\chapter{Total Order Broadcast (14)}
+
 Total Order Broadcast (TOB) is a fundamental communication primitive in distributed systems that ensures all processes deliver messages in the same order.
 
 \section{System model}
@@ -1767,4 +2370,82 @@ the properties that are not satisfied are: Agreement and Total Order.
     \includegraphics[width=0.42\textwidth]{imm/Screenshot 2025-11-25 alle 19.15.56.png}
     \caption*{UA + WNUTO: Correct processes deliver the same set with consistent relative order; faulty process behavior is undefined. \newline NUA + WNUTO: Correct processes deliver the same set with consistent relative order; $m_5$ missing from some processes.}
 \end{figure}
+
+\chapter{Software Replication (15)}
+Software replication is a technique used in distributed systems to enhance reliability, availability, and fault tolerance by maintaining multiple copies (replicas) of software components across different nodes or servers. This approach ensures that if one replica fails or becomes unavailable, other replicas can continue to provide the same services without interruption.
+\section{Goals of Software Replication}
+The primary goals of software replication include:
+\begin{itemize}
+    \item \textbf{Fault Tolerance:} By having multiple replicas, the system can continue to operate even if some replicas fail.
+    \item \textbf{High Availability:} Replication helps ensure that services remain available to users, even during maintenance or unexpected outages. Replicas improve availability from $1-p$ to $1-p^r$, where $p$ is the probability of failure of a single replica and $r$ is the number of replicas.
+    \item \textbf{Performance Improvement:} Replicas can be distributed across different geographical locations, allowing users to access the nearest replica, reducing latency and improving response times.
+\end{itemize}
+\section{System Model}
+the system is composed of a set of processes(clients):
+\begin{itemize}
+    \item Processes can fail by crash.
+    \item There is a static set of servers(replicas): $s_1, s_2, \dots, s_n$.
+    \item Channels between correct processes are perfect.
+    \item The system is asynchronous.
+\end{itemize}
+processes interact with a set of object X, located at different sites managed by processes.
+the object X export two operations:
+\begin{itemize}
+    \item \textbf{READ()}: returns the current value of the object X.
+    \item \textbf{WRITE(v)}: updates the value of the object X to v.
+\end{itemize}
+after issuing an invocation, a process waits for the response before issuing another invocation.
+An other difference is between:
+\begin{itemize}
+    \item \textbf{State-less:} a service that haven't update.
+    \item \textbf{State-full:} a service that have updateds and have control of the current state (like database).
+
+\end{itemize}
+\section{Requirements for Software Replication}
+To ensure the effectiveness of software replication, several key requirements must be met:
+\begin{itemize}
+    \item replicas of an object x are noted as $x_1, x_2, \dots, x_n$.
+    \item invocation of replica $x_i$ located in site s is handled by process $p_j$ also located in s.
+    \item assume taht $p_j$ crashed exactly when $x_i$ chrashes.
+\end{itemize}
+\section{Consistency Criteria}
+Consistency criteria define the rules and guarantees for how replicas of an object maintain a coherent state across the distributed system. Different consistency models provide varying levels of guarantees regarding the visibility and ordering of updates across replicas. Here are some common consistency criteria used in software replication:
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{imm/Immagine JPEG-46C5-B8EC-2C-0.jpeg}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{imm/Immagine JPEG-4276-A13A-45-0.jpeg}
+\end{figure}
+\section{Replication Techniques}
+\subsection{Primary Backup}
+In the primary-backup approach, one replica is designated as the primary, while the others serve as backups. The primary replica handles all client requests and propagates updates to the backup replicas. If the primary fails, one of the backups is promoted to become the new primary.
+Handles non-deterministic operations by logging non-deterministic choices at the primary and replaying them at the backups.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{imm/Screenshot 2025-12-16 alle 17.01.50.png}
+    \caption{Primary-Backup Replication}
+\end{figure}
+How to guarantee linearizability in primary-backup:the order in which the primary processes client requests must be the same order in which the backups process them.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{imm/Appunti Generali-76.jpg}
+\end{figure}
+\section{Active replication}
+Treats all replicas as equal peers. Each replica processes client requests independently and concurrently. Clients send requests to all replicas, and each replica executes the request and returns the result to the client. The client then selects the result from one of the replicas.
+This approch requires deterministic operations to ensure that all replicas produce the same result for a given request.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{imm/Immagine JPEG-4DAC-B4F4-39-0.jpeg}
+    \caption{Active Replication}
+\end{figure}
+\section{Primary Backup vs Active replication}
+primary-backup(leader-election):Synchronous replication, simpler to implement, but has a single point of failure (the primary).
+\newline
+active replication(Paxos):Partial Synchronous replication, more complex to implement, but provides higher fault tolerance and availability.
+\chapter(Registers (16))
+
+\chapter{da riverdere}
+Paxos
 \end{document}
