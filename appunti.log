@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.11.15)  4 DEC 2025 21:51
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.11.15)  16 DEC 2025 13:15
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -255,60 +255,85 @@ Package: uniquecounter 2019/12/15 v1.4 Provide unlimited unique counter (HO)
 Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 285.
 )
 \Hy@SectionHShift=\skip54
-) (/usr/local/texlive/2025basic/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
+) (/usr/local/texlive/2025basic/texmf-dist/tex/latex/listings/listings.sty
+\lst@mode=\count298
+\lst@gtempboxa=\box56
+\lst@token=\toks27
+\lst@length=\count299
+\lst@currlwidth=\dimen158
+\lst@column=\count300
+\lst@pos=\count301
+\lst@lostspace=\dimen159
+\lst@width=\dimen160
+\lst@newlines=\count302
+\lst@lineno=\count303
+\lst@maxwidth=\dimen161
+ (/usr/local/texlive/2025basic/texmf-dist/tex/latex/listings/lstpatch.sty
+File: lstpatch.sty 2024/09/23 1.10c (Carsten Heinz)
+) (/usr/local/texlive/2025basic/texmf-dist/tex/latex/listings/lstmisc.sty
+File: lstmisc.sty 2024/09/23 1.10c (Carsten Heinz)
+\c@lstnumber=\count304
+\lst@skipnumbers=\count305
+\lst@framebox=\box57
+) (/usr/local/texlive/2025basic/texmf-dist/tex/latex/listings/listings.cfg
+File: listings.cfg 2024/09/23 1.10c listings configuration
+))
+Package: listings 2024/09/23 1.10c (Carsten Heinz)
+ (/usr/local/texlive/2025basic/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
 File: l3backend-pdftex.def 2024-05-08 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count298
-\l__pdf_internal_box=\box56
+\l__color_backend_stack_int=\count306
+\l__pdf_internal_box=\box58
 ) (/Users/idabenvenuto/Documents/università/magistrale/DDS/appunti.aux)
 \openout1 = `appunti.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 16.
-LaTeX Font Info:    ... okay on input line 16.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 16.
-LaTeX Font Info:    ... okay on input line 16.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 16.
-LaTeX Font Info:    ... okay on input line 16.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 16.
-LaTeX Font Info:    ... okay on input line 16.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 16.
-LaTeX Font Info:    ... okay on input line 16.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 16.
-LaTeX Font Info:    ... okay on input line 16.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 16.
-LaTeX Font Info:    ... okay on input line 16.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 16.
-LaTeX Font Info:    ... okay on input line 16.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 16.
-LaTeX Font Info:    ... okay on input line 16.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 17.
+LaTeX Font Info:    ... okay on input line 17.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 17.
+LaTeX Font Info:    ... okay on input line 17.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 17.
+LaTeX Font Info:    ... okay on input line 17.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 17.
+LaTeX Font Info:    ... okay on input line 17.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 17.
+LaTeX Font Info:    ... okay on input line 17.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 17.
+LaTeX Font Info:    ... okay on input line 17.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 17.
+LaTeX Font Info:    ... okay on input line 17.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 17.
+LaTeX Font Info:    ... okay on input line 17.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 17.
+LaTeX Font Info:    ... okay on input line 17.
  (/usr/local/texlive/2025basic/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count299
-\scratchdimen=\dimen158
-\scratchbox=\box57
-\nofMPsegments=\count300
-\nofMParguments=\count301
-\everyMPshowfont=\toks27
-\MPscratchCnt=\count302
-\MPscratchDim=\dimen159
-\MPnumerator=\count303
-\makeMPintoPDFobject=\count304
-\everyMPtoPDFconversion=\toks28
+\scratchcounter=\count307
+\scratchdimen=\dimen162
+\scratchbox=\box59
+\nofMPsegments=\count308
+\nofMParguments=\count309
+\everyMPshowfont=\toks28
+\MPscratchCnt=\count310
+\MPscratchDim=\dimen163
+\MPnumerator=\count311
+\makeMPintoPDFobject=\count312
+\everyMPtoPDFconversion=\toks29
 ) (/usr/local/texlive/2025basic/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 485.
  (/usr/local/texlive/2025basic/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 ))
-Package hyperref Info: Link coloring OFF on input line 16.
+Package hyperref Info: Link coloring OFF on input line 17.
  (/Users/idabenvenuto/Documents/università/magistrale/DDS/appunti.out) (/Users/idabenvenuto/Documents/università/magistrale/DDS/appunti.out)
 \@outlinefile=\write3
 \openout3 = `appunti.out'.
 
-LaTeX Font Info:    Trying to load font information for U+msa on input line 19.
+\c@lstlisting=\count313
+LaTeX Font Info:    Trying to load font information for U+msa on input line 20.
  (/usr/local/texlive/2025basic/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 19.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 20.
  (/usr/local/texlive/2025basic/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
@@ -323,14 +348,14 @@ Chapter 1.
 pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.42 
+l.43 
       [1
 
 {/usr/local/texlive/2025basic/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}]
-<imm/Screenshot 2025-12-04 alle 17.01.16.png, id=369, 754.82pt x 176.66pt>
+<imm/Screenshot 2025-12-04 alle 17.01.16.png, id=450, 754.82pt x 176.66pt>
 File: imm/Screenshot 2025-12-04 alle 17.01.16.png Graphic file (type png)
 <use imm/Screenshot 2025-12-04 alle 17.01.16.png>
-Package pdftex.def Info: imm/Screenshot 2025-12-04 alle 17.01.16.png  used on input line 63.
+Package pdftex.def Info: imm/Screenshot 2025-12-04 alle 17.01.16.png  used on input line 64.
 (pdftex.def)             Requested size: 360.0pt x 84.25401pt.
 
 
@@ -343,15 +368,15 @@ Package pdftex.def Info: imm/Screenshot 2025-12-04 alle 17.01.16.png  used on in
 [5]
 
 [6]
-<imm/Screenshot 2025-12-04 alle 17.15.39.png, id=404, 334.24875pt x 208.78pt>
+<imm/Screenshot 2025-12-04 alle 17.15.39.png, id=484, 334.24875pt x 208.78pt>
 File: imm/Screenshot 2025-12-04 alle 17.15.39.png Graphic file (type png)
 <use imm/Screenshot 2025-12-04 alle 17.15.39.png>
-Package pdftex.def Info: imm/Screenshot 2025-12-04 alle 17.15.39.png  used on input line 247.
+Package pdftex.def Info: imm/Screenshot 2025-12-04 alle 17.15.39.png  used on input line 248.
 (pdftex.def)             Requested size: 251.9989pt x 157.4097pt.
-<imm/Screenshot 2025-12-04 alle 17.16.49.png, id=405, 784.9325pt x 481.8pt>
+<imm/Screenshot 2025-12-04 alle 17.16.49.png, id=485, 784.9325pt x 481.8pt>
 File: imm/Screenshot 2025-12-04 alle 17.16.49.png Graphic file (type png)
 <use imm/Screenshot 2025-12-04 alle 17.16.49.png>
-Package pdftex.def Info: imm/Screenshot 2025-12-04 alle 17.16.49.png  used on input line 252.
+Package pdftex.def Info: imm/Screenshot 2025-12-04 alle 17.16.49.png  used on input line 253.
 (pdftex.def)             Requested size: 323.9978pt x 198.87727pt.
 
 
@@ -362,14 +387,14 @@ Package pdftex.def Info: imm/Screenshot 2025-12-04 alle 17.16.49.png  used on in
 [9]
 
 [10]
-Overfull \hbox (0.63449pt too wide) in paragraph at lines 361--362
+Overfull \hbox (0.63449pt too wide) in paragraph at lines 362--363
 []\T1/cmr/bx/n/10.95 Primary servers\T1/cmr/m/n/10.95 : Con-nected di-rectly to UTC sources (atomic clocks).
  []
 
-<imm/Screenshot 2025-12-04 alle 17.25.42.png, id=445, 593.21625pt x 282.05376pt>
+<imm/Screenshot 2025-12-04 alle 17.25.42.png, id=525, 593.21625pt x 282.05376pt>
 File: imm/Screenshot 2025-12-04 alle 17.25.42.png Graphic file (type png)
 <use imm/Screenshot 2025-12-04 alle 17.25.42.png>
-Package pdftex.def Info: imm/Screenshot 2025-12-04 alle 17.25.42.png  used on input line 367.
+Package pdftex.def Info: imm/Screenshot 2025-12-04 alle 17.25.42.png  used on input line 368.
 (pdftex.def)             Requested size: 288.0011pt x 136.93793pt.
 
 
@@ -384,659 +409,738 @@ Chapter 2.
 ]
 
 [14]
-<imm/Screenshot 2025-12-04 alle 17.40.03.png, id=475, 695.59875pt x 339.2675pt>
+<imm/Screenshot 2025-12-04 alle 17.40.03.png, id=556, 695.59875pt x 339.2675pt>
 File: imm/Screenshot 2025-12-04 alle 17.40.03.png Graphic file (type png)
 <use imm/Screenshot 2025-12-04 alle 17.40.03.png>
-Package pdftex.def Info: imm/Screenshot 2025-12-04 alle 17.40.03.png  used on input line 493.
+Package pdftex.def Info: imm/Screenshot 2025-12-04 alle 17.40.03.png  used on input line 494.
 (pdftex.def)             Requested size: 360.0pt x 175.58147pt.
 
 
 [15 </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-12-04 alle 17.40.03.png>]
-<imm/Screenshot 2025-12-04 alle 17.44.28.png, id=485, 726.715pt x 389.455pt>
+<imm/Screenshot 2025-12-04 alle 17.44.28.png, id=566, 726.715pt x 389.455pt>
 File: imm/Screenshot 2025-12-04 alle 17.44.28.png Graphic file (type png)
 <use imm/Screenshot 2025-12-04 alle 17.44.28.png>
-Package pdftex.def Info: imm/Screenshot 2025-12-04 alle 17.44.28.png  used on input line 532.
+Package pdftex.def Info: imm/Screenshot 2025-12-04 alle 17.44.28.png  used on input line 533.
 (pdftex.def)             Requested size: 360.0pt x 192.93234pt.
 
 
 [16]
 
 [17 </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-12-04 alle 17.44.28.png>]
-<imm/Screenshot 2025-12-04 alle 21.33.30.png, id=500, 684.5575pt x 180.675pt>
+<imm/Screenshot 2025-12-04 alle 21.33.30.png, id=580, 684.5575pt x 180.675pt>
 File: imm/Screenshot 2025-12-04 alle 21.33.30.png Graphic file (type png)
 <use imm/Screenshot 2025-12-04 alle 21.33.30.png>
-Package pdftex.def Info: imm/Screenshot 2025-12-04 alle 21.33.30.png  used on input line 588.
+Package pdftex.def Info: imm/Screenshot 2025-12-04 alle 21.33.30.png  used on input line 589.
 (pdftex.def)             Requested size: 251.9989pt x 66.5096pt.
-<imm/Screenshot 2025-12-04 alle 21.34.57.png, id=501, 733.74126pt x 465.74pt>
+<imm/Screenshot 2025-12-04 alle 21.34.57.png, id=581, 733.74126pt x 465.74pt>
 File: imm/Screenshot 2025-12-04 alle 21.34.57.png Graphic file (type png)
 <use imm/Screenshot 2025-12-04 alle 21.34.57.png>
-Package pdftex.def Info: imm/Screenshot 2025-12-04 alle 21.34.57.png  used on input line 600.
+Package pdftex.def Info: imm/Screenshot 2025-12-04 alle 21.34.57.png  used on input line 601.
 (pdftex.def)             Requested size: 360.0pt x 228.51308pt.
 
 
 [18 </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-12-04 alle 21.33.30.png>]
 
 [19 </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-12-04 alle 21.34.57.png>]
-<imm/Screenshot 2025-12-04 alle 21.44.58.png, id=522, 698.61pt x 442.65375pt>
+<imm/Screenshot 2025-12-04 alle 21.44.58.png, id=602, 698.61pt x 442.65375pt>
 File: imm/Screenshot 2025-12-04 alle 21.44.58.png Graphic file (type png)
 <use imm/Screenshot 2025-12-04 alle 21.44.58.png>
-Package pdftex.def Info: imm/Screenshot 2025-12-04 alle 21.44.58.png  used on input line 668.
+Package pdftex.def Info: imm/Screenshot 2025-12-04 alle 21.44.58.png  used on input line 669.
 (pdftex.def)             Requested size: 360.0pt x 228.10768pt.
 
 
 [20]
 
 [21 </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-12-04 alle 21.44.58.png>]
+<imm/Screenshot 2025-12-16 alle 12.16.40.png, id=626, 666.49pt x 311.1625pt>
+File: imm/Screenshot 2025-12-16 alle 12.16.40.png Graphic file (type png)
+<use imm/Screenshot 2025-12-16 alle 12.16.40.png>
+Package pdftex.def Info: imm/Screenshot 2025-12-16 alle 12.16.40.png  used on input line 702.
+(pdftex.def)             Requested size: 360.0pt x 168.07272pt.
 
-[22]
+
+[22 </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-12-16 alle 12.16.40.png>]
+<imm/Screenshot 2025-12-16 alle 12.23.37.png, id=635, 606.265pt x 356.33125pt>
+File: imm/Screenshot 2025-12-16 alle 12.23.37.png Graphic file (type png)
+<use imm/Screenshot 2025-12-16 alle 12.23.37.png>
+Package pdftex.def Info: imm/Screenshot 2025-12-16 alle 12.23.37.png  used on input line 759.
+(pdftex.def)             Requested size: 360.0pt x 211.5929pt.
+<imm/Screenshot 2025-12-16 alle 12.23.31.png, id=636, 610.28pt x 345.29pt>
+File: imm/Screenshot 2025-12-16 alle 12.23.31.png Graphic file (type png)
+<use imm/Screenshot 2025-12-16 alle 12.23.31.png>
+Package pdftex.def Info: imm/Screenshot 2025-12-16 alle 12.23.31.png  used on input line 767.
+(pdftex.def)             Requested size: 360.0pt x 203.69298pt.
+
 
 [23]
-Chapter 3.
 
-Overfull \hbox (0.13194pt too wide) in paragraph at lines 761--762
+[24 </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-12-16 alle 12.23.37.png> </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-12-16 alle 12.23.31.png>]
+Chapter 3.
+<imm/Screenshot 2025-12-16 alle 12.39.56.png, id=664, 895.345pt x 449.68pt>
+File: imm/Screenshot 2025-12-16 alle 12.39.56.png Graphic file (type png)
+<use imm/Screenshot 2025-12-16 alle 12.39.56.png>
+Package pdftex.def Info: imm/Screenshot 2025-12-16 alle 12.39.56.png  used on input line 797.
+(pdftex.def)             Requested size: 360.0pt x 180.80884pt.
+
+
+[25
+
+]
+<imm/Screenshot 2025-12-16 alle 12.44.22.png, id=674, 892.33376pt x 520.94624pt>
+File: imm/Screenshot 2025-12-16 alle 12.44.22.png Graphic file (type png)
+<use imm/Screenshot 2025-12-16 alle 12.44.22.png>
+Package pdftex.def Info: imm/Screenshot 2025-12-16 alle 12.44.22.png  used on input line 804.
+(pdftex.def)             Requested size: 360.0pt x 210.17128pt.
+
+Overfull \hbox (13.18001pt too wide) in paragraph at lines 815--816
+[]\T1/cmr/m/n/10.95 The co-or-di-na-tor grants ac-cess to $\OML/cmm/m/it/10.95 p[]$ \T1/cmr/m/n/10.95 (next in queue). It sends GRANT_CS
+ []
+
+
+
+[26 </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-12-16 alle 12.39.56.png> </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-12-16 alle 12.44.22.png>]
+Overfull \hbox (17.8615pt too wide) in paragraph at lines 822--823
+[]\T1/cmr/bx/n/10.95 Entering the crit-i-cal sec-tion\T1/cmr/m/n/10.95 : Re-quires 2 mes-sages (REQ and GRANT).
+ []
+
+<imm/Screenshot 2025-12-16 alle 12.54.47.png, id=687, 878.28125pt x 224.84pt>
+File: imm/Screenshot 2025-12-16 alle 12.54.47.png Graphic file (type png)
+<use imm/Screenshot 2025-12-16 alle 12.54.47.png>
+Package pdftex.def Info: imm/Screenshot 2025-12-16 alle 12.54.47.png  used on input line 847.
+(pdftex.def)             Requested size: 251.9989pt x 64.51233pt.
+
+
+[27 </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-12-16 alle 12.54.47.png>] (/usr/local/texlive/2025basic/texmf-dist/tex/latex/listings/lstlang1.sty
+File: lstlang1.sty 2024/09/23 1.10c listings language file
+)
+
+[28]
+<imm/Screenshot 2025-12-16 alle 13.04.01.png, id=723, 879.285pt x 544.0325pt>
+File: imm/Screenshot 2025-12-16 alle 13.04.01.png Graphic file (type png)
+<use imm/Screenshot 2025-12-16 alle 13.04.01.png>
+Package pdftex.def Info: imm/Screenshot 2025-12-16 alle 13.04.01.png  used on input line 920.
+(pdftex.def)             Requested size: 360.0pt x 222.73932pt.
+
+
+[29]
+
+[30 </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-12-16 alle 13.04.01.png>]
+
+[31]
+<imm/Screenshot 2025-12-16 alle 13.15.06.png, id=749, 880.28876pt x 497.86pt>
+File: imm/Screenshot 2025-12-16 alle 13.15.06.png Graphic file (type png)
+<use imm/Screenshot 2025-12-16 alle 13.15.06.png>
+Package pdftex.def Info: imm/Screenshot 2025-12-16 alle 13.15.06.png  used on input line 1028.
+(pdftex.def)             Requested size: 360.0pt x 203.59975pt.
+
+
+[32 </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-12-16 alle 13.15.06.png>]
+Chapter 4.
+
+Overfull \hbox (0.13194pt too wide) in paragraph at lines 1037--1038
 []\T1/cmr/bx/n/10.95 Partially Syn-chronous FD: \T1/cmr/m/n/10.95 As-sume that the sys-tem is asyn-chronous
  []
 
 
 
-[24
+[33
 
 ]
-<imm/Screenshot 2025-11-30 alle 17.55.08.png, id=576, 712.6625pt x 354.32375pt>
+<imm/Screenshot 2025-11-30 alle 17.55.08.png, id=759, 712.6625pt x 354.32375pt>
 File: imm/Screenshot 2025-11-30 alle 17.55.08.png Graphic file (type png)
 <use imm/Screenshot 2025-11-30 alle 17.55.08.png>
-Package pdftex.def Info: imm/Screenshot 2025-11-30 alle 17.55.08.png  used on input line 783.
+Package pdftex.def Info: imm/Screenshot 2025-11-30 alle 17.55.08.png  used on input line 1059.
 (pdftex.def)             Requested size: 288.0011pt x 143.18675pt.
 
 
-[25 </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-11-30 alle 17.55.08.png>]
-<imm/Screenshot 2025-11-30 alle 18.05.41.png, id=583, 689.57625pt x 324.21124pt>
+[34 </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-11-30 alle 17.55.08.png>]
+<imm/Screenshot 2025-11-30 alle 18.05.41.png, id=766, 689.57625pt x 324.21124pt>
 File: imm/Screenshot 2025-11-30 alle 18.05.41.png Graphic file (type png)
 <use imm/Screenshot 2025-11-30 alle 18.05.41.png>
-Package pdftex.def Info: imm/Screenshot 2025-11-30 alle 18.05.41.png  used on input line 799.
+Package pdftex.def Info: imm/Screenshot 2025-11-30 alle 18.05.41.png  used on input line 1075.
 (pdftex.def)             Requested size: 216.0022pt x 101.55322pt.
 
-Overfull \hbox (21.03433pt too wide) in paragraph at lines 807--808
+Overfull \hbox (21.03433pt too wide) in paragraph at lines 1083--1084
 \T1/cmr/m/n/10.95 ex-e-cut-ing its al-go-rithm for-ever, but they can't be-have ma-li-ciously.(bizantine
  []
 
-<imm/Screenshot 2025-11-30 alle 18.25.47.png, id=584, 862.22125pt x 401.5pt>
+<imm/Screenshot 2025-11-30 alle 18.25.47.png, id=767, 862.22125pt x 401.5pt>
 File: imm/Screenshot 2025-11-30 alle 18.25.47.png Graphic file (type png)
 <use imm/Screenshot 2025-11-30 alle 18.25.47.png>
-Package pdftex.def Info: imm/Screenshot 2025-11-30 alle 18.25.47.png  used on input line 813.
+Package pdftex.def Info: imm/Screenshot 2025-11-30 alle 18.25.47.png  used on input line 1089.
 (pdftex.def)             Requested size: 288.0011pt x 134.10664pt.
 
 
-[26 </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-11-30 alle 18.05.41.png>]
-<imm/Screenshot 2025-11-30 alle 18.29.07.png, id=592, 860.21375pt x 545.03625pt>
+[35 </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-11-30 alle 18.05.41.png>]
+<imm/Screenshot 2025-11-30 alle 18.29.07.png, id=775, 860.21375pt x 545.03625pt>
 File: imm/Screenshot 2025-11-30 alle 18.29.07.png Graphic file (type png)
 <use imm/Screenshot 2025-11-30 alle 18.29.07.png>
-Package pdftex.def Info: imm/Screenshot 2025-11-30 alle 18.29.07.png  used on input line 819.
+Package pdftex.def Info: imm/Screenshot 2025-11-30 alle 18.29.07.png  used on input line 1095.
 (pdftex.def)             Requested size: 360.0pt x 228.09863pt.
 
 
-[27 </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-11-30 alle 18.25.47.png> </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-11-30 alle 18.29.07.png>]
-<imm/Immagine JPEG-4A77-8056-27-0.jpeg, id=604, 1931.215pt x 1003.75pt>
+[36 </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-11-30 alle 18.25.47.png> </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-11-30 alle 18.29.07.png>]
+<imm/Immagine JPEG-4A77-8056-27-0.jpeg, id=788, 1931.215pt x 1003.75pt>
 File: imm/Immagine JPEG-4A77-8056-27-0.jpeg Graphic file (type jpg)
 <use imm/Immagine JPEG-4A77-8056-27-0.jpeg>
-Package pdftex.def Info: imm/Immagine JPEG-4A77-8056-27-0.jpeg  used on input line 853.
+Package pdftex.def Info: imm/Immagine JPEG-4A77-8056-27-0.jpeg  used on input line 1129.
 (pdftex.def)             Requested size: 360.0pt x 187.09991pt.
 
 
-[28 </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Immagine JPEG-4A77-8056-27-0.jpeg>]
+[37 </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Immagine JPEG-4A77-8056-27-0.jpeg>]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 866.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\Diamond' on input line 866.
+(hyperref)                removing `math shift' on input line 1142.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 866.
+(hyperref)                removing `\Diamond' on input line 1142.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 1142.
 
 
 
-[29]
-<imm/Screenshot 2025-11-30 alle 20.14.26.png, id=621, 879.285pt x 375.4025pt>
+[38]
+<imm/Screenshot 2025-11-30 alle 20.14.26.png, id=804, 879.285pt x 375.4025pt>
 File: imm/Screenshot 2025-11-30 alle 20.14.26.png Graphic file (type png)
 <use imm/Screenshot 2025-11-30 alle 20.14.26.png>
-Package pdftex.def Info: imm/Screenshot 2025-11-30 alle 20.14.26.png  used on input line 889.
+Package pdftex.def Info: imm/Screenshot 2025-11-30 alle 20.14.26.png  used on input line 1165.
 (pdftex.def)             Requested size: 288.0011pt x 122.95523pt.
-<imm/Screenshot 2025-11-30 alle 20.20.51.png, id=622, 914.41624pt x 401.5pt>
+<imm/Screenshot 2025-11-30 alle 20.20.51.png, id=805, 914.41624pt x 401.5pt>
 File: imm/Screenshot 2025-11-30 alle 20.20.51.png Graphic file (type png)
 <use imm/Screenshot 2025-11-30 alle 20.20.51.png>
-Package pdftex.def Info: imm/Screenshot 2025-11-30 alle 20.20.51.png  used on input line 895.
+Package pdftex.def Info: imm/Screenshot 2025-11-30 alle 20.20.51.png  used on input line 1171.
 (pdftex.def)             Requested size: 360.0pt x 158.06694pt.
 
-Overfull \hbox (29.5108pt too wide) in paragraph at lines 915--915
+Overfull \hbox (29.5108pt too wide) in paragraph at lines 1191--1191
  []    \T1/cmtt/m/n/10.95 If there exists a process q in alive and q in suspected then[] 
  []
 
 
 
-[30 </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-11-30 alle 20.14.26.png> </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-11-30 alle 20.20.51.png>]
-<imm/Immagine JPEG-4C4B-B34A-EA-0.jpeg, id=635, 3133.7075pt x 1003.75pt>
+[39 </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-11-30 alle 20.14.26.png> </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-11-30 alle 20.20.51.png>]
+<imm/Immagine JPEG-4C4B-B34A-EA-0.jpeg, id=817, 3133.7075pt x 1003.75pt>
 File: imm/Immagine JPEG-4C4B-B34A-EA-0.jpeg Graphic file (type jpg)
 <use imm/Immagine JPEG-4C4B-B34A-EA-0.jpeg>
-Package pdftex.def Info: imm/Immagine JPEG-4C4B-B34A-EA-0.jpeg  used on input line 920.
+Package pdftex.def Info: imm/Immagine JPEG-4C4B-B34A-EA-0.jpeg  used on input line 1196.
 (pdftex.def)             Requested size: 360.0pt x 115.29863pt.
 
 
-[31 </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Immagine JPEG-4C4B-B34A-EA-0.jpeg>]
-Chapter 4.
-<imm/Screenshot 2025-12-01 alle 15.33.44.png, id=642, 857.2025pt x 341.275pt>
+[40 </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Immagine JPEG-4C4B-B34A-EA-0.jpeg>]
+Chapter 5.
+<imm/Screenshot 2025-12-01 alle 15.33.44.png, id=824, 857.2025pt x 341.275pt>
 File: imm/Screenshot 2025-12-01 alle 15.33.44.png Graphic file (type png)
 <use imm/Screenshot 2025-12-01 alle 15.33.44.png>
-Package pdftex.def Info: imm/Screenshot 2025-12-01 alle 15.33.44.png  used on input line 945.
+Package pdftex.def Info: imm/Screenshot 2025-12-01 alle 15.33.44.png  used on input line 1221.
 (pdftex.def)             Requested size: 360.0pt x 143.3241pt.
-<imm/Screenshot 2025-12-01 alle 15.36.01.png, id=643, 857.2025pt x 390.45876pt>
+<imm/Screenshot 2025-12-01 alle 15.36.01.png, id=825, 857.2025pt x 390.45876pt>
 File: imm/Screenshot 2025-12-01 alle 15.36.01.png Graphic file (type png)
 <use imm/Screenshot 2025-12-01 alle 15.36.01.png>
-Package pdftex.def Info: imm/Screenshot 2025-12-01 alle 15.36.01.png  used on input line 951.
+Package pdftex.def Info: imm/Screenshot 2025-12-01 alle 15.36.01.png  used on input line 1227.
 (pdftex.def)             Requested size: 360.0pt x 163.97963pt.
 
-Overfull \hbox (278.47913pt too wide) in paragraph at lines 961--961
+Overfull \hbox (278.47913pt too wide) in paragraph at lines 1237--1237
  []        \T1/cmtt/m/n/10.95 leader != maxrank(Pi / suspected) - the process tha have the highest rank among those not suspected;[] 
  []
 
 
 
-[32
+[41
 
 ]
 
-[33 </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-12-01 alle 15.33.44.png> </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-12-01 alle 15.36.01.png>]
-<imm/Screenshot 2025-12-01 alle 15.44.40.png, id=659, 880.28876pt x 413.545pt>
+[42 </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-12-01 alle 15.33.44.png> </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-12-01 alle 15.36.01.png>]
+<imm/Screenshot 2025-12-01 alle 15.44.40.png, id=842, 880.28876pt x 413.545pt>
 File: imm/Screenshot 2025-12-01 alle 15.44.40.png Graphic file (type png)
 <use imm/Screenshot 2025-12-01 alle 15.44.40.png>
-Package pdftex.def Info: imm/Screenshot 2025-12-01 alle 15.44.40.png  used on input line 967.
+Package pdftex.def Info: imm/Screenshot 2025-12-01 alle 15.44.40.png  used on input line 1243.
 (pdftex.def)             Requested size: 360.0pt x 169.11914pt.
-<imm/Screenshot 2025-12-01 alle 15.49.56.png, id=660, 890.32625pt x 360.34625pt>
+<imm/Screenshot 2025-12-01 alle 15.49.56.png, id=843, 890.32625pt x 360.34625pt>
 File: imm/Screenshot 2025-12-01 alle 15.49.56.png Graphic file (type png)
 <use imm/Screenshot 2025-12-01 alle 15.49.56.png>
-Package pdftex.def Info: imm/Screenshot 2025-12-01 alle 15.49.56.png  used on input line 979.
+Package pdftex.def Info: imm/Screenshot 2025-12-01 alle 15.49.56.png  used on input line 1255.
 (pdftex.def)             Requested size: 360.0pt x 145.70299pt.
 
 
-[34 </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-12-01 alle 15.44.40.png>]
-<imm/Screenshot 2025-12-01 alle 16.08.24.png, id=668, 884.30376pt x 408.52625pt>
+[43 </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-12-01 alle 15.44.40.png>]
+<imm/Screenshot 2025-12-01 alle 16.08.24.png, id=851, 884.30376pt x 408.52625pt>
 File: imm/Screenshot 2025-12-01 alle 16.08.24.png Graphic file (type png)
 <use imm/Screenshot 2025-12-01 alle 16.08.24.png>
-Package pdftex.def Info: imm/Screenshot 2025-12-01 alle 16.08.24.png  used on input line 998.
+Package pdftex.def Info: imm/Screenshot 2025-12-01 alle 16.08.24.png  used on input line 1274.
 (pdftex.def)             Requested size: 360.0pt x 166.31245pt.
 
 
-[35 </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-12-01 alle 15.49.56.png>]
-<imm/Screenshot 2025-12-01 alle 16.11.03.png, id=677, 840.13875pt x 417.56pt>
+[44 </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-12-01 alle 15.49.56.png>]
+<imm/Screenshot 2025-12-01 alle 16.11.03.png, id=860, 840.13875pt x 417.56pt>
 File: imm/Screenshot 2025-12-01 alle 16.11.03.png Graphic file (type png)
 <use imm/Screenshot 2025-12-01 alle 16.11.03.png>
-Package pdftex.def Info: imm/Screenshot 2025-12-01 alle 16.11.03.png  used on input line 1004.
+Package pdftex.def Info: imm/Screenshot 2025-12-01 alle 16.11.03.png  used on input line 1280.
 (pdftex.def)             Requested size: 360.0pt x 178.92288pt.
 
-Overfull \hbox (5.33284pt too wide) in paragraph at lines 1010--1010
+Overfull \hbox (5.33284pt too wide) in paragraph at lines 1286--1286
 [][]\T1/cmr/bx/n/12 implementation of Even-tual Leader Elec-tion in Crash-Recovery
  []
 
-<imm/Screenshot 2025-12-01 alle 16.16.03.png, id=678, 901.3675pt x 504.88625pt>
+<imm/Screenshot 2025-12-01 alle 16.16.03.png, id=861, 901.3675pt x 504.88625pt>
 File: imm/Screenshot 2025-12-01 alle 16.16.03.png Graphic file (type png)
 <use imm/Screenshot 2025-12-01 alle 16.16.03.png>
-Package pdftex.def Info: imm/Screenshot 2025-12-01 alle 16.16.03.png  used on input line 1013.
+Package pdftex.def Info: imm/Screenshot 2025-12-01 alle 16.16.03.png  used on input line 1289.
 (pdftex.def)             Requested size: 360.0pt x 201.65045pt.
 
 
-[36 </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-12-01 alle 16.08.24.png> </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-12-01 alle 16.11.03.png>]
-Overfull \hbox (188.86198pt too wide) in paragraph at lines 1023--1023
+[45 </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-12-01 alle 16.08.24.png> </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-12-01 alle 16.11.03.png>]
+Overfull \hbox (188.86198pt too wide) in paragraph at lines 1299--1299
 []    \T1/cmtt/m/n/10.95 epoch := 0; -- Initialize epoch counter(how many times the process has crashed and recovered)[] 
  []
 
 
-Overfull \hbox (92.66968pt too wide) in paragraph at lines 1023--1023
+Overfull \hbox (92.66968pt too wide) in paragraph at lines 1299--1299
 []    \T1/cmtt/m/n/10.95 candidates := empty set; -- Initialize the set of candidate leaders as empty[] 
  []
 
 
-Overfull \hbox (2.13574pt too wide) in paragraph at lines 1023--1023
+Overfull \hbox (2.13574pt too wide) in paragraph at lines 1299--1299
 []    \T1/cmtt/m/n/10.95 trigger < \Omega , Recovery | >; -- Trigger a Recovery event[] 
  []
 
 
-Overfull \hbox (109.64479pt too wide) in paragraph at lines 1037--1037
+Overfull \hbox (109.64479pt too wide) in paragraph at lines 1313--1313
 []    \T1/cmtt/m/n/10.95 leader := maxrank(Pi) -- Select the process with the highest rank as the leader[] 
  []
 
 
-Overfull \hbox (109.64479pt too wide) in paragraph at lines 1037--1037
+Overfull \hbox (109.64479pt too wide) in paragraph at lines 1313--1313
 []    \T1/cmtt/m/n/10.95 trigger <le, trust | leader>; -- Trigger a trust event with the selected leader[] 
  []
 
 
-Overfull \hbox (19.11086pt too wide) in paragraph at lines 1037--1037
+Overfull \hbox (19.11086pt too wide) in paragraph at lines 1313--1313
 []    \T1/cmtt/m/n/10.95 delay := deltha; -- Initialize the delay for heartbeat messages[] 
  []
 
 
-Overfull \hbox (36.08597pt too wide) in paragraph at lines 1037--1037
+Overfull \hbox (36.08597pt too wide) in paragraph at lines 1313--1313
 []    \T1/cmtt/m/n/10.95 retrieve(epoch); -- Retrieve the epoch counter from stable storage[] 
  []
 
 
-Overfull \hbox (36.08597pt too wide) in paragraph at lines 1037--1037
+Overfull \hbox (36.08597pt too wide) in paragraph at lines 1313--1313
 []    \T1/cmtt/m/n/10.95 store(epoch); -- Store the updated epoch counter in stable storage[] 
  []
 
 
-Overfull \hbox (228.47058pt too wide) in paragraph at lines 1037--1037
+Overfull \hbox (228.47058pt too wide) in paragraph at lines 1313--1313
 []        \T1/cmtt/m/n/10.95 send [HEARTBEAT, epoch] to q; -- Send heartbeat messages to all processes with the current epoch[] 
  []
 
 
-Overfull \hbox (13.45248pt too wide) in paragraph at lines 1037--1037
+Overfull \hbox (13.45248pt too wide) in paragraph at lines 1313--1313
 []    \T1/cmtt/m/n/10.95 candidates := empty set; -- Reset the set of candidate leaders[] 
  []
 
 
-Overfull \hbox (41.74434pt too wide) in paragraph at lines 1037--1037
+Overfull \hbox (41.74434pt too wide) in paragraph at lines 1313--1313
 []    \T1/cmtt/m/n/10.95 start timer with delay; -- Start the timer with the specified delay[] 
  []
 
-<imm/Screenshot 2025-12-01 alle 16.22.32.png, id=689, 879.285pt x 397.485pt>
+<imm/Screenshot 2025-12-01 alle 16.22.32.png, id=871, 879.285pt x 397.485pt>
 File: imm/Screenshot 2025-12-01 alle 16.22.32.png Graphic file (type png)
 <use imm/Screenshot 2025-12-01 alle 16.22.32.png>
-Package pdftex.def Info: imm/Screenshot 2025-12-01 alle 16.22.32.png  used on input line 1040.
+Package pdftex.def Info: imm/Screenshot 2025-12-01 alle 16.22.32.png  used on input line 1316.
 (pdftex.def)             Requested size: 360.0pt x 162.73943pt.
 
 
-[37 </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-12-01 alle 16.16.03.png>]
-Overfull \hbox (19.11086pt too wide) in paragraph at lines 1054--1054
+[46 </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-12-01 alle 16.16.03.png>]
+Overfull \hbox (19.11086pt too wide) in paragraph at lines 1330--1330
 []    \T1/cmtt/m/n/10.95 if the new leader != leader then. -- If a new leader is elected[] 
  []
 
 
-Overfull \hbox (228.47058pt too wide) in paragraph at lines 1054--1054
+Overfull \hbox (228.47058pt too wide) in paragraph at lines 1330--1330
 []        \T1/cmtt/m/n/10.95 send [HEARTBEAT, epoch] to q; -- Send heartbeat messages to all processes with the current epoch[] 
  []
 
 
-Overfull \hbox (13.45248pt too wide) in paragraph at lines 1054--1054
+Overfull \hbox (13.45248pt too wide) in paragraph at lines 1330--1330
 []    \T1/cmtt/m/n/10.95 candidates := empty set; -- Reset the set of candidate leaders[] 
  []
 
 
-Overfull \hbox (41.74434pt too wide) in paragraph at lines 1054--1054
+Overfull \hbox (41.74434pt too wide) in paragraph at lines 1330--1330
 []    \T1/cmtt/m/n/10.95 start timer with delay; -- Start the timer with the specified delay[] 
  []
 
-<imm/Screenshot 2025-12-01 alle 16.34.26.png, id=699, 842.14626pt x 410.53375pt>
+<imm/Screenshot 2025-12-01 alle 16.34.26.png, id=881, 842.14626pt x 410.53375pt>
 File: imm/Screenshot 2025-12-01 alle 16.34.26.png Graphic file (type png)
 <use imm/Screenshot 2025-12-01 alle 16.34.26.png>
-Package pdftex.def Info: imm/Screenshot 2025-12-01 alle 16.34.26.png  used on input line 1058.
+Package pdftex.def Info: imm/Screenshot 2025-12-01 alle 16.34.26.png  used on input line 1334.
 (pdftex.def)             Requested size: 360.0pt x 175.49246pt.
 
 
-[38 </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-12-01 alle 16.22.32.png>]
-<imm/Screenshot 2025-12-01 alle 16.37.03.png, id=707, 913.4125pt x 533.995pt>
+[47 </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-12-01 alle 16.22.32.png>]
+<imm/Screenshot 2025-12-01 alle 16.37.03.png, id=890, 913.4125pt x 533.995pt>
 File: imm/Screenshot 2025-12-01 alle 16.37.03.png Graphic file (type png)
 <use imm/Screenshot 2025-12-01 alle 16.37.03.png>
-Package pdftex.def Info: imm/Screenshot 2025-12-01 alle 16.37.03.png  used on input line 1064.
+Package pdftex.def Info: imm/Screenshot 2025-12-01 alle 16.37.03.png  used on input line 1340.
 (pdftex.def)             Requested size: 360.0pt x 210.4572pt.
 
 
-[39 </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-12-01 alle 16.34.26.png> </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-12-01 alle 16.37.03.png>]
-Chapter 5.
-<imm/Screenshot 2025-12-01 alle 16.45.59.png, id=717, 780.9175pt x 332.24126pt>
+[48 </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-12-01 alle 16.34.26.png> </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-12-01 alle 16.37.03.png>]
+Chapter 6.
+<imm/Screenshot 2025-12-01 alle 16.45.59.png, id=901, 780.9175pt x 332.24126pt>
 File: imm/Screenshot 2025-12-01 alle 16.45.59.png Graphic file (type png)
 <use imm/Screenshot 2025-12-01 alle 16.45.59.png>
-Package pdftex.def Info: imm/Screenshot 2025-12-01 alle 16.45.59.png  used on input line 1082.
+Package pdftex.def Info: imm/Screenshot 2025-12-01 alle 16.45.59.png  used on input line 1358.
 (pdftex.def)             Requested size: 360.0pt x 153.16234pt.
 
 
-[40
+[49
 
 ]
-<imm/Screenshot 2025-12-01 alle 16.47.13.png, id=722, 782.925pt x 343.2825pt>
+<imm/Screenshot 2025-12-01 alle 16.47.13.png, id=906, 782.925pt x 343.2825pt>
 File: imm/Screenshot 2025-12-01 alle 16.47.13.png Graphic file (type png)
 <use imm/Screenshot 2025-12-01 alle 16.47.13.png>
-Package pdftex.def Info: imm/Screenshot 2025-12-01 alle 16.47.13.png  used on input line 1088.
+Package pdftex.def Info: imm/Screenshot 2025-12-01 alle 16.47.13.png  used on input line 1364.
 (pdftex.def)             Requested size: 360.0pt x 157.849pt.
 
 
-[41 </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-12-01 alle 16.45.59.png> </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-12-01 alle 16.47.13.png>]
-<imm/Screenshot 2025-12-01 alle 17.21.12.png, id=734, 902.37125pt x 404.51125pt>
+[50 </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-12-01 alle 16.45.59.png> </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-12-01 alle 16.47.13.png>]
+<imm/Screenshot 2025-12-01 alle 17.21.12.png, id=918, 902.37125pt x 404.51125pt>
 File: imm/Screenshot 2025-12-01 alle 17.21.12.png Graphic file (type png)
 <use imm/Screenshot 2025-12-01 alle 17.21.12.png>
-Package pdftex.def Info: imm/Screenshot 2025-12-01 alle 17.21.12.png  used on input line 1106.
+Package pdftex.def Info: imm/Screenshot 2025-12-01 alle 17.21.12.png  used on input line 1382.
 (pdftex.def)             Requested size: 360.0pt x 161.38191pt.
 
-Overfull \hbox (9.87898pt too wide) in paragraph at lines 1109--1109
+Overfull \hbox (9.87898pt too wide) in paragraph at lines 1385--1385
 [][]\T1/cmr/bx/n/14.4 implementation of Re-li-able Broad-cast IN Syn-chronous
  []
 
-<imm/Screenshot 2025-12-01 alle 17.22.56.png, id=735, 902.37125pt x 416.55624pt>
+<imm/Screenshot 2025-12-01 alle 17.22.56.png, id=919, 902.37125pt x 416.55624pt>
 File: imm/Screenshot 2025-12-01 alle 17.22.56.png Graphic file (type png)
 <use imm/Screenshot 2025-12-01 alle 17.22.56.png>
-Package pdftex.def Info: imm/Screenshot 2025-12-01 alle 17.22.56.png  used on input line 1112.
+Package pdftex.def Info: imm/Screenshot 2025-12-01 alle 17.22.56.png  used on input line 1388.
 (pdftex.def)             Requested size: 360.0pt x 166.18732pt.
 
 
-[42 </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-12-01 alle 17.21.12.png>]
-Overfull \hbox (75.69456pt too wide) in paragraph at lines 1120--1120
+[51 </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-12-01 alle 17.21.12.png>]
+Overfull \hbox (75.69456pt too wide) in paragraph at lines 1396--1396
 []    \T1/cmtt/m/n/10.95 correct := Pi; -- Initialize the set of correct processes (all processes)[] 
  []
 
 
-Overfull \hbox (109.64479pt too wide) in paragraph at lines 1120--1120
+Overfull \hbox (109.64479pt too wide) in paragraph at lines 1396--1396
 []    \T1/cmtt/m/n/10.95 from [p] := empty set[n]; -- Array to track messages received from each process[] 
  []
 
 
-Overfull \hbox (149.25339pt too wide) in paragraph at lines 1129--1129
+Overfull \hbox (149.25339pt too wide) in paragraph at lines 1405--1405
 []    \T1/cmtt/m/n/10.95 if m not in from[q] then -- If the message has not been received from process q before[] 
  []
 
 
-Overfull \hbox (222.81221pt too wide) in paragraph at lines 1129--1129
+Overfull \hbox (222.81221pt too wide) in paragraph at lines 1405--1405
 []        \T1/cmtt/m/n/10.95 from[q] := from[q] union {m}; -- Add the message to the set of messages received from process q[] 
  []
 
 
-Overfull \hbox (171.88687pt too wide) in paragraph at lines 1129--1129
+Overfull \hbox (171.88687pt too wide) in paragraph at lines 1405--1405
 []        \T1/cmtt/m/n/10.95 trigger <rb, Deliver | s, m>; -- Trigger the delivery event for the reliable broadcast[] 
  []
 
 
-Overfull \hbox (211.49547pt too wide) in paragraph at lines 1129--1129
+Overfull \hbox (211.49547pt too wide) in paragraph at lines 1405--1405
 []        \T1/cmtt/m/n/10.95 if s is not in correct then -- If the sender process s is not in the set of correct processes[] 
  []
 
 
-Overfull \hbox (256.76244pt too wide) in paragraph at lines 1129--1129
+Overfull \hbox (256.76244pt too wide) in paragraph at lines 1405--1405
 []            \T1/cmtt/m/n/10.95 trigger <beb, Broadcast | [DATA, s, m]>; -- Trigger the delivery event for the reliable broadcast[] 
  []
 
-<imm/Screenshot 2025-12-01 alle 17.34.59.png, id=743, 872.25874pt x 511.9125pt>
+<imm/Screenshot 2025-12-01 alle 17.34.59.png, id=926, 872.25874pt x 511.9125pt>
 File: imm/Screenshot 2025-12-01 alle 17.34.59.png Graphic file (type png)
 <use imm/Screenshot 2025-12-01 alle 17.34.59.png>
-Package pdftex.def Info: imm/Screenshot 2025-12-01 alle 17.34.59.png  used on input line 1133.
+Package pdftex.def Info: imm/Screenshot 2025-12-01 alle 17.34.59.png  used on input line 1409.
 (pdftex.def)             Requested size: 360.0pt x 211.27586pt.
-<imm/Screenshot 2025-12-01 alle 17.36.33.png, id=744, 885.3075pt x 402.50375pt>
+<imm/Screenshot 2025-12-01 alle 17.36.33.png, id=927, 885.3075pt x 402.50375pt>
 File: imm/Screenshot 2025-12-01 alle 17.36.33.png Graphic file (type png)
 <use imm/Screenshot 2025-12-01 alle 17.36.33.png>
-Package pdftex.def Info: imm/Screenshot 2025-12-01 alle 17.36.33.png  used on input line 1138.
+Package pdftex.def Info: imm/Screenshot 2025-12-01 alle 17.36.33.png  used on input line 1414.
 (pdftex.def)             Requested size: 360.0pt x 163.67642pt.
 
 
-[43 </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-12-01 alle 17.22.56.png>]
+[52 </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-12-01 alle 17.22.56.png>]
 
-[44 </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-12-01 alle 17.34.59.png> </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-12-01 alle 17.36.33.png>]
-<imm/Screenshot 2025-12-01 alle 17.43.15.png, id=765, 886.31125pt x 407.5225pt>
+[53 </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-12-01 alle 17.34.59.png> </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-12-01 alle 17.36.33.png>]
+<imm/Screenshot 2025-12-01 alle 17.43.15.png, id=947, 886.31125pt x 407.5225pt>
 File: imm/Screenshot 2025-12-01 alle 17.43.15.png Graphic file (type png)
 <use imm/Screenshot 2025-12-01 alle 17.43.15.png>
-Package pdftex.def Info: imm/Screenshot 2025-12-01 alle 17.43.15.png  used on input line 1151.
+Package pdftex.def Info: imm/Screenshot 2025-12-01 alle 17.43.15.png  used on input line 1427.
 (pdftex.def)             Requested size: 360.0pt x 165.53073pt.
-<imm/Screenshot 2025-12-01 alle 17.49.36.png, id=766, 910.40125pt x 233.87375pt>
+<imm/Screenshot 2025-12-01 alle 17.49.36.png, id=948, 910.40125pt x 233.87375pt>
 File: imm/Screenshot 2025-12-01 alle 17.49.36.png Graphic file (type png)
 <use imm/Screenshot 2025-12-01 alle 17.49.36.png>
-Package pdftex.def Info: imm/Screenshot 2025-12-01 alle 17.49.36.png  used on input line 1164.
+Package pdftex.def Info: imm/Screenshot 2025-12-01 alle 17.49.36.png  used on input line 1440.
 (pdftex.def)             Requested size: 396.0022pt x 101.73067pt.
 
-Overfull \hbox (36.0022pt too wide) in paragraph at lines 1164--1165
+Overfull \hbox (36.0022pt too wide) in paragraph at lines 1440--1441
  [][] 
  []
 
 
 
-[45 </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-12-01 alle 17.43.15.png>]
-Overfull \hbox (6.9893pt too wide) in paragraph at lines 1167--1167
+[54 </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-12-01 alle 17.43.15.png>]
+Overfull \hbox (6.9893pt too wide) in paragraph at lines 1443--1443
 [][]\T1/cmr/bx/n/12 implementation of Uni-form Re-li-able Broad-cast IN Syn-chronous
  []
 
-<imm/Screenshot 2025-12-01 alle 17.50.30.png, id=774, 906.38625pt x 399.4925pt>
+<imm/Screenshot 2025-12-01 alle 17.50.30.png, id=957, 906.38625pt x 399.4925pt>
 File: imm/Screenshot 2025-12-01 alle 17.50.30.png Graphic file (type png)
 <use imm/Screenshot 2025-12-01 alle 17.50.30.png>
-Package pdftex.def Info: imm/Screenshot 2025-12-01 alle 17.50.30.png  used on input line 1170.
+Package pdftex.def Info: imm/Screenshot 2025-12-01 alle 17.50.30.png  used on input line 1446.
 (pdftex.def)             Requested size: 360.0pt x 158.67255pt.
 
-Overfull \hbox (70.0362pt too wide) in paragraph at lines 1175--1175
+Overfull \hbox (70.0362pt too wide) in paragraph at lines 1451--1451
 []    \T1/cmtt/m/n/10.95 pending := empty set; -- Initialize the set of pending messages as empty[] 
  []
 
 
-Overfull \hbox (183.20361pt too wide) in paragraph at lines 1184--1184
+Overfull \hbox (183.20361pt too wide) in paragraph at lines 1460--1460
 []    \T1/cmtt/m/n/10.95 ack[m] := ack[m] union {q}; -- Add the process q to the set of acknowledgments for message m[] 
  []
 
 
-Overfull \hbox (41.74434pt too wide) in paragraph at lines 1184--1184
+Overfull \hbox (41.74434pt too wide) in paragraph at lines 1460--1460
 []    \T1/cmtt/m/n/10.95 if m not pending then -- If the message m is not in the pending set[] 
  []
 
 
-Overfull \hbox (75.69456pt too wide) in paragraph at lines 1184--1184
+Overfull \hbox (75.69456pt too wide) in paragraph at lines 1460--1460
 []        \T1/cmtt/m/n/10.95 pending := pending union {m}; -- Add the message m to the pending set[] 
  []
 
-<imm/Screenshot 2025-12-02 alle 13.14.23.png, id=775, 918.43124pt x 598.235pt>
+<imm/Screenshot 2025-12-02 alle 13.14.23.png, id=958, 918.43124pt x 598.235pt>
 File: imm/Screenshot 2025-12-02 alle 13.14.23.png Graphic file (type png)
 <use imm/Screenshot 2025-12-02 alle 13.14.23.png>
-Package pdftex.def Info: imm/Screenshot 2025-12-02 alle 13.14.23.png  used on input line 1189.
+Package pdftex.def Info: imm/Screenshot 2025-12-02 alle 13.14.23.png  used on input line 1465.
 (pdftex.def)             Requested size: 360.0pt x 234.49739pt.
-<imm/Screenshot 2025-12-02 alle 13.27.02.png, id=776, 875.27pt x 494.84875pt>
+<imm/Screenshot 2025-12-02 alle 13.27.02.png, id=959, 875.27pt x 494.84875pt>
 File: imm/Screenshot 2025-12-02 alle 13.27.02.png Graphic file (type png)
 <use imm/Screenshot 2025-12-02 alle 13.27.02.png>
-Package pdftex.def Info: imm/Screenshot 2025-12-02 alle 13.27.02.png  used on input line 1194.
+Package pdftex.def Info: imm/Screenshot 2025-12-02 alle 13.27.02.png  used on input line 1470.
 (pdftex.def)             Requested size: 360.0pt x 203.53111pt.
 
 
-[46 </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-12-01 alle 17.49.36.png> </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-12-01 alle 17.50.30.png>]
-<imm/Screenshot 2025-12-02 alle 13.27.19.png, id=786, 869.2475pt x 508.90125pt>
+[55 </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-12-01 alle 17.49.36.png> </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-12-01 alle 17.50.30.png>]
+<imm/Screenshot 2025-12-02 alle 13.27.19.png, id=969, 869.2475pt x 508.90125pt>
 File: imm/Screenshot 2025-12-02 alle 13.27.19.png Graphic file (type png)
 <use imm/Screenshot 2025-12-02 alle 13.27.19.png>
-Package pdftex.def Info: imm/Screenshot 2025-12-02 alle 13.27.19.png  used on input line 1199.
+Package pdftex.def Info: imm/Screenshot 2025-12-02 alle 13.27.19.png  used on input line 1475.
 (pdftex.def)             Requested size: 360.0pt x 210.763pt.
-<imm/Screenshot 2025-12-02 alle 13.31.39.png, id=787, 876.27374pt x 412.54124pt>
+<imm/Screenshot 2025-12-02 alle 13.31.39.png, id=970, 876.27374pt x 412.54124pt>
 File: imm/Screenshot 2025-12-02 alle 13.31.39.png Graphic file (type png)
 <use imm/Screenshot 2025-12-02 alle 13.31.39.png>
-Package pdftex.def Info: imm/Screenshot 2025-12-02 alle 13.31.39.png  used on input line 1205.
+Package pdftex.def Info: imm/Screenshot 2025-12-02 alle 13.31.39.png  used on input line 1481.
 (pdftex.def)             Requested size: 360.0pt x 169.48293pt.
 
 
-[47 </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-12-02 alle 13.14.23.png> </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-12-02 alle 13.27.02.png>]
+[56 </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-12-02 alle 13.14.23.png> </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-12-02 alle 13.27.02.png>]
 
-[48 </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-12-02 alle 13.27.19.png> </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-12-02 alle 13.31.39.png>]
-<imm/Screenshot 2025-12-02 alle 14.38.18.png, id=806, 799.98875pt x 222.8325pt>
+[57 </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-12-02 alle 13.27.19.png> </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-12-02 alle 13.31.39.png>]
+<imm/Screenshot 2025-12-02 alle 14.38.18.png, id=988, 799.98875pt x 222.8325pt>
 File: imm/Screenshot 2025-12-02 alle 14.38.18.png Graphic file (type png)
 <use imm/Screenshot 2025-12-02 alle 14.38.18.png>
-Package pdftex.def Info: imm/Screenshot 2025-12-02 alle 14.38.18.png  used on input line 1224.
+Package pdftex.def Info: imm/Screenshot 2025-12-02 alle 14.38.18.png  used on input line 1500.
 (pdftex.def)             Requested size: 360.0pt x 100.2771pt.
-<imm/Screenshot 2025-12-02 alle 14.38.58.png, id=807, 812.03375pt x 393.47pt>
+<imm/Screenshot 2025-12-02 alle 14.38.58.png, id=989, 812.03375pt x 393.47pt>
 File: imm/Screenshot 2025-12-02 alle 14.38.58.png Graphic file (type png)
 <use imm/Screenshot 2025-12-02 alle 14.38.58.png>
-Package pdftex.def Info: imm/Screenshot 2025-12-02 alle 14.38.58.png  used on input line 1230.
+Package pdftex.def Info: imm/Screenshot 2025-12-02 alle 14.38.58.png  used on input line 1506.
 (pdftex.def)             Requested size: 360.0pt x 174.43617pt.
 
 
-[49 </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-12-02 alle 14.38.18.png>]
+[58 </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-12-02 alle 14.38.18.png>]
 
-[50 </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-12-02 alle 14.38.58.png>]
-Chapter 6.
-<imm/Screenshot 2025-11-25 alle 20.22.09.png, id=823, 513.92pt x 288.07625pt>
+[59 </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-12-02 alle 14.38.58.png>]
+Chapter 7.
+<imm/Screenshot 2025-11-25 alle 20.22.09.png, id=1005, 513.92pt x 288.07625pt>
 File: imm/Screenshot 2025-11-25 alle 20.22.09.png Graphic file (type png)
 <use imm/Screenshot 2025-11-25 alle 20.22.09.png>
-Package pdftex.def Info: imm/Screenshot 2025-11-25 alle 20.22.09.png  used on input line 1238.
+Package pdftex.def Info: imm/Screenshot 2025-11-25 alle 20.22.09.png  used on input line 1514.
 (pdftex.def)             Requested size: 216.0022pt x 121.0791pt.
 
 
-[51
+[60
 
  </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-11-25 alle 20.22.09.png>]
-Overfull \hbox (0.70192pt too wide) in paragraph at lines 1253--1253
+Overfull \hbox (0.70192pt too wide) in paragraph at lines 1529--1529
 []\T1/cmr/bx/n/14.4 Consensus Im-ple-men-ta-tion in Syn-chronous Sys-
  []
 
-<imm/Screenshot 2025-11-25 alle 20.43.55.png, id=830, 906.38625pt x 506.89375pt>
+<imm/Screenshot 2025-11-25 alle 20.43.55.png, id=1013, 906.38625pt x 506.89375pt>
 File: imm/Screenshot 2025-11-25 alle 20.43.55.png Graphic file (type png)
 <use imm/Screenshot 2025-11-25 alle 20.43.55.png>
-Package pdftex.def Info: imm/Screenshot 2025-11-25 alle 20.43.55.png  used on input line 1259.
+Package pdftex.def Info: imm/Screenshot 2025-11-25 alle 20.43.55.png  used on input line 1535.
 (pdftex.def)             Requested size: 360.0pt x 201.33075pt.
 
 
-[52 </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-11-25 alle 20.43.55.png>]
+[61 </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-11-25 alle 20.43.55.png>]
 
-[53]
-Overfull \hbox (13.45248pt too wide) in paragraph at lines 1314--1314
+[62]
+Overfull \hbox (13.45248pt too wide) in paragraph at lines 1590--1590
 []\T1/cmtt/m/n/10.95 upon correct subseteq receivedFrom[round] AND decision = bottom do[] 
  []
 
 
-Overfull \hbox (30.4276pt too wide) in paragraph at lines 1314--1314
+Overfull \hbox (30.4276pt too wide) in paragraph at lines 1590--1590
 []    \T1/cmtt/m/n/10.95 trigger <beb, Broadcast | [PROPOSAL, round, proposals[round-1]]>;[] 
  []
 
-<imm/Screenshot 2025-11-25 alle 21.04.25.png, id=846, 894.34125pt x 596.2275pt>
+<imm/Screenshot 2025-11-25 alle 21.04.25.png, id=1030, 894.34125pt x 596.2275pt>
 File: imm/Screenshot 2025-11-25 alle 21.04.25.png Graphic file (type png)
 <use imm/Screenshot 2025-11-25 alle 21.04.25.png>
-Package pdftex.def Info: imm/Screenshot 2025-11-25 alle 21.04.25.png  used on input line 1338.
+Package pdftex.def Info: imm/Screenshot 2025-11-25 alle 21.04.25.png  used on input line 1614.
 (pdftex.def)             Requested size: 360.0pt x 240.00609pt.
-<imm/Screenshot 2025-11-25 alle 21.10.31.png, id=847, 898.35625pt x 601.24625pt>
+<imm/Screenshot 2025-11-25 alle 21.10.31.png, id=1031, 898.35625pt x 601.24625pt>
 File: imm/Screenshot 2025-11-25 alle 21.10.31.png Graphic file (type png)
 <use imm/Screenshot 2025-11-25 alle 21.10.31.png>
-Package pdftex.def Info: imm/Screenshot 2025-11-25 alle 21.10.31.png  used on input line 1343.
+Package pdftex.def Info: imm/Screenshot 2025-11-25 alle 21.10.31.png  used on input line 1619.
 (pdftex.def)             Requested size: 360.0pt x 240.9346pt.
-<imm/Screenshot 2025-11-25 alle 21.08.58.png, id=848, 907.39pt x 607.26875pt>
+<imm/Screenshot 2025-11-25 alle 21.08.58.png, id=1032, 907.39pt x 607.26875pt>
 File: imm/Screenshot 2025-11-25 alle 21.08.58.png Graphic file (type png)
 <use imm/Screenshot 2025-11-25 alle 21.08.58.png>
-Package pdftex.def Info: imm/Screenshot 2025-11-25 alle 21.08.58.png  used on input line 1348.
+Package pdftex.def Info: imm/Screenshot 2025-11-25 alle 21.08.58.png  used on input line 1624.
 (pdftex.def)             Requested size: 360.0pt x 240.9295pt.
-<imm/Screenshot 2025-11-25 alle 22.55.28.png, id=849, 905.3825pt x 548.0475pt>
+<imm/Screenshot 2025-11-25 alle 22.55.28.png, id=1033, 905.3825pt x 548.0475pt>
 File: imm/Screenshot 2025-11-25 alle 22.55.28.png Graphic file (type png)
 <use imm/Screenshot 2025-11-25 alle 22.55.28.png>
-Package pdftex.def Info: imm/Screenshot 2025-11-25 alle 22.55.28.png  used on input line 1357.
+Package pdftex.def Info: imm/Screenshot 2025-11-25 alle 22.55.28.png  used on input line 1633.
 (pdftex.def)             Requested size: 216.0022pt x 130.748pt.
 
 
-[54]
+[63]
 
-[55 </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-11-25 alle 21.04.25.png> </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-11-25 alle 21.10.31.png>]
-<imm/Screenshot 2025-11-25 alle 22.59.09.png, id=863, 922.44624pt x 598.235pt>
+[64 </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-11-25 alle 21.04.25.png> </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-11-25 alle 21.10.31.png>]
+<imm/Screenshot 2025-11-25 alle 22.59.09.png, id=1046, 922.44624pt x 598.235pt>
 File: imm/Screenshot 2025-11-25 alle 22.59.09.png Graphic file (type png)
 <use imm/Screenshot 2025-11-25 alle 22.59.09.png>
-Package pdftex.def Info: imm/Screenshot 2025-11-25 alle 22.59.09.png  used on input line 1363.
+Package pdftex.def Info: imm/Screenshot 2025-11-25 alle 22.59.09.png  used on input line 1639.
 (pdftex.def)             Requested size: 216.0022pt x 140.08318pt.
 
 
-[56 </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-11-25 alle 21.08.58.png>]
+[65 </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-11-25 alle 21.08.58.png>]
 
-[57 </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-11-25 alle 22.55.28.png> </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-11-25 alle 22.59.09.png>]
-Chapter 7.
-
-
-[58
-
-]
+[66 </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-11-25 alle 22.55.28.png> </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-11-25 alle 22.59.09.png>]
 Chapter 8.
 
-Overfull \hbox (3.04778pt too wide) in paragraph at lines 1401--1402
+
+[67
+
+]
+Chapter 9.
+
+Overfull \hbox (3.04778pt too wide) in paragraph at lines 1677--1678
 []\T1/cmr/bx/n/10.95 Communication:\T1/cmr/m/n/10.95 Channels be-tween cor-rect pro-cesses are \T1/cmr/m/it/10.95 per-fect\T1/cmr/m/n/10.95 : mes-
  []
 
 
 
-[59
+[68
 
 ]
-<imm/Screenshot 2025-11-25 alle 18.09.55.png, id=889, 618.31pt x 348.30125pt>
+<imm/Screenshot 2025-11-25 alle 18.09.55.png, id=1072, 618.31pt x 348.30125pt>
 File: imm/Screenshot 2025-11-25 alle 18.09.55.png Graphic file (type png)
 <use imm/Screenshot 2025-11-25 alle 18.09.55.png>
-Package pdftex.def Info: imm/Screenshot 2025-11-25 alle 18.09.55.png  used on input line 1422.
+Package pdftex.def Info: imm/Screenshot 2025-11-25 alle 18.09.55.png  used on input line 1698.
 (pdftex.def)             Requested size: 288.0011pt x 162.24008pt.
-<imm/Screenshot 2025-11-25 alle 18.41.44.png, id=890, 582.175pt x 124.465pt>
+<imm/Screenshot 2025-11-25 alle 18.41.44.png, id=1073, 582.175pt x 124.465pt>
 File: imm/Screenshot 2025-11-25 alle 18.41.44.png Graphic file (type png)
 <use imm/Screenshot 2025-11-25 alle 18.41.44.png>
-Package pdftex.def Info: imm/Screenshot 2025-11-25 alle 18.41.44.png  used on input line 1444.
+Package pdftex.def Info: imm/Screenshot 2025-11-25 alle 18.41.44.png  used on input line 1720.
 (pdftex.def)             Requested size: 288.0011pt x 61.57332pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 1438--1446
+Underfull \hbox (badness 10000) in paragraph at lines 1714--1722
 
  []
 
 
 
-[60 </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-11-25 alle 18.09.55.png>]
-<imm/Screenshot 2025-11-25 alle 18.48.48.png, id=899, 583.17876pt x 111.41624pt>
+[69 </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-11-25 alle 18.09.55.png>]
+<imm/Screenshot 2025-11-25 alle 18.48.48.png, id=1081, 583.17876pt x 111.41624pt>
 File: imm/Screenshot 2025-11-25 alle 18.48.48.png Graphic file (type png)
 <use imm/Screenshot 2025-11-25 alle 18.48.48.png>
-Package pdftex.def Info: imm/Screenshot 2025-11-25 alle 18.48.48.png  used on input line 1459.
+Package pdftex.def Info: imm/Screenshot 2025-11-25 alle 18.48.48.png  used on input line 1735.
 (pdftex.def)             Requested size: 288.0011pt x 55.02455pt.
 
 
-[61 </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-11-25 alle 18.41.44.png> </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-11-25 alle 18.48.48.png>]
-<imm/Screenshot 2025-11-25 alle 19.02.37.png, id=909, 600.2425pt x 196.735pt>
+[70 </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-11-25 alle 18.41.44.png> </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-11-25 alle 18.48.48.png>]
+<imm/Screenshot 2025-11-25 alle 19.02.37.png, id=1091, 600.2425pt x 196.735pt>
 File: imm/Screenshot 2025-11-25 alle 19.02.37.png Graphic file (type png)
 <use imm/Screenshot 2025-11-25 alle 19.02.37.png>
-Package pdftex.def Info: imm/Screenshot 2025-11-25 alle 19.02.37.png  used on input line 1472.
+Package pdftex.def Info: imm/Screenshot 2025-11-25 alle 19.02.37.png  used on input line 1748.
 (pdftex.def)             Requested size: 288.0011pt x 94.39569pt.
 
-Overfull \hbox (21.86354pt too wide) in paragraph at lines 1475--1476
+Overfull \hbox (21.86354pt too wide) in paragraph at lines 1751--1752
 \T1/cmr/m/n/10.95 Strong as-sump-tions is more re-stric-tive than weak as-sump-tions (SUTO=>WUTO-
  []
 
-<imm/Screenshot 2025-11-25 alle 19.15.06.png, id=910, 270.00874pt x 109.40875pt>
+<imm/Screenshot 2025-11-25 alle 19.15.06.png, id=1092, 270.00874pt x 109.40875pt>
 File: imm/Screenshot 2025-11-25 alle 19.15.06.png Graphic file (type png)
 <use imm/Screenshot 2025-11-25 alle 19.15.06.png>
-Package pdftex.def Info: imm/Screenshot 2025-11-25 alle 19.15.06.png  used on input line 1479.
+Package pdftex.def Info: imm/Screenshot 2025-11-25 alle 19.15.06.png  used on input line 1755.
 (pdftex.def)             Requested size: 151.19934pt x 61.26846pt.
-<imm/Screenshot 2025-11-25 alle 19.15.15.png, id=911, 240.9pt x 130.4875pt>
+<imm/Screenshot 2025-11-25 alle 19.15.15.png, id=1093, 240.9pt x 130.4875pt>
 File: imm/Screenshot 2025-11-25 alle 19.15.15.png Graphic file (type png)
 <use imm/Screenshot 2025-11-25 alle 19.15.15.png>
-Package pdftex.def Info: imm/Screenshot 2025-11-25 alle 19.15.15.png  used on input line 1481.
+Package pdftex.def Info: imm/Screenshot 2025-11-25 alle 19.15.15.png  used on input line 1757.
 (pdftex.def)             Requested size: 151.19934pt x 81.90092pt.
-<imm/Screenshot 2025-11-25 alle 19.15.26.png, id=912, 372.39125pt x 143.53625pt>
+<imm/Screenshot 2025-11-25 alle 19.15.26.png, id=1094, 372.39125pt x 143.53625pt>
 File: imm/Screenshot 2025-11-25 alle 19.15.26.png Graphic file (type png)
 <use imm/Screenshot 2025-11-25 alle 19.15.26.png>
-Package pdftex.def Info: imm/Screenshot 2025-11-25 alle 19.15.26.png  used on input line 1484.
+Package pdftex.def Info: imm/Screenshot 2025-11-25 alle 19.15.26.png  used on input line 1760.
 (pdftex.def)             Requested size: 151.19934pt x 58.28078pt.
-<imm/Screenshot 2025-11-25 alle 19.15.40.png, id=913, 243.91125pt x 126.4725pt>
+<imm/Screenshot 2025-11-25 alle 19.15.40.png, id=1095, 243.91125pt x 126.4725pt>
 File: imm/Screenshot 2025-11-25 alle 19.15.40.png Graphic file (type png)
 <use imm/Screenshot 2025-11-25 alle 19.15.40.png>
-Package pdftex.def Info: imm/Screenshot 2025-11-25 alle 19.15.40.png  used on input line 1486.
+Package pdftex.def Info: imm/Screenshot 2025-11-25 alle 19.15.40.png  used on input line 1762.
 (pdftex.def)             Requested size: 151.19934pt x 78.40054pt.
-<imm/Screenshot 2025-11-25 alle 19.15.48.png, id=914, 312.16624pt x 157.58875pt>
+<imm/Screenshot 2025-11-25 alle 19.15.48.png, id=1096, 312.16624pt x 157.58875pt>
 File: imm/Screenshot 2025-11-25 alle 19.15.48.png Graphic file (type png)
 <use imm/Screenshot 2025-11-25 alle 19.15.48.png>
-Package pdftex.def Info: imm/Screenshot 2025-11-25 alle 19.15.48.png  used on input line 1489.
+Package pdftex.def Info: imm/Screenshot 2025-11-25 alle 19.15.48.png  used on input line 1765.
 (pdftex.def)             Requested size: 151.19934pt x 76.32944pt.
-<imm/Screenshot 2025-11-25 alle 19.15.56.png, id=915, 345.29pt x 145.54375pt>
+<imm/Screenshot 2025-11-25 alle 19.15.56.png, id=1097, 345.29pt x 145.54375pt>
 File: imm/Screenshot 2025-11-25 alle 19.15.56.png Graphic file (type png)
 <use imm/Screenshot 2025-11-25 alle 19.15.56.png>
-Package pdftex.def Info: imm/Screenshot 2025-11-25 alle 19.15.56.png  used on input line 1491.
+Package pdftex.def Info: imm/Screenshot 2025-11-25 alle 19.15.56.png  used on input line 1767.
 (pdftex.def)             Requested size: 151.19934pt x 63.73296pt.
 
 
-[62 </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-11-25 alle 19.02.37.png>]
+[71 </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-11-25 alle 19.02.37.png>]
 
-[63 </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-11-25 alle 19.15.06.png> </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-11-25 alle 19.15.15.png> </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-11-25 alle 19.15.26.png> </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-11-25 alle 19.15.40.png> </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-11-25 alle 19.15.48.png> </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-11-25 alle 19.15.56.png>] (/Users/idabenvenuto/Documents/università/magistrale/DDS/appunti.aux)
+[72 </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-11-25 alle 19.15.06.png> </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-11-25 alle 19.15.15.png> </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-11-25 alle 19.15.26.png> </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-11-25 alle 19.15.40.png> </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-11-25 alle 19.15.48.png> </Users/idabenvenuto/Documents/università/magistrale/DDS/imm/Screenshot 2025-11-25 alle 19.15.56.png>] (/Users/idabenvenuto/Documents/università/magistrale/DDS/appunti.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
  ***********
 Package rerunfilecheck Info: File `appunti.out' has not changed.
-(rerunfilecheck)             Checksum: AC8E723D48546726E8A82D9AAAC652CB;15601.
+(rerunfilecheck)             Checksum: B84C853442C168ADB444BC45D487E6C5;18988.
  ) 
 Here is how much of TeX's memory you used:
- 11886 strings out of 474662
- 196701 string characters out of 5751108
- 575783 words of memory out of 5000000
- 34459 multiletter control sequences out of 15000+600000
- 580229 words of font info for 90 fonts, out of 8000000 for 9000
+ 13846 strings out of 474662
+ 224690 string characters out of 5751108
+ 846909 words of memory out of 5000000
+ 36327 multiletter control sequences out of 15000+600000
+ 581768 words of font info for 92 fonts, out of 8000000 for 9000
  319 hyphenation exceptions out of 8191
- 75i,10n,79p,517b,675s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/cm-super/sfbx1095.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/cm-super/sfbx1200.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/cm-super/sfbx2074.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/cm-super/sfbx2488.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/cm-super/sfrm0800.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/cm-super/sfrm1095.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/cm-super/sfrm1728.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/cm-super/sfti1095.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/cm-super/sftt1095.pfb>
-Output written on /Users/idabenvenuto/Documents/università/magistrale/DDS/appunti.pdf (64 pages, 10672623 bytes).
+ 75i,10n,79p,517b,1279s stack positions out of 10000i,1000n,20000p,200000b,200000s
+</usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/cm-super/sfbx1000.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/cm-super/sfbx1095.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/cm-super/sfbx1200.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/cm-super/sfbx2074.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/cm-super/sfbx2488.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/cm-super/sfrm0800.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/cm-super/sfrm1095.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/cm-super/sfrm1728.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/cm-super/sfti1095.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/cm-super/sftt1095.pfb>
+Output written on /Users/idabenvenuto/Documents/università/magistrale/DDS/appunti.pdf (73 pages, 12011862 bytes).
 PDF statistics:
- 1102 PDF objects out of 1200 (max. 8388607)
- 866 compressed objects within 9 object streams
- 322 named destinations out of 1000 (max. 500000)
- 992 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1311 PDF objects out of 1440 (max. 8388607)
+ 1044 compressed objects within 11 object streams
+ 397 named destinations out of 1000 (max. 500000)
+ 1192 words of extra memory for PDF output out of 10000 (max. 10000000)
 

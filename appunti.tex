@@ -8,6 +8,7 @@
 \usepackage{graphicx}
 \usepackage{float}
 \usepackage{hyperref}
+\usepackage{listings}
 
 \title{Dependable Distributed Systems}
 \author{Ida Francesca Benvenuto}
@@ -696,7 +697,10 @@ Another algorithm, developed by \textbf{Ricart} and \textbf{Agrawala}, improves 
 \item Reduces the number of messages needed.
 \item Processes can immediately reply to requests (instead of queuing them).
 \end{itemize}
-
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{imm/Screenshot 2025-12-16 alle 12.16.40.png}
+\end{figure}
 \subsubsection{Local Variables}
 
 Each process $p_i$ maintains:
@@ -749,8 +753,280 @@ When $p_i$ receives REPLY from $p_j$:
 \begin{enumerate}
 \item Increment the reply counter.
 \end{enumerate}
+\subsection*{Example Execution}
+\begin{figure}
+    \centering
+    \includegraphics[width=1\textwidth]{imm/Screenshot 2025-12-16 alle 12.23.37.png}
+\end{figure}
+P1 and p2 both request the resource. Both increase their own clock num and send the request.
+when p1 receives p2's request, it sees that its own timestamp (1) is smaller than p2's (2), so it queues p2's request and does not reply yet.
+when p2 receives p1's request, it sees that its own timestamp (2) is larger than p1's (1), so it immediately replies to p1 and the same do P3.
+thus p1 receives all the replies and can enter the critical section.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{imm/Screenshot 2025-12-16 alle 12.23.31.png}
+\end{figure}
+P2 have the reply from P3, and when P1 go out of the critical section, it sends the reply to P2, which can now enter the critical section.
+
+\chapter{Distributed Mutual Exclusion (6)}
+\section*{Approaches to Distributed Mutual Exclusion}
+
+There are four main approaches to solve the mutual exclusion problem:
+
+\begin{enumerate}
+    \item \textbf{Coordinator-based}: One special process acts as a server and controls access
+    \item \textbf{Token-based}: A unique token is passed between processes; only the process with the token can use the resource
+    \item \textbf{Quorum-based}: A process asks for permission from a subset of other processes
+    \item \textbf{Logical Clock-based}: Processes use logical clocks to order requests fairly
+\end{enumerate}
+
+\section{Coordinator-based Algorithm}
+
+\subsection{Basic Idea}
+
+In this approach, one special process acts as a \textbf{coordinator}. This process receives all requests from other processes and decides which process can enter the critical section.
+
+\begin{itemize}
+    \item One process is elected as the coordinator
+    \item Other processes send requests to the coordinator
+    \item The coordinator grants access one at a time
+    \item When a process finishes, it notifies the coordinator
+\end{itemize}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{imm/Screenshot 2025-12-16 alle 12.39.56.png}
+    
+\end{figure}
+
+\subsection{Example Execution}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{imm/Screenshot 2025-12-16 alle 12.44.22.png}
+\end{figure}
+
+\begin{enumerate}
+
+    \item \textit{p$_3$ requests} the resource by sending REQ to \textit{p$_2$}, like\textit{p$_1$}, but the p3's request arrive before, so p2 set current in cs= p3 . 
+   \item The pending list becomes \{p$_1$\}.
+    \item The coordinator \textit{p$_2$} grants access to \(p_3\). It sends GRANT\_CS to \(p_3\).
+    \item \textit{p$_3$} enters the critical section (state = CS).
+    \item \textit{p$_3$} finishes and sends REL to the coordinator.
+    \item The coordinator \textit{p$_2$} receives the REL message. Now \textit{current\_in\_CS} = null.
+    \item The coordinator grants access to \(p_1\) (next in queue). It sends GRANT\_CS to \(p_1\).
+    \item \textit{p$_1$} enters the critical section.
+\end{enumerate}
+
+\subsection{Performance Analysis}
+
+\begin{itemize}
+    \item \textbf{Entering the critical section}: Requires 2 messages (REQ and GRANT). This takes one Round-Trip Time (RTT).
+    
+    \item \textbf{Releasing the resource}: Requires only 1 message (REL).
+    
+    \item \textbf{Load}: The coordinator is a potential bottleneck. All requests go through it, so it receives a lot of messages.
+    
+    \item \textbf{Advantages}: Simple to understand and implement. The algorithm is efficient in terms of message count.
+    
+    \item \textbf{Disadvantages}: The coordinator is a single point of failure. If the coordinator crashes, the system stops working. It can also become a performance bottleneck when many processes need access.
+\end{itemize}
+
+\section{Token-based Algorithm on Logical Ring}
+
+\subsection{Basic Idea}
+
+In this approach, a unique \textbf{token} circulates among processes. A process can enter the critical section only when it holds the token.
+
+\begin{itemize}
+    \item Processes form a logical ring topology
+    \item A single token is created and circulates in the ring
+    \item Only the process that has the token can use the resource
+    \item After using the resource (or if not interested), the token is passed to the next process in the ring
+\end{itemize}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{imm/Screenshot 2025-12-16 alle 12.54.47.png}
+\end{figure}
+\subsection{Token Initialization}
+
+During the initialization phase, one process (selected by a deterministic function, e.g., the process with the smallest ID) creates the token and sends it to the next process in the ring. This guarantees that exactly one token exists in the system.
+
+\subsection{Algorithm Details}
+
+\begin{lstlisting}[language=Python, basicstyle=\small, breaklines=true]
+// initialization
+state = idle
+next = p(i+1) mod N
+//only p_0 creates the token
+if self == p_0:
+    send TOKEN to next
+
+upon event request():
+    state = waiting
+
+upon event receive pp2pDeliver( TOKEN):
+    if state == waiting:
+        state = CS
+        trigger ok()
+    else:
+        // Process do not need the resource, pass it on send TOKEN to next
+        trigger pp2pSend(Token)to next
+
+upon event release():
+    state = idle
+    trigger pp2pSend(Token)to next
+\end{lstlisting}
+
+\subsection{Performance Analysis}
+
+\begin{itemize}
+    \item \textbf{Message overhead}: The algorithm continuously uses communication resources. Even if no process wants the resource, the token keeps circulating around the ring.
+    
+    \item \textbf{Access delay}: The delay between requesting the resource and getting it varies widely. In the best case (0 time units), a process just receives the token. In the worst case (\textit{N} messages), a process just forwarded the token to the next process and must wait for it to come back.
+    
+    \item \textbf{Fairness}: The algorithm is fair. Processes take turns in order around the ring.
+    
+    \item \textbf{Advantages}: Fair ordering of requests. No single point of failure (unlike the coordinator approach).
+    
+    \item \textbf{Disadvantages}: Wasteful message traffic. Unpredictable access delay. If a process holding the token crashes, the token is lost.
+\end{itemize}
+
+\section{Quorum-based Algorithm: Maekawa's Voting}
+
+\subsection{Basic Idea}
+
+Instead of asking all processes for permission, each process only asks permission from a \textbf{subset} of other processes called a \textbf{voting set}. This subset is chosen carefully so that:
+
+\begin{itemize}
+    \item Any two voting sets overlap (have at least one process in common)
+    \item This overlap guarantees that conflicts are detected
+    \item A process needs permission from all members in its voting set to enter the critical section
+\end{itemize}
+\subsection{Voting Set Requirements}
+
+For each process \(p_i\), we define a voting set \(V_i\) that must satisfy:
+
+\begin{enumerate}
+    \item \(p_i \in V_i\): Process \(p_i\) must be in its own voting set (it votes for itself)
+    
+    \item \(\forall i, j: V_i \cap V_j \neq \emptyset\): Every pair of voting sets must have at least one process in common. This is the key property that ensures mutual exclusion.
+    
+    \item \(|V_i| = K\): All voting sets have the same size (for fairness)
+    
+    \item Each process \(p_j\) is contained in exactly \(M\) voting sets (same responsibility principle: each process votes the same number of times)
+\end{enumerate}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{imm/Screenshot 2025-12-16 alle 13.04.01.png}
+\end{figure}
+
+\subsection{How It Works}
+
+\begin{enumerate}
+    \item A process that wants the resource sends a request (REQ) to all processes in its voting set.
+    
+    \item When a process receives a request:
+    \begin{itemize}
+        \item If it is already using the resource or has already granted permission to another process, it adds the requester to a pending list
+        \item Otherwise, it grants permission (sends ACK) and remembers that it voted
+    \end{itemize}
+    
+    \item A process can enter the resource only after receiving ACK from all processes in its voting set.
+    
+    \item When a process releases the resource:
+    \begin{itemize}
+        \item It sends a release message (REL) to all processes in its voting set
+        \item If there are processes waiting in the pending list, it grants permission to the next one
+    \end{itemize}
+\end{enumerate}
+\subsection{Computing Optimal Sizes}
+
+Maekawa showed that the optimal values that minimize the voting set size while maintaining correctness are:
+
+\begin{itemize}
+    \item \(K \approx \sqrt{N}\)
+    \item \(M = K\)
+    \item \(|V_i| \approx 2\sqrt{N}\)
+\end{itemize}
+
+This is much better than asking all \textit{N} processes (which would require \(N\) messages instead of \(\sqrt{N}\)).
+
+\subsection{Constructing Voting Sets}
+
+A practical way to construct voting sets is:
+
+\begin{enumerate}
+    \item Arrange \textit{N} processes in a square matrix of size \(\sqrt{N} \times \sqrt{N}\)
+    \item For each process \(p_i\), the voting set \(V_i\) is the union of:
+    \begin{itemize}
+        \item All processes in the same row as \(p_i\)
+        \item All processes in the same column as \(p_i\)
+    \end{itemize}
+\end{enumerate}
+
+\subsection{Example: 4 Processes}
+
+Let us arrange 4 processes in a \(2 \times 2\) matrix:
+
+\begin{center}
+\begin{tabular}{|c|c|}
+\hline
+\(p_1\) & \(p_2\) \\
+\hline
+\(p_3\) & \(p_4\) \\
+\hline
+\end{tabular}
+\end{center}
+
+The voting sets are:
+
+\begin{itemize}
+    \item \(V_1 = \{p_1, p_2, p_3\}\): Same row as \(p_1\) is \(\{p_1, p_2\}\), same column is \(\{p_1, p_3\}\)
+    \item \(V_2 = \{p_1, p_2, p_4\}\): Same row is \(\{p_1, p_2\}\), same column is \(\{p_2, p_4\}\)
+    \item \(V_3 = \{p_1, p_3, p_4\}\): Same row is \(\{p_3, p_4\}\), same column is \(\{p_1, p_3\}\)
+    \item \(V_4 = \{p_2, p_3, p_4\}\): Same row is \(\{p_3, p_4\}\), same column is \(\{p_2, p_4\}\)
+\end{itemize}
+
+Notice that every pair of voting sets intersects. For example, \(V_1 \cap V_2 = \{p_1, p_2\}\), and \(V_1 \cap V_4 = \{p_2, p_3\}\).
+
+\subsection{Example: 9 Processes}
+
+Arrange 9 processes in a \(3 \times 3\) matrix:
+
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline
+\(p_1\) & \(p_2\) & \(p_3\) \\
+\hline
+\(p_4\) & \(p_5\) & \(p_6\) \\
+\hline
+\(p_7\) & \(p_8\) & \(p_9\) \\
+\hline
+\end{tabular}
+\end{center}
+
+Each voting set has size \(|V_i| = 5\) (we need 3 processes from the row plus 3 from the column, minus the process itself to avoid counting it twice: \(3 + 3 - 1 = 5\)).
 
 
+\subsection{Why It Works}
+
+The algorithm guarantees mutual exclusion because of the voting set property. If two processes \(p_i\) and \(p_j\) both want the resource, their voting sets \(V_i\) and \(V_j\) must overlap. At least one process belongs to both voting sets. This common process will grant permission to the first requester and reject the second, preventing both from being in the critical section at the same time.
+
+\subsection{Important Limitation}
+
+\textbf{Maekawa's algorithm is NOT deadlock-free!} There is a potential deadlock scenario:
+
+\begin{itemize}
+    \item Process \(p_1\) gets permission from some processes and waits for others
+    \item Process \(p_2\) gets permission from some processes and waits for others
+    \item There is a circular dependency: both processes are waiting for each other's votes
+\end{itemize}
+
+To fix this, additional deadlock prevention mechanisms are needed (like timeouts or deadlock detection).
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{imm/Screenshot 2025-12-16 alle 13.15.06.png}
+\end{figure}
 \chapter{Failure Detection (7)}
 Failure Detectors (FD) are mechanisms used in distributed systems to provide information about the status of processes, specifically whether they are operational (correct) or have failed (crashed). They help to overcome the challenges posed by asynchrony and failures in distributed systems.
 \section{Timing assumptions}
