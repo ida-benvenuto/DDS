@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.11.15)  16 DEC 2025 17:14
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.11.15)  16 DEC 2025 17:26
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1290,7 +1290,7 @@ LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
  ***********
 Package rerunfilecheck Info: File `appunti.out' has not changed.
-(rerunfilecheck)             Checksum: 3CD75D45FC20088655684715FD2AF468;26505.
+(rerunfilecheck)             Checksum: 2607DAF8A80C1A6C4741313358B6B274;26591.
  ) 
 Here is how much of TeX's memory you used:
  14109 strings out of 474662
@@ -1301,7 +1301,7 @@ Here is how much of TeX's memory you used:
  319 hyphenation exceptions out of 8191
  75i,10n,79p,517b,1279s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/cm-super/sfbx1000.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/cm-super/sfbx1095.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/cm-super/sfbx1200.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/cm-super/sfbx2074.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/cm-super/sfbx2488.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/cm-super/sfrm0800.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/cm-super/sfrm1095.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/cm-super/sfrm1728.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/cm-super/sfti1095.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/cm-super/sftt1095.pfb>
-Output written on /Users/idabenvenuto/Documents/università/magistrale/DDS/appunti.pdf (101 pages, 15325333 bytes).
+Output written on /Users/idabenvenuto/Documents/università/magistrale/DDS/appunti.pdf (101 pages, 15325339 bytes).
 PDF statistics:
  1708 PDF objects out of 1728 (max. 8388607)
  1386 compressed objects within 14 object streams
