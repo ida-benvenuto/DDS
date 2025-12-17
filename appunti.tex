@@ -2833,29 +2833,662 @@ For the crash-silent model (no perfect failure detection):
 \item Read: at most $4N$ messages (query majority + write back to majority)
 \end{itemize}
 
-\section{Correctness Properties}
+\chapter{CAP Theorem (18)}
+the CAP Theorem is one of the most important concepts in distributed systems. This theorem explains the fundamental trade-offs that all distributed databases and systems must make. 
 
-All register implementations must satisfy three core properties:
+\section{From Centralized to Distributed Storage}
 
-\subsection{Termination}
+\subsection{Historical Context}
 
-If a process does not crash, every operation it starts must eventually complete. This is guaranteed by our communication primitives (reliable links, broadcast) and failure detectors.
+The history of information systems shows a clear evolution from centralized to distributed approaches:
 
-\subsection{Validity}
+\begin{enumerate}
+    \item \textbf{Mainframe-based systems} - Early computers stored all data in one central location
+    \item \textbf{Internet-based systems} - Military systems first used distributed networks
+    \item \textbf{Client-server architectures} - Companies began using multiple servers to serve clients
+    \item \textbf{Web-services} - Applications distributed across many servers
+    \item \textbf{Peer-to-peer systems} - All computers have equal responsibility
+    \item \textbf{Cloud computing} - Massive distributed systems accessible from anywhere
+\end{enumerate}
 
-A read operation must return a meaningful value:
+\subsection{The Challenge of Scaling Relational Databases}
+
+Relational databases (RDBMS) became very popular for business applications. However, the internet created new challenges:
+
 \begin{itemize}
-\item Either the value from the last completed write
-\item Or a value that was being written when the read happened
+    \item E-commerce websites needed to handle many customers at the same time
+    \item Web applications had sudden increases in traffic (``spikes'')
+    \item Large datasets became too big for a single computer
+    \item Traditional databases were not designed to work across multiple machines
 \end{itemize}
 
-\subsection{Ordering (Atomic Only)}
+Developers created solutions like \textbf{memcache} (a temporary storage system) to improve performance. However, the real problem was that databases needed to work on multiple computers --- what we call \textbf{``scaling out''} or \textbf{horizontal scaling}.
 
-For atomic registers, if read 1 completes before read 2 starts, and read 1 returns value $v_1$ with timestamp $ts_1$, then read 2 cannot return a value with a lower timestamp.
+\subsubsection{Solutions for Scaling Databases}
 
-This is achieved through timestamps and the ``impose'' operation, which forces processes to update their copies.
+There are two main ways to scale relational databases:
 
+\paragraph{1. Master-Slave Replication}
 
+In this approach:
+\begin{itemize}
+    \item There is one main server (master) that receives all write operations
+    \item Multiple backup servers (slaves) make copies of the data
+    \item All read operations can come from any slave server
+    \item \textbf{Problem:} If you read from a slave immediately after a write to the master, you might get old data because the update has not yet been copied to that slave
+\end{itemize}
+
+\paragraph{2. Sharding (Data Partitioning)}
+
+In this approach:
+\begin{itemize}
+    \item Data is divided into different pieces (shards)
+    \item Each piece lives on a different server
+    \item Reads and writes can happen on many servers simultaneously
+    \item \textbf{Problem:} The application must know which piece of data is on which server
+    \item \textbf{Problem:} You cannot easily join data from different shards
+    \item \textbf{Problem:} You lose referential integrity (relationships between data)
+\end{itemize}
+
+\paragraph{Other Approaches}
+
+\begin{itemize}
+    \item \textbf{Multi-master replication:} Multiple servers can accept writes (but this is complex)
+    \item \textbf{INSERT-only databases:} Only allow adding new data, not changing old data
+    \item \textbf{In-memory databases:} Store data in RAM instead of on disk for speed
+\end{itemize}
+
+\section{Replication and the CAP Theorem}
+
+\subsection{Replication: Basic Concepts}
+Replication means making copies of data on different computers. Here is the basic model:
+
+\begin{itemize}
+    \item We have \(N\) clients: \(c_1, c_2, \ldots, c_n\)
+    \item They access a set \(X\) of objects (database tables, files, etc.)
+    \item Each object has an internal state
+    \item Clients use operations to interact with objects
+    \item The set of operations defines how the object behaves
+\end{itemize}
+
+\subsubsection{Replication Model}
+
+Each object \(x\) is represented by multiple physical copies called \textbf{replicas}:
+
+\[
+x = \{x_1, x_2, \ldots, x_m\}
+\]
+
+where each replica \(x_i\) is stored on a different physical computer in a different location.
+
+\subsection{Requirements for Replication}
+
+When we replicate data, we need two important requirements:
+
+\paragraph{1. Transparency}
+
+\begin{itemize}
+    \item Clients must have the feeling that they interact with a single object, not multiple copies
+    \item The interface for clients should not change
+    \item Clients should not need to know about replication
+\end{itemize}
+
+\paragraph{2. Consistency}
+
+\begin{itemize}
+    \item All operations must produce the same results as if we had only one object
+    \item When multiple clients access the same data at the same time, the system must manage these concurrent accesses correctly
+\end{itemize}
+
+\subsection{Linearizability}
+
+We need to define what \textbf{consistency} means in a distributed system.
+
+\paragraph{Sequential System}
+\begin{itemize}
+    \item At each moment in time, only one process interacts with an object
+    \item Operations are described by their preconditions (what must be true before) and postconditions (what becomes true after)
+\end{itemize}
+
+\paragraph{Concurrent System}
+\begin{itemize}
+    \item Multiple clients access the object at the same time
+    \item We must carefully manage these concurrent accesses
+\end{itemize}
+
+\textbf{Linearizability} specifies how a concurrent object must behave according to the rules of the sequential object.
+
+\textbf{Main idea:} Clients should have the feeling that they interact with a single unique physical object, even when multiple clients access it simultaneously.
+
+\textbf{Rules for Linearizability:}
+
+\begin{enumerate}
+    \item Each operation must produce the same effect it would produce if executed in isolation
+    \item The order of sequential operations must be preserved
+    \item The system must appear to have no latency --- operations happen immediately
+\end{enumerate}
+
+\subsection{Basic Replication Techniques}
+
+There are two main approaches to replication:
+
+\subsubsection{Passive Replication (Primary Backup)}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{imm/Screenshot 2025-12-17 alle 16.46.42.png}
+\end{figure}
+\begin{itemize}
+    \item One primary replica receives all operations from clients
+    \item The primary executes the operation and gets the result
+    \item Then the primary sends update messages to all backup replicas
+    \item The backups acknowledge the update
+    \item Finally, the primary sends the result to the client
+    \item \textbf{Advantage:} Simple to implement and understand
+    \item \textbf{Disadvantage:} The primary is a bottleneck (all work goes to one server)
+\end{itemize}
+
+\subsubsection{Active Replication}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{imm/Screenshot 2025-12-17 alle 16.46.51.png}
+\end{figure}
+\begin{itemize}
+    \item All replicas receive the operation from the client at the same time
+    \item All replicas execute the operation
+    \item All replicas return the result to the client
+    \item \textbf{Advantage:} No single bottleneck
+    \item \textbf{Disadvantage:} More complex; all replicas must execute exactly the same operations in the same order
+\end{itemize}
+
+% ===== Section 4 =====
+\section{The CAP Theorem}
+
+\subsection{Fundamental Properties}
+
+\paragraph{1. Consistency (C)} Every request receives the correct response.
+
+\textbf{Example:} If you add a book to your shopping cart on Amazon, and then you check your cart, the book will be there.
+
+\paragraph{2. Availability (A)}  Every request eventually receives a response.
+
+\textbf{Example:} When you try to access your shopping cart, the system will eventually respond to you. You will not wait forever.
+
+\paragraph{3. Partition Tolerance (P)} The system can continue working even when computers cannot communicate with each other due to network problems.
+
+\textbf{Example:} Imagine a database split into two groups of servers. Servers in group 1 cannot send messages to servers in group 2. The system can still continue working in both groups.
+
+\begin{center}
+\fbox{
+\begin{minipage}{0.9\textwidth}
+\textbf{The CAP Theorem:}
+
+``Of three properties of shared-data systems (Consistency, Availability, and tolerance to network Partitions), only two can be achieved at any given moment in time.''
+\end{minipage}
+}
+\end{center}
+
+\textbf{Alternative way to state it:} In any networked shared-data system, you can guarantee at most two of the three properties C, A, and P.
+
+\subsubsection{Proof Intuition}
+
+Imagine we have a simple system with a data object that can be read and written:
+
+\begin{itemize}
+    \item Client 1 writes value \(v_1\) to object A on server 1
+    \item A network partition happens --- servers cannot communicate
+    \item Client 2 tries to read object A from server 2
+\end{itemize}
+
+\textbf{The problem:}
+
+\begin{itemize}
+    \item Server 1 has the new value \(v_1\)
+    \item Server 2 still has the old value
+    \item What should server 2 do?
+\end{itemize}
+
+\textbf{Option 1: Guarantee Consistency}
+\begin{itemize}
+    \item Server 2 refuses to respond to the read request
+    \item It waits until it can communicate with server 1 to get the new value
+    \item \textbf{Result:} The system is not available (the request does not get an answer)
+\end{itemize}
+
+\textbf{Option 2: Guarantee Availability}
+\begin{itemize}
+    \item Server 2 responds with the old value
+    \item The system stays available
+    \item \textbf{Result:} The system is not consistent (the client gets wrong data)
+\end{itemize}
+
+\textbf{The conclusion:} When a partition happens, we cannot guarantee both C and A. We must choose one.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{imm/Screenshot 2025-12-17 alle 17.00.01.png}
+\end{figure}
+\subsection{The Three Choices: CA, AP, CP}
+
+Every system must be on one of three sides of a triangle:
+
+\subsubsection{CA: Consistency and Availability (Forfeit Partitions)}
+
+\begin{itemize}
+    \item The system guarantees C and A
+    \item The system assumes that partitions never happen (or recovers very quickly)
+    \item \textbf{Examples:} Single-server databases, cluster databases with very good network
+    \item \textbf{Characteristics:} Uses 2-phase commit, cache validation protocols
+    \item \textbf{Real examples:} LDAP, Traditional RDBMS databases
+\end{itemize}
+
+\subsubsection{AP: Availability and Partition Tolerance (Forfeit Consistency)}
+
+\begin{itemize}
+    \item The system guarantees A and P
+    \item The system can work even when partitions happen
+    \item During a partition, different parts of the system may have different data (inconsistency)
+    \item The system will eventually become consistent after the partition is fixed
+    \item \textbf{Examples:} Web caching, DNS (Domain Name System), Coda file system
+    \item \textbf{Characteristics:} Uses optimistic locking, conflict resolution, expiration of old data
+    \item \textbf{Real example:} Amazon's shopping cart
+\end{itemize}
+
+\subsubsection{CP: Consistency and Partition Tolerance (Forfeit Availability)}
+
+\begin{itemize}
+    \item The system guarantees C and P
+    \item The system maintains consistency even during a partition
+    \item When a partition happens, the system may not be available (some requests are refused)
+    \item \textbf{Examples:} Distributed databases with voting systems, distributed locking
+    \item \textbf{Characteristics:} Uses pessimistic locking, majority protocols, quorum systems
+    \item During a partition, only the majority partition remains available
+\end{itemize}
+
+\subsection{Important Observations about CAP}
+
+\subsubsection{Partitions are Not Optional}
+
+When you distribute data across multiple computers:
+
+\begin{itemize}
+    \item Network partitions are a real possibility
+    \item They will eventually happen in any large system
+    \item Therefore, \textbf{P is not really a choice} --- you must handle partitions
+\end{itemize}
+
+\subsubsection{The Real Choice}
+
+In practice, the real decision is between C and A:
+
+\begin{itemize}
+    \item \textbf{For most systems:} A is more important than C
+    \item Users prefer a system that works (even if the data might be slightly wrong) over a system that is down
+    \item Most companies choose AP systems
+\end{itemize}
+
+\subsubsection{Consistency Boundary}
+
+\textbf{Important insight:} We can have both C and A within a cluster (a group of computers with a very good internal network):
+
+\begin{itemize}
+    \item Within a cluster, partitions rarely happen
+    \item We can use 2-phase commit and other strong consistency techniques
+    \item \textbf{Outside} a cluster (wide-area systems): We must choose between C and A
+\end{itemize}
+
+\textbf{Comparison:}
+
+\begin{itemize}
+    \item \textbf{Operating Systems and Networks:} Better at providing A (availability)
+    \item \textbf{Databases:} Better at providing C (consistency)
+    \item \textbf{Wide-area databases:} Cannot guarantee both C and A
+\end{itemize}
+
+% ===== Section 5 =====
+\section{Consistency Models and Related Concepts}
+
+\subsection{CAP vs. ACID}
+
+\subsubsection{ACID Properties}
+
+ACID is a different concept from CAP. ACID describes what happens \textbf{within} a single transaction:
+
+\begin{itemize}
+    \item \textbf{Atomicity:} An operation either completes fully or not at all (``all-or-nothing'')
+    \item \textbf{Consistency:} Every transaction preserves the consistency rules of the data
+    \item \textbf{Isolation:} One transaction does not interfere with other transactions
+    \item \textbf{Durability:} After a commit, the updates are permanent even if there are failures
+\end{itemize}
+
+\subsubsection{The Relationship Between CAP and ACID}
+
+\begin{itemize}
+    \item \textbf{Consistency in CAP:} Refers to single-copy consistency (all copies have the same data)
+    \item \textbf{Consistency in ACID:} Refers to data integrity rules
+    \item \textbf{Availability in ACID:} Not mentioned; ACID assumes the system is always available
+    \item \textbf{Isolation in ACID:} Deeply related to the CAP Theorem; you can only guarantee isolation in one partition
+    \item \textbf{Durability:} Independent of CAP
+\end{itemize}
+
+\subsection{BASE: An Alternative to ACID}
+
+BASE stands for:
+
+\begin{itemize}
+    \item \textbf{Basically Available:} The system is available most of the time; small parts might be temporarily unavailable
+    \item \textbf{Soft State:} Data is temporary and may change; users must refresh data to keep it updated
+    \item \textbf{Eventually Consistent:} After updates stop, the system will eventually reach a consistent state
+\end{itemize}
+
+\subsubsection{BASE vs. ACID}
+
+BASE is an alternative design philosophy for distributed systems that prioritizes availability:
+
+\begin{itemize}
+    \item \textbf{ACID:} Strong consistency, weaker availability
+    \item \textbf{BASE:} Weak consistency, strong availability
+    \item Many modern systems use BASE instead of ACID
+\end{itemize}
+
+\section{Common Misunderstandings about CAP}
+
+\subsection{``2 out of 3'' is Misleading}
+
+Many people say ``choose 2 out of 3'' when explaining CAP, but this is incomplete:
+
+\subsubsection{1. Partitions are Rare}
+
+\begin{itemize}
+    \item Network partitions are rare events in well-built systems
+    \item During normal operation (no partitions), you \textbf{can} have both C and A
+    \item There is no reason to sacrifice C or A ``by design'' just because partitions might happen
+\end{itemize}
+
+\subsubsection{2. Systems Evolve Over Time}
+
+\begin{itemize}
+    \item Different parts of a system might make different choices
+    \item For some data, consistency might be more important than availability
+    \item For other data, availability might be more important
+    \item The system can use different approaches for different components
+\end{itemize}
+
+\subsubsection{3. C, A, and P are Measured on a Spectrum}
+
+\begin{itemize}
+    \item \textbf{Consistency:} Has many levels (ACID is strong; BASE is weak)
+    \item \textbf{Availability:} Different systems have different levels (95\%, 99\%, 99.9\%)
+    \item \textbf{Partition tolerance:} Different network conditions cause different severity levels
+\end{itemize}
+
+\subsubsection{4. What CAP Really Says vs. What It Does Not Say}
+
+\textbf{What CAP says:}
+\begin{itemize}
+    \item When there is a partition, you cannot have both C and A
+\end{itemize}
+
+\textbf{What CAP does NOT say:}
+\begin{itemize}
+    \item There cannot be periods of time when you have C, A, and P together
+    \item During normal periods with no partitions, both C and A can be achieved
+\end{itemize}
+
+\subsection{Latency is the Hidden Factor}
+
+\subsubsection{The Real Reason Systems Trade Consistency}
+
+CAP does not explicitly mention \textbf{latency}, but latency is critical to understanding why systems trade consistency:
+
+\begin{itemize}
+    \item \textbf{High Availability:} Modern systems must be highly available
+    \item \textbf{Replication:} To achieve availability, data must be replicated on multiple servers
+    \item \textbf{Consistency:} To maintain consistency across replicas requires communication
+    \item \textbf{Latency:} The stronger the consistency requirement, the more communication is needed, and the higher the latency
+\end{itemize}
+
+\textbf{The Trade-off:} 
+
+\begin{itemize}
+    \item Strong consistency = more communication = higher latency = slower system
+    \item Weak consistency = less communication = lower latency = faster system
+\end{itemize}
+
+\textbf{Practical decision:} Systems often choose weak consistency to provide low latency and high availability to users.
+
+% ===== Section 7 =====
+\section{PACELC: An Extension of CAP}
+
+\subsection{Introduction to PACELC}
+
+Daniel Abadi proposed an extension to the CAP Theorem called PACELC to address the latency issue:
+
+\begin{center}
+\fbox{
+\begin{minipage}{0.9\textwidth}
+\textbf{PACELC:}
+
+``If there is a Partition (P), how does the system trade off Availability (A) and Consistency (C); Else (E), when the system runs normally with no partitions, how does the system trade off Latency (L) and Consistency (C)?''
+\end{minipage}
+}
+\end{center}
+
+\subsection{Understanding PACELC}
+
+PACELC says there are actually two trade-offs to consider:
+
+\paragraph{During a Partition (PAC)}
+
+\begin{itemize}
+    \item A partition happens: you choose between A (availability) and C (consistency)
+    \item This is the original CAP Theorem choice
+\end{itemize}
+
+\paragraph{Else, During Normal Operation (ELC)}
+
+\begin{itemize}
+    \item No partition is happening
+    \item You choose between L (latency) and C (consistency)
+    \item Lower latency usually means weaker consistency
+    \item Higher consistency usually means higher latency
+\end{itemize}
+
+% ===== Section 8 =====
+\section{Partition Management}
+
+\subsection{The Challenge of Managing Partitions}
+
+Partition management involves three steps:
+
+\begin{enumerate}
+    \item \textbf{Partition Detection:} Determining that a partition has occurred
+    \item \textbf{Activating Partition Mode:} Changing the system's behavior for the partition
+    \item \textbf{Partition Recovery:} Returning to normal operation and fixing inconsistencies
+\end{enumerate}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{imm/Screenshot 2025-12-17 alle 17.02.34.png}
+\end{figure}
+
+\subsection{Partition Detection}
+
+\subsubsection{The Problem: Using Timeouts}
+
+\begin{itemize}
+    \item To keep the system live, we use timeouts (maximum wait times)
+    \item When a timeout expires, the system must decide: Is there a partition or just a slow response?
+    \item If we wait too long, the system becomes unavailable
+    \item If we decide too quickly, we might falsely think there is a partition
+\end{itemize}
+
+\subsubsection{Detection is Not Global}
+
+Important observation:
+
+\begin{itemize}
+    \item Different parts of the system may detect a partition at different times
+    \item One part might think there is a partition while another part does not
+    \item Different processes might be in different states (some in partition mode, some in normal mode)
+    \item \textbf{Result:} The system is in an inconsistent state during detection
+\end{itemize}
+
+\subsubsection{Choosing Which Operations Can Proceed}
+
+When in partition mode, the system must decide which operations are ``safe'':
+
+\begin{itemize}
+    \item Some operations might violate important rules if allowed during a partition
+    \item Example: A database rule says ``every key must be unique''
+        \begin{itemize}
+            \item Checking this rule is simple
+            \item If we detect a violation, we can merge the duplicate keys
+        \end{itemize}
+    \item Example: An airline ticket system says ``every passenger must have a seat''
+        \begin{itemize}
+            \item This rule is more complex to maintain during a partition
+            \item Fixing a violation might require a human agent to cancel a booking
+        \end{itemize}
+\end{itemize}
+
+\textbf{General approach:} Log every operation that happens during the partition so it can be reviewed or reprocessed later.
+
+\subsection{Partition Recovery}
+
+When the partition is fixed and all servers can communicate again, we need to handle the inconsistencies that developed.
+
+\subsubsection{Strategy 1: Roll-back and Replay Using Version Vectors}
+
+\begin{itemize}
+    \item Keep a log of all operations that happened on both sides of the partition
+    \item Use version vectors to determine which operations are newer
+    \item Roll back (undo) operations that happened in the wrong order
+    \item Replay (execute again) operations in the correct order
+    \item Raise conflicts for operations that are concurrent (happened at the same time)
+    \item Let humans resolve the conflicts
+\end{itemize}
+
+\subsubsection{Strategy 2: Use CRDTs (Commutative Replicated Data Types)}
+
+\begin{itemize}
+    \item Design data structures so that operations can happen in any order (they are commutative)
+    \item Example: A set where you can only add elements (adding A and B gives the same result regardless of order)
+    \item \textbf{Advantage:} No manual conflict resolution needed
+    \item \textbf{Disadvantage:} Only works for certain data types
+    \item \textbf{Example:} Amazon uses CRDTs for its shopping cart
+\end{itemize}
+
+\section{Version Vectors: A Technical Tool}
+
+\subsection{What is a Version Vector?}
+
+A version vector is a data structure that helps us determine the order of operations that happen on different computers:
+
+\begin{itemize}
+    \item There is one entry in the version vector for each node (computer) that can modify data
+    \item Each entry contains a timestamp (a logical clock value)
+    \item Each operation is tagged with the version vector at the time of the operation
+\end{itemize}
+
+\subsection{Comparing Version Vectors}
+
+Given two version vectors A and B, we can determine their relationship:
+
+\paragraph{A is newer than B if:}
+\begin{itemize}
+    \item For every node in both A and B: A's timestamp \(\geq\) B's timestamp
+    \item AND there is at least one node where A's timestamp \(>\) B's timestamp
+    \item \textbf{Meaning:} A includes all updates from B and more
+\end{itemize}
+
+\paragraph{A and B are concurrent if:}
+\begin{itemize}
+    \item A has a larger timestamp for some node and B has a larger timestamp for another node
+    \item \textbf{Meaning:} A and B happened independently; neither includes all updates from the other
+    \item \textbf{Result:} This is potentially inconsistent and may need manual resolution
+\end{itemize}
+
+\subsection{Practical Example}
+
+Consider three computers: Computer 1, Computer 2, Computer 3.
+
+\begin{itemize}
+    \item Version Vector A = [1, 0, 0] means: 1 update from Computer 1, 0 updates from Computer 2, 0 updates from Computer 3
+    \item Version Vector B = [0, 1, 1] means: 0 updates from Computer 1, 1 update from Computer 2, 1 update from Computer 3
+\end{itemize}
+
+Comparing A and B:
+\begin{itemize}
+    \item A has 1 but B has 0 for Computer 1 (A is newer for Computer 1)
+    \item A has 0 but B has 1 for Computer 2 (B is newer for Computer 2)
+    \item A has 0 but B has 1 for Computer 3 (B is newer for Computer 3)
+    \item \textbf{Conclusion:} A and B are concurrent (neither is a clear update of the other)
+    \item These updates may conflict and cause inconsistencies
+\end{itemize}
+
+% ===== Section 9 =====
+\section{Conflict Resolution and Error Compensation}
+
+\subsection{What is a Conflict?}
+
+\begin{itemize}
+    \item Conflicts happen when two concurrent operations modify the same data differently
+    \item During a partition, both modifications may be accepted in different parts of the system
+    \item When the partition is fixed, we have inconsistent data
+\end{itemize}
+
+\subsection{Basic Techniques for Conflict Resolution}
+
+\subsubsection{1. Deterministic Rules}
+
+\begin{itemize}
+    \item Apply automatic rules that do not require human judgment
+    \item \textbf{Example:} ``Last write wins'' --- if two updates conflict, keep the one with the latest timestamp
+    \item \textbf{Advantage:} Automatic and fast
+    \item \textbf{Disadvantage:} May lose important updates
+\end{itemize}
+
+\subsubsection{2. Operations Merge}
+
+\begin{itemize}
+    \item Combine the effects of concurrent operations intelligently
+    \item \textbf{Example:} If two shopping carts both add an item, keep both items
+    \item \textbf{Advantage:} Does not lose information
+    \item \textbf{Disadvantage:} Only works for some types of operations
+\end{itemize}
+
+\subsubsection{3. Human Escalation}
+
+\begin{itemize}
+    \item For important decisions, send the conflict to a human agent
+    \item \textbf{Example:} If two seat reservations conflict, a human agent decides which is valid
+    \item \textbf{Advantage:} Ensures correct decisions
+    \item \textbf{Disadvantage:} Slow and expensive
+\end{itemize}
+
+\subsection{Mistake Compensation}
+
+When a system chooses Availability over Consistency, mistakes may happen:
+
+\begin{itemize}
+    \item Important rules might be broken (invariants violated)
+    \item \textbf{Example:} A customer might be charged twice by mistake
+\end{itemize}
+
+To fix mistakes, we need:
+
+\begin{enumerate}
+    \item Define specific operations to correct errors
+        \begin{itemize}
+            \item \textbf{Example:} Refund a credit card charge
+        \end{itemize}
+    \item Use automated error correction when possible
+    \item Use human intervention for complex errors
+    \item Log all errors for auditing and analysis
+\end{enumerate}
+
+\chapter{Broadcast in presence of Bizantine processes (19)}
+\section{Bizantine Faults}
+A Bizantine fault is a type of failure in a distributed system where a component, such as a server or a node, behaves in an arbitrary or malicious manner. This means that the faulty component can send conflicting or incorrect information to different parts of the system, making it difficult to determine the true state of the system.
 \chapter{da riverdere}
 Paxos
+CAP Theorem
 \end{document}

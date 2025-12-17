@@ -276,11 +276,88 @@
 \@writefile{lof}{\contentsline {figure}{\numberline {12.3}{\ignorespaces although the write operation ends after the first read, pr2 have the correct value because pw-pr2 ends faster than pr1-pr2 or pw-pw, after the first read, pr2 update 5 in its row.Thus when start the second read pr1 using (pr2-pr1) have also the correct value.--ORDERING}}{115}{figure.12.3}\protected@file@percent }
 \@writefile{lof}{\contentsline {figure}{\numberline {12.4}{\ignorespaces when the realist obtain the majority start the write opertion}}{118}{figure.12.4}\protected@file@percent }
 \@writefile{lof}{\contentsline {figure}{\numberline {12.5}{\ignorespaces the write operation is different from the previous one because the writer send have a different timestamp }}{119}{figure.12.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {12.7}Correctness Properties}{119}{section.12.7}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {12.7.1}Termination}{119}{subsection.12.7.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {12.7.2}Validity}{119}{subsection.12.7.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {12.7.3}Ordering (Atomic Only)}{120}{subsection.12.7.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {chapter}{\numberline {13}da riverdere}{121}{chapter.13}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {13}CAP Theorem (18)}{120}{chapter.13}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\gdef \@abspage@last{122}
+\@writefile{toc}{\contentsline {section}{\numberline {13.1}From Centralized to Distributed Storage}{120}{section.13.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {13.1.1}Historical Context}{120}{subsection.13.1.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {13.1.2}The Challenge of Scaling Relational Databases}{120}{subsection.13.1.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Solutions for Scaling Databases}{121}{section*.88}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{1. Master-Slave Replication}{121}{section*.89}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{2. Sharding (Data Partitioning)}{121}{section*.90}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Other Approaches}{122}{section*.91}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {13.2}Replication and the CAP Theorem}{122}{section.13.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {13.2.1}Replication: Basic Concepts}{122}{subsection.13.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Replication Model}{122}{section*.92}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {13.2.2}Requirements for Replication}{122}{subsection.13.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{1. Transparency}{122}{section*.93}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{2. Consistency}{123}{section*.94}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {13.2.3}Linearizability}{123}{subsection.13.2.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Sequential System}{123}{section*.95}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Concurrent System}{123}{section*.96}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {13.2.4}Basic Replication Techniques}{123}{subsection.13.2.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Passive Replication (Primary Backup)}{124}{section*.97}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Active Replication}{124}{section*.98}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {13.3}The CAP Theorem}{125}{section.13.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {13.3.1}Fundamental Properties}{125}{subsection.13.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{1. Consistency (C)}{125}{section*.99}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{2. Availability (A)}{125}{section*.100}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{3. Partition Tolerance (P)}{125}{section*.101}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Proof Intuition}{125}{section*.102}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {13.3.2}The Three Choices: CA, AP, CP}{126}{subsection.13.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{CA: Consistency and Availability (Forfeit Partitions)}{127}{section*.103}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{AP: Availability and Partition Tolerance (Forfeit Consistency)}{127}{section*.104}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{CP: Consistency and Partition Tolerance (Forfeit Availability)}{127}{section*.105}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {13.3.3}Important Observations about CAP}{128}{subsection.13.3.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Partitions are Not Optional}{128}{section*.106}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{The Real Choice}{128}{section*.107}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Consistency Boundary}{128}{section*.108}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {13.4}Consistency Models and Related Concepts}{129}{section.13.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {13.4.1}CAP vs. ACID}{129}{subsection.13.4.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{ACID Properties}{129}{section*.109}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{The Relationship Between CAP and ACID}{129}{section*.110}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {13.4.2}BASE: An Alternative to ACID}{129}{subsection.13.4.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{BASE vs. ACID}{130}{section*.111}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {13.5}Common Misunderstandings about CAP}{130}{section.13.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {13.5.1}``2 out of 3'' is Misleading}{130}{subsection.13.5.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{1. Partitions are Rare}{130}{section*.112}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{2. Systems Evolve Over Time}{130}{section*.113}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{3. C, A, and P are Measured on a Spectrum}{130}{section*.114}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{4. What CAP Really Says vs. What It Does Not Say}{131}{section*.115}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {13.5.2}Latency is the Hidden Factor}{131}{subsection.13.5.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{The Real Reason Systems Trade Consistency}{131}{section*.116}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {13.6}PACELC: An Extension of CAP}{131}{section.13.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {13.6.1}Introduction to PACELC}{131}{subsection.13.6.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {13.6.2}Understanding PACELC}{132}{subsection.13.6.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{During a Partition (PAC)}{132}{section*.117}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Else, During Normal Operation (ELC)}{132}{section*.118}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {13.7}Partition Management}{132}{section.13.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {13.7.1}The Challenge of Managing Partitions}{132}{subsection.13.7.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {13.7.2}Partition Detection}{133}{subsection.13.7.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{The Problem: Using Timeouts}{133}{section*.119}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Detection is Not Global}{133}{section*.120}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Choosing Which Operations Can Proceed}{133}{section*.121}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {13.7.3}Partition Recovery}{134}{subsection.13.7.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Strategy 1: Roll-back and Replay Using Version Vectors}{134}{section*.122}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Strategy 2: Use CRDTs (Commutative Replicated Data Types)}{134}{section*.123}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {13.8}Version Vectors: A Technical Tool}{135}{section.13.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {13.8.1}What is a Version Vector?}{135}{subsection.13.8.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {13.8.2}Comparing Version Vectors}{135}{subsection.13.8.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{A is newer than B if:}{135}{section*.124}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{A and B are concurrent if:}{135}{section*.125}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {13.8.3}Practical Example}{135}{subsection.13.8.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {13.9}Conflict Resolution and Error Compensation}{136}{section.13.9}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {13.9.1}What is a Conflict?}{136}{subsection.13.9.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {13.9.2}Basic Techniques for Conflict Resolution}{136}{subsection.13.9.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{1. Deterministic Rules}{136}{section*.126}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{2. Operations Merge}{136}{section*.127}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{3. Human Escalation}{137}{section*.128}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {13.9.3}Mistake Compensation}{137}{subsection.13.9.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {14}Broadcast in presence of Bizantine processes (19)}{138}{chapter.14}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\@writefile{toc}{\contentsline {section}{\numberline {14.1}Bizantine Faults}{138}{section.14.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {15}da riverdere}{139}{chapter.15}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\gdef \@abspage@last{140}
