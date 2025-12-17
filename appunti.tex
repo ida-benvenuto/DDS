@@ -2444,7 +2444,362 @@ This approch requires deterministic operations to ensure that all replicas produ
 primary-backup(leader-election):Synchronous replication, simpler to implement, but has a single point of failure (the primary).
 \newline
 active replication(Paxos):Partial Synchronous replication, more complex to implement, but provides higher fault tolerance and availability.
+
 \chapter{Registers (16-17)}
+
+A \textbf{register} is a shared variable accessed by multiple processes through simple read and write operations. In traditional multiprocessor machines, processes communicate through registers at the hardware level, and these registers form the physical memory. However, in distributed systems with message passing and no physical shared memory, we need to create an abstraction that allows processes to simulate a shared register using network communication.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{imm/Screenshot 2025-12-17 alle 11.35.16.png}
+\end{figure}
+
+A register is a data structure that stores a value and allows processes to access this value through two main operations:
+
+\begin{itemize}
+\item \textbf{Read operation:} \texttt{read()} returns the current value of the register without modifying it.
+\item \textbf{Write operation:} \texttt{write(v)} writes value \texttt{v} into the register and returns confirmation when complete.
+\end{itemize}
+
+\subsection{Key Assumptions}
+
+When working with registers in distributed systems, we make the following assumptions:
+
+\begin{enumerate}
+\item A register stores only positive integers and is initialized to 0.
+\item Each value written is uniquely identified.
+\item Processes are sequential: a process cannot start a new operation before the previous one finishes.
+\end{enumerate}
+
+\subsection{Register Notation}
+
+We use the notation $(X, Y)$ to describe a register where:
+\begin{itemize}
+\item $X$ = number of processes that can write
+\item $Y$ = number of processes that can read
+\end{itemize}
+
+For example:
+\begin{itemize}
+\item $(1,1)$ register: one writer and one reader
+\item $(1,N)$ register: one writer and $N$ readers
+\end{itemize}
+
+\section{Register Operations}
+
+\subsection{Operation Structure}
+
+Every read or write operation has two key events:
+
+\begin{enumerate}
+\item \textbf{Invocation event:} The process calls the operation.
+\item \textbf{Return event:} The process receives the result.
+\end{enumerate}
+
+An operation is \textbf{complete} if both invocation and return events have occurred. A \textbf{failed operation} is one where the process crashes before receiving the return event.
+
+\subsection{Precedence Between Operations}
+
+Given two operations $o$ and $o'$:
+\begin{itemize}
+\item $o$ \textbf{precedes} $o'$ if the return event of $o$ happens before the invocation event of $o'$
+\item $o$ and $o'$ are \textbf{concurrent} if there is no precedence relation between them
+\end{itemize}
+
+An important rule: a complete operation can precede another operation, but an incomplete operation cannot have a defined precedence relation.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{imm/Screenshot 2025-12-17 alle 11.44.35.png}
+\end{figure}
+\section{Register Semantics}
+
+\subsection{Serial System with No Failures}
+
+In a simple scenario where processes access the register one after another and never fail:
+
+\begin{itemize}
+\item \textbf{Liveness:} Each operation eventually completes.
+\item \textbf{Safety:} Each read operation returns the value that was written most recently.
+\end{itemize}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{imm/Screenshot 2025-12-17 alle 11.46.07.png}
+\end{figure}
+\subsection{Concurrent Access Without Failures}
+
+When multiple processes can access the register at the same time, we must decide what value a read should return. This leads to different register semantics: \textbf{regular} and \textbf{atomic} registers.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{imm/Screenshot 2025-12-17 alle 11.46.44.png}
+\end{figure}
+\subsection{Failures}
+
+When processes can crash, a write operation might not complete. In this case, a read operation may return:
+\begin{itemize}
+\item The value written by a completed write operation, or
+\item The value being written by an incomplete (failed) write operation
+\end{itemize}
+
+\section{Register specification}
+
+\subsection{(1,N) Regular Register Specification}
+
+A $(1,N)$ regular register must satisfy:
+
+\begin{enumerate}
+\item \textbf{Termination:} If a correct process calls an operation, it eventually receives a response.
+\item \textbf{Validity:} A read returns either the last value written or the value currently being written.
+\end{enumerate}
+
+\textbf{Important limitation:} In a regular register, a process can read value $v$ and then later read value $v'$, even if the writer wrote $v'$ first and then $v$, as long as these operations are concurrent.
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\textwidth]{imm/Screenshot 2025-12-17 alle 11.50.18.png}
+\end{figure}
+The second read can return 5 because the second write(6) might happen after the read even though it logically comes after write(5).
+
+\section{Atomic Registers}
+
+\subsection{(1,N) Atomic Register Specification}
+
+An atomic register is a regular register with an additional property:
+
+\begin{enumerate}
+\item \textbf{Termination:} If a correct process calls an operation, it eventually receives a response.
+\item \textbf{Validity:} A read returns either the last value written or the value currently being written.
+\item \textbf{Ordering:} If a read returns $v_2$ after another read that precedes it returned $v_1$, then $v_1$ cannot have been written after $v_2$.
+\end{enumerate}
+
+The ordering property is the key difference. It prevents the problematic behavior we saw in regular registers.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{imm/Screenshot 2025-12-17 alle 11.52.43.png}
+\end{figure}
+\subsection{Why Ordering Matters}
+
+Atomic registers ensure consistency in time order. If process $p_1$ reads value 5 and process $p_2$ reads value 6 later, then process $p_2$ cannot read 5 after that. The writes must have actually happened in that order: 5 before 6.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{imm/Appunti Generali-82 2.jpg}
+\end{figure}
+\section{Implementation: Regular Registers}
+
+\subsection{Read-One-Write-All Algorithm}
+
+This is the simplest algorithm for implementing a $(1,N)$ regular register in a crash-failure model:
+
+\textbf{Idea:}
+\begin{itemize}
+\item Each process keeps a local copy of the register value.
+\item A read operation simply returns the local copy.
+\item A write operation updates the value on all processes.
+\end{itemize}
+
+\textbf{Requirements:}
+\begin{itemize}
+\item Perfect failure detector (crashes are reliably detected): Strong accuracy and completeness.
+\item Perfect point-to-point communication links: Reliable message delivery (no duplication or creation).
+\item Best-effort broadcast : no duplication, no creation, best-effort validity.
+\end{itemize}
+
+\textbf{properties:}
+\begin{itemize}
+\item termination: if a correct process calls an operation, it eventually receives a response.
+\item validity: a read returns either the last value written or the value currently being written.
+\end{itemize}
+
+\begin{figure}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=1\textwidth]{imm/Screenshot 2025-12-17 alle 12.05.59.png}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=1\textwidth]{imm/Screenshot 2025-12-17 alle 12.06.09.png}
+    \end{figure}
+\end{figure}
+For \texttt{write(v)}:
+\begin{enumerate}
+\item The writer sends the new value to all processes using broadcast.
+\item The writer waits for acknowledgments from all processes that have not crashed.
+\item Once the writer gets all acknowledgments, the write completes.
+\end{enumerate}
+
+For \texttt{read()}:
+\begin{enumerate}
+\item The reader simply returns its local copy of the value.
+\end{enumerate}
+
+\textbf{Performance:}
+\begin{itemize}
+\item Write: at most $2N$ messages (broadcast + acknowledgments)
+\item Read: 0 messages (local operation)
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{imm/Appunti Generali-85.jpg}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{imm/Immagine JPEG-4C3A-9393-23-0.jpeg}
+\end{figure}
+
+\subsection{Majority Voting Algorithm}
+
+When perfect failure detection is not available, we use the Majority Voting approach:
+
+\textbf{Key ideas:}
+\begin{itemize}
+\item Each value is assigned a unique timestamp.
+\item The writer and readers use a set of witness processes (a quorum).
+\item A quorum is a majority of all processes.
+\item Any two quorums must have at least one process in common (intersection property).
+\end{itemize}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{imm/Screenshot 2025-12-17 alle 12.19.25.png}
+\end{figure}
+\textbf{Algorithm steps:}
+
+For \texttt{write(v)}:
+\begin{enumerate}
+\item Assign a new timestamp to the value.
+\item Send the value with its timestamp to a majority of processes.
+\item Wait for acknowledgments from a majority.
+\item Complete when all acknowledgments arrive.
+\end{enumerate}
+
+For \texttt{read()}:
+\begin{enumerate}
+\item Send a read request to a majority of processes.
+\item Collect responses and select the one with the highest timestamp.
+\item Return that value.
+\end{enumerate}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{imm/Appunti Generali-92.jpg}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{imm/Appunti Generali-93.jpg}
+\end{figure}
+
+
+\textbf{Performance:}
+\begin{itemize}
+\item Write: at most $2N$ messages
+\item Read: at most $2N$ messages
+\end{itemize}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{imm/Immagine JPEG-4D8B-96D6-C2-0.jpeg}
+\end{figure}
+\section{Implementation: Atomic Registers}
+
+\subsection{Building Atomic from Regular Registers}
+
+To implement an atomic register, we use a two-phase approach:
+
+\textbf{Phase 1:} Use a $(1,N)$ regular register to build a $(1,1)$ atomic register.
+
+\textbf{Phase 2:} Use multiple $(1,1)$ atomic registers to build a $(1,N)$ atomic register.
+
+\subsection{Phase 1: Regular to Atomic (1,1)}
+
+The reader tracks timestamps of previously read values to prevent going backwards:
+
+\textbf{Algorithm:}
+\begin{enumerate}
+\item Each write operation stores the value together with a timestamp: $(v, ts)$.
+\item The reader remembers the timestamp of the last value it read.
+\item Each read operation returns the current value and updates the remembered timestamp.
+\item If a new read returns a value with a lower timestamp than the previous read, the reader returns the old value instead.
+\end{enumerate}
+
+This ensures the ordering property: timestamps can only increase.
+
+\subsection{Phase 2: (1,1) Atomic to (1,N) Atomic}
+
+To extend from one reader to multiple readers:
+
+\textbf{Idea:} The writer maintains a separate $(1,1)$ atomic register for each reader.
+
+\textbf{Algorithm:}
+\begin{enumerate}
+\item For each write, the writer writes $(v, ts)$ to each reader's private register.
+\item Each reader reads from its private register.
+\item If a reader receives multiple values, it keeps the one with the highest timestamp.
+\end{enumerate}
+
+This preserves the ordering property across all readers because each reader tracks its own timestamp.
+
+\subsection{Read-Impose Write-All Algorithm}
+
+This is an optimized implementation for a crash-failure model:
+
+\textbf{Key idea:} ``The read operation writes.''
+
+\textbf{Algorithm:}
+\begin{enumerate}
+\item The writer sends $(v, ts)$ to all processes as in Read-One-Write-All.
+\item When a reader performs a read, it:
+  \begin{itemize}
+  \item Gets the value $(v, ts)$ from a majority of processes.
+  \item Sends this value back to all correct processes to ensure they all have at least this timestamp.
+  \item Returns the value to the caller.
+  \end{itemize}
+\end{enumerate}
+
+This extra ``write back'' ensures that all subsequent reads will see this timestamp or something newer, maintaining the ordering property.
+
+\subsection{Read-Impose Write-Majority Algorithm}
+
+For the crash-silent model (no perfect failure detection):
+
+\textbf{Algorithm:}
+\begin{enumerate}
+\item The writer sends $(v, ts)$ to a majority using timestamps.
+\item The reader:
+  \begin{itemize}
+  \item Queries a majority of processes to find the value with the highest timestamp.
+  \item Sends this value back to a majority to ``impose'' the write.
+  \item Returns the value.
+  \end{itemize}
+\end{enumerate}
+
+The majority voting ensures that future reads will find this value because any new majority must overlap with the previous majority (intersection property).
+
+\textbf{Performance:}
+\begin{itemize}
+\item Write: at most $2N$ messages
+\item Read: at most $4N$ messages (query majority + write back to majority)
+\end{itemize}
+
+\section{Correctness Properties}
+
+All register implementations must satisfy three core properties:
+
+\subsection{Termination}
+
+If a process does not crash, every operation it starts must eventually complete. This is guaranteed by our communication primitives (reliable links, broadcast) and failure detectors.
+
+\subsection{Validity}
+
+A read operation must return a meaningful value:
+\begin{itemize}
+\item Either the value from the last completed write
+\item Or a value that was being written when the read happened
+\end{itemize}
+
+\subsection{Ordering (Atomic Only)}
+
+For atomic registers, if read 1 completes before read 2 starts, and read 1 returns value $v_1$ with timestamp $ts_1$, then read 2 cannot return a value with a lower timestamp.
+
+This is achieved through timestamps and the ``impose'' operation, which forces processes to update their copies.
+
 
 \chapter{da riverdere}
 Paxos
