@@ -3486,8 +3486,195 @@ To fix mistakes, we need:
 \end{enumerate}
 
 \chapter{Broadcast in presence of Bizantine processes (19)}
-\section{Bizantine Faults}
-A Bizantine fault is a type of failure in a distributed system where a component, such as a server or a node, behaves in an arbitrary or malicious manner. This means that the faulty component can send conflicting or incorrect information to different parts of the system, making it difficult to determine the true state of the system.
+
+A \textbf{Byzantine process} is a process that can do anything. It does not follow the rules of the algorithm. Here are the main problems with Byzantine processes:
+
+\begin{itemize}
+    \item They can create fake messages (messages that never existed)
+    \item They can drop messages (delete messages before sending them)
+    \item They can delay the delivery of messages
+    \item They can change the content of messages
+    \item They can work together with other faulty processes to cause problems
+\end{itemize}
+
+\section{Fighting Byzantine Processes}
+
+\subsection{The Role of Cryptography}
+
+One way to fight Byzantine processes is to use \textbf{cryptography}. Cryptographic systems help us to verify that a message really came from a specific person. We can use digital signatures to sign each message.
+
+However, cryptography alone is \textbf{not enough} because cryptography does not stop a Byzantine process from creating different versions of the same message. The signature proves the message came from the sender, but it does not prevent the sender from creating many different messages.
+
+\subsection{Correct and Faulty Processes}
+
+Like in the crash failure model, we separate processes into two groups:
+
+\begin{enumerate}
+    \item \textbf{Correct processes}: These processes follow the algorithm exactly. They never make mistakes.
+    \item \textbf{Faulty processes}: These are Byzantine processes. They can do anything.
+\end{enumerate}
+
+An important note: A Byzantine process can behave arbitrarily. No mechanism can guarantee anything about what a Byzantine process will do. We cannot create ``uniform'' versions of algorithms for Byzantine processes because a Byzantine process might not follow any rules at all.
+
+\section{Authenticated Perfect Links}
+An \textbf{authenticated perfect link} is a point-to-point communication channel with these properties:
+
+\begin{itemize}
+    \item \textbf{Reliability}: If a correct sender sends a message to a correct receiver, the receiver will eventually receive the message.
+    \item \textbf{Authenticity}: A receiver can verify that a message really came from the sender who claims to have sent it.
+    \item \textbf{No creation}: A process cannot receive a message unless a sender sent it.
+\end{itemize}
+
+Authenticated perfect links are the foundation for broadcast in Byzantine systems. All messages travel through these authenticated links.
+
+\section{Byzantine Consistent Broadcast}
+
+\subsection{Specification}
+One process (the sender) calls Broadcast(msg)
+\newline
+ All other processes receive the message by a Deliver(msg) event
+\begin{itemize}
+    \item \textbf{validity}: If the sender is correct and broadcasts a message \(m\), then all correct processes will eventually deliver \(m\).
+    \item \textbf{no duplication}: No message is delivered more than once by any correct process.
+    \item \textbf{consistency}: If a correct process delivers a message \(m\), then all correct processes eventually deliver \(m\).
+    \item \textbf{integrity}: For any message \(m\), every correct process delivers \(m\) at most once, and only if \(m\) was previously broadcast by the sender.
+\end{itemize}
+
+The key rule: \textbf{If two correct processes deliver different messages from the same sender, then the sender is Byzantine.} This ensures consistency among correct processes.
+
+\subsection{Implementation}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{imm/Screenshot 2025-12-17 alle 18.32.15.png}
+\end{figure}
+
+The algorithm has a simple idea. When the sender broadcasts a message, it does two steps:
+
+\textbf{Step 1 - Echo:} The sender sends the message to all other processes.
+
+\textbf{Step 2 - Ready:} Each process waits to receive the same message from many other processes. If a process receives the same message from at least \((f + 1)\) processes, then it knows this message is correct (because at least one sender must be correct). Then it broadcasts a ready signal.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{imm/Screenshot 2025-12-17 alle 18.49.52.png}
+\end{figure}
+\subsection{Correctness Condition}
+
+The algorithm works correctly only if: \(\boxed{N > 3f}\)
+
+Here:
+\begin{itemize}
+    \item \(N\) = total number of processes
+    \item \(f\) = maximum number of Byzantine processes
+\end{itemize}
+
+This means we need at least 4 processes to tolerate 1 Byzantine process.
+
+
+\subsection{Example with Faulty Sender}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{imm/Screenshot 2025-12-17 alle 18.51.19.png}
+\end{figure}
+This shows the power of the algorithm: When the sender is Byzantine, correct processes either agree on the same message or deliver nothing.
+
+\section{Byzantine Reliable Broadcast}
+
+\subsection{Specification}
+
+\textbf{Byzantine reliable broadcast} is stronger than consistent broadcast. It has an additional rule:
+
+\begin{itemize}
+    \item \textbf{Totality}: If some message is delivered by any correct process, then all correct processes eventually deliver a message (not necessarily the same one).
+\end{itemize}
+
+This is more demanding than consistent broadcast.
+
+\subsection{Implementation}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{imm/Screenshot 2025-12-17 alle 19.07.11.png}
+\end{figure}
+
+The algorithm adds one more step to consistent broadcast:
+
+\textbf{Step 1 - Echo:} Like before, the sender sends the message to all processes.
+
+\textbf{Step 2 - Ready:} When a process receives the same message from at least \(((N+f)/2)+1\) sources, it sends a ready signal.
+
+\textbf{Step 3 - Deliver:} When a process receives ready signals from at least \((2f+1)\) processes, it delivers the message.
+
+The threshold \((2f+1)\) is important. It guarantees that at least one correct process sent the ready signal.
+
+When a process that isn't ready receives ready signals from at least \((f+1)\) processes, it became ready. This ensures that the ready signals propagate through the system.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{imm/Screenshot 2025-12-17 alle 19.38.05.png}
+\end{figure}
+\subsection{Correctness}
+
+Like consistent broadcast, reliable broadcast requires: \(\boxed{N > 3f}\)
+
+\subsection{Example with Correct Sender}
+
+With 4 processes and 1 Byzantine process, where \(p_1\) is the correct sender:
+
+\begin{enumerate}
+    \item \(p_1\) sends \(m\) to all processes
+    \item Correct processes receive \(m\) from the sender
+    \item They send ready signals for \(m\)
+    \item All correct processes receive \(2f+1 = 3\) ready signals
+    \item All correct processes deliver \(m\)
+\end{enumerate}
+
+\subsection{Example with Faulty Sender}
+
+If \(p_1\) is Byzantine and sends different messages:
+
+\begin{enumerate}
+    \item \(p_1\) sends \(m_1\) to some processes and \(m_2\) to others
+    \item Processes that receive \(m_1\) might send ready for \(m_1\)
+    \item Processes that receive \(m_2\) might send ready for \(m_2\)
+    \item However, no message can receive \(2f+1\) ready signals from all processes
+    \item Only one message receives enough ready signals
+    \item All correct processes deliver the same message
+\end{enumerate}
+
+\section{Why Do We Need N > 3f?}
+
+This is a fundamental limit. Consider what happens if we try with \(N \leq 3f\):
+
+\begin{itemize}
+    \item If \(N = 3f\), then there are \(f\) Byzantine processes and \(2f\) correct processes
+    \item The \(f\) Byzantine processes can work together and pretend to be correct processes
+    \item With enough coordination, they can create confusion about which messages are real
+    \item Correct processes cannot distinguish between real correct processes and Byzantine ones
+    \item The algorithm fails
+\end{itemize}
+
+The condition \(N > 3f\) ensures that correct processes always outnumber the coordination of Byzantine processes.
+
+\section{Key Differences}
+
+Here is a comparison between the two types of Byzantine broadcast:
+
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline
+\textbf{Property} & \textbf{Consistent} & \textbf{Reliable} \\
+\hline
+Correct sender delivers message & Yes & Yes \\
+\hline
+Byzantine sender delivers nothing & Maybe & Maybe \\
+\hline
+All correct agree on same message & Yes & Yes \\
+\hline
+Delivery guaranteed if one correct delivers & No & Yes \\
+\hline
+Threshold for delivery & \(f+1\) & \(2f+1\) \\
+\hline
+\end{tabular}
+\end{center}
+
 \chapter{da riverdere}
 Paxos
 CAP Theorem
