@@ -2698,8 +2698,12 @@ For \texttt{read()}:
     \includegraphics[width=1\textwidth]{imm/Immagine JPEG-4D8B-96D6-C2-0.jpeg}
 \end{figure}
 \section{Implementation: Atomic Registers}
-
-\subsection{Building Atomic from Regular Registers}
+\subsection*{properties of atomic registers}
+\begin{itemize}
+\item termination: if a correct process calls an operation, it eventually receives a response.
+\item validity: a read returns either the last value written or the value currently being written.
+\item \textbf{ordering}: if a read returns $v_2$ after another read that precedes
+\end{itemize}
 
 To implement an atomic register, we use a two-phase approach:
 
@@ -2708,6 +2712,11 @@ To implement an atomic register, we use a two-phase approach:
 \textbf{Phase 2:} Use multiple $(1,1)$ atomic registers to build a $(1,N)$ atomic register.
 
 \subsection{Phase 1: Regular to Atomic (1,1)}
+\subsubsection*{Implementation}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{imm/Screenshot 2025-12-17 alle 13.58.54.png}
+\end{figure}
 
 The reader tracks timestamps of previously read values to prevent going backwards:
 
@@ -2721,56 +2730,102 @@ The reader tracks timestamps of previously read values to prevent going backward
 
 This ensures the ordering property: timestamps can only increase.
 
+\subsection*{ Performance}
+the same as regular register because no more messages are exchanged.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{imm/Screenshot 2025-12-17 alle 14.06.28.png}
+\end{figure}
 \subsection{Phase 2: (1,1) Atomic to (1,N) Atomic}
 
 To extend from one reader to multiple readers:
 
 \textbf{Idea:} The writer maintains a separate $(1,1)$ atomic register for each reader.
-
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{imm/Screenshot 2025-12-17 alle 14.07.06.png}
+\end{figure}
 \textbf{Algorithm:}
-\begin{enumerate}
-\item For each write, the writer writes $(v, ts)$ to each reader's private register.
-\item Each reader reads from its private register.
-\item If a reader receives multiple values, it keeps the one with the highest timestamp.
-\end{enumerate}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{imm/Screenshot 2025-12-17 alle 14.28.57.png}
+\end{figure}
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{imm/Screenshot 2025-12-17 alle 14.39.06.png}
+    \caption{write operation ends when arrive all ack}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{imm/Screenshot 2025-12-17 alle 14.40.51.png}
+    \caption{p2 starts a read operation, thus analyzes the value in the matrix (column: pw-p2, pr1-pr2, pr2-pr2) and writes the highest value in its row}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{imm/Screenshot 2025-12-17 alle 14.47.47.png}
+    \caption{although the write operation ends after the first read, pr2 have the correct value because pw-pr2 ends faster than pr1-pr2 or pw-pw, after the first read, pr2 update 5 in its row.Thus when start the second read pr1 using (pr2-pr1) have also the correct value.--ORDERING}
+\end{figure}
 This preserves the ordering property across all readers because each reader tracks its own timestamp.
+\section*{Performance Analysis}
+write: N write operations on the (1,1) atomic register
+\newline
+read: Nread operations on the (1,1) atomic register and N writes to update the reader's timestamp.
 
-\subsection{Read-Impose Write-All Algorithm}
-
+\section*{Fail-stop Algorithm}
+\subsection*{Read-impose Write-All Algorithm}
 This is an optimized implementation for a crash-failure model:
 
 \textbf{Key idea:} ``The read operation writes.''
 
 \textbf{Algorithm:}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{imm/Screenshot 2025-12-17 alle 15.04.54.png}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{imm/Screenshot 2025-12-17 alle 15.07.59.png}
+\end{figure}
+
 \begin{enumerate}
-\item The writer sends $(v, ts)$ to all processes as in Read-One-Write-All.
+\item The writer increment its timestamp and wait for the ack. whan all correct processes respond, the write opertion ends.
 \item When a reader performs a read, it:
   \begin{itemize}
-  \item Gets the value $(v, ts)$ from a majority of processes.
-  \item Sends this value back to all correct processes to ensure they all have at least this timestamp.
-  \item Returns the value to the caller.
+  \item sends write operation with its value and timestamp.
+  \item waits for acknowledgments from all processes.
+  \item when all acks arrive, set reading=false and the operation ends.
   \end{itemize}
 \end{enumerate}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{imm/Screenshot 2025-12-17 alle 15.47.40.png}
+\end{figure}
+\textbf{Performance:}
+\begin{itemize}
+\item Write: at most $2N$ messages
+\item Read: at most $2N$ messages
+\end{itemize}
 
-This extra ``write back'' ensures that all subsequent reads will see this timestamp or something newer, maintaining the ordering property.
-
-\subsection{Read-Impose Write-Majority Algorithm}
-
+\section*{Fail silent Algorithm}
 For the crash-silent model (no perfect failure detection):
 
 \textbf{Algorithm:}
-\begin{enumerate}
-\item The writer sends $(v, ts)$ to a majority using timestamps.
-\item The reader:
-  \begin{itemize}
-  \item Queries a majority of processes to find the value with the highest timestamp.
-  \item Sends this value back to a majority to ``impose'' the write.
-  \item Returns the value.
-  \end{itemize}
-\end{enumerate}
-
-The majority voting ensures that future reads will find this value because any new majority must overlap with the previous majority (intersection property).
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{imm/Screenshot 2025-12-17 alle 16.06.27.png}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{imm/Screenshot 2025-12-17 alle 16.06.35.png}
+    \caption{when the realist obtain the majority start the write opertion}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{imm/Screenshot 2025-12-17 alle 16.06.43.png}
+    \caption{the write operation is different from the previous one because the writer send have a different timestamp }
+\end{figure}
 
 \textbf{Performance:}
 \begin{itemize}
